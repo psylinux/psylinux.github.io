@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-US">
     
     
 
@@ -22,10 +22,10 @@
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Getting Started with GDB"/>
-<meta name="twitter:description" content="Step 1. Configuring Plugins Installing GEF Goto GEF releases and download the appropriate version for your os and architecture."/>
+<meta name="twitter:description" content="Using the GNU Linux Debugger"/>
 
 <meta property="og:title" content="Getting Started with GDB" />
-<meta property="og:description" content="Step 1. Configuring Plugins Installing GEF Goto GEF releases and download the appropriate version for your os and architecture." />
+<meta property="og:description" content="Using the GNU Linux Debugger" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://psylinux.github.io/posts/getting-start-with-gdb/" /><meta property="article:published_time" content="2018-12-16T00:00:00&#43;00:00"/>
 <meta property="article:modified_time" content="2018-12-16T00:00:00&#43;00:00"/><meta property="og:site_name" content="My Hack Lab" />
@@ -46,6 +46,11 @@
 
 
 <link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
+
+
+
+
+<link rel="stylesheet" href="/scss/hugo-toc.8549a64d301421b4256ea9a0d5ca8b99178799f569d5d2daeb95f24cef3ce6b7.css" integrity="sha256-hUmmTTAUIbQlbqmg1cqLmReHmfVp1dLa65XyTO885rc=">
 
 
 
@@ -75,7 +80,7 @@
         
         
         <div class="author-image">
-          <img src="https://psylinux.github.io//img/hugo.png" alt="Author Image" class="img--circle img--headshot element--center">
+          <img src="https://psylinux.github.io//img/psylinux.png" alt="Author Image" class="img--circle img--headshot element--center">
         </div>
         
       
@@ -151,7 +156,7 @@
 <div class="copyright">
   &copy; 2018 psylinux
   
-    <a href="https://opensource.org/licenses/MIT">Copyright 2008-2018</a>
+    <a href="https://opensource.org/licenses/MIT">Copyright</a>
   
 </div>
 
@@ -215,27 +220,211 @@
     
     
     <br/>
-    <i class="fas fa-clock"></i> 1 min read
+    <i class="fas fa-clock"></i> 2 min read
 </div>
 
 
   </header>
   
   
+  <div class="toc-wrapper">
+    <input type="checkbox" id="tocToggle">
+    <label for="tocToggle">Table of Content</label>
+    
+        <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#gdb-cheat-sheet">GDB Cheat Sheet</a>
+<ul>
+<li><a href="#compiling-with-debug-symbols">Compiling with debug symbols</a></li>
+<li><a href="#stripping-symbols-off-a-binary">Stripping symbols off a binary</a></li>
+<li><a href="#ripping-symbols-off-a-binary">Ripping Symbols off a binary</a></li>
+<li><a href="#switch-between-at-t-and-intel-syntax">Switch between AT&amp;T and Intel Syntax</a></li>
+<li><a href="#to-run-the-program">To run the program</a></li>
+<li><a href="#listing-the-source-file-just-when-source-file-is-available-at-the-same-folder-and-file-name">Listing the source file (Just when source file is available at the same folder and file name)</a></li>
+<li><a href="#to-get-info-about-registers">To get info about registers</a></li>
+<li><a href="#to-list-all-functions-of-the-program">To list all functions of the program</a></li>
+<li><a href="#to-list-all-sources-where-symbols-were-read">To list all sources where symbols were read</a></li>
+<li><a href="#to-get-info-about-the-program">To get info about the program</a></li>
+<li><a href="#to-list-global-variables-and-static">To list global variables and static</a></li>
+<li><a href="#to-get-local-variables">To get local variables</a></li>
+<li><a href="#working-with-breakpoints">Working with breakpoints</a></li>
+<li><a href="#modifying-memory-and-registers">Modifying Memory and Registers</a></li>
+<li><a href="#defining-macros">Defining macros</a></li>
+<li><a href="#working-with-data">Working with Data</a></li>
+<li><a href="#display-values-of-specific-memory-locations">Display values of specific memory locations :</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+    
+  </div>
+  
   <div class="post">
     
 
-<h2 id="step-1-configuring-plugins">Step 1. Configuring Plugins</h2>
+<h3 id="gdb-cheat-sheet">GDB Cheat Sheet</h3>
 
-<h3 id="installing-gef">Installing GEF</h3>
+<p>To use GEF Plug-in on GDB, please refer to <a href="/posts/installing-gdb-gef">Installing GEF (GDB Plug-in)</a>.</p>
 
-<p>Goto <a href="https://github.com/hugsy/gef">GEF releases</a> and download the
-appropriate version for your os and architecture.</p>
+<h4 id="compiling-with-debug-symbols">Compiling with debug symbols</h4>
+
+<pre><code>gcc -ggdb source.c -o prog_with_symbols
+</code></pre>
+
+<h4 id="stripping-symbols-off-a-binary">Stripping symbols off a binary</h4>
+
+<pre><code>--strip-debug --strip-unneeded binary_to_strip
+</code></pre>
+
+<h4 id="ripping-symbols-off-a-binary">Ripping Symbols off a binary</h4>
+
+<pre><code>objcopy --only-keep-debug rip_from_binary debug_file
+</code></pre>
+
+<h4 id="switch-between-at-t-and-intel-syntax">Switch between AT&amp;T and Intel Syntax</h4>
+
+<pre><code>set disassembly-flavor intel
+</code></pre>
+
+<h4 id="to-run-the-program">To run the program</h4>
+
+<pre><code>run args
+</code></pre>
+
+<h4 id="listing-the-source-file-just-when-source-file-is-available-at-the-same-folder-and-file-name">Listing the source file (Just when source file is available at the same folder and file name)</h4>
+
+<pre><code>list    (Will start looking near at the main function)
+list 1  (Will list from the first line)
+</code></pre>
+
+<h4 id="to-get-info-about-registers">To get info about registers</h4>
+
+<pre><code>info registers
+</code></pre>
+
+<h4 id="to-list-all-functions-of-the-program">To list all functions of the program</h4>
+
+<pre><code>info functions
+</code></pre>
+
+<h4 id="to-list-all-sources-where-symbols-were-read">To list all sources where symbols were read</h4>
+
+<pre><code>info sources
+</code></pre>
+
+<h4 id="to-get-info-about-the-program">To get info about the program</h4>
+
+<pre><code>info source
+</code></pre>
+
+<h4 id="to-list-global-variables-and-static">To list global variables and static</h4>
+
+<pre><code>info variables
+</code></pre>
+
+<h4 id="to-get-local-variables">To get local variables</h4>
+
+<pre><code>info scope Function_Name
+</code></pre>
+
+<h4 id="working-with-breakpoints">Working with breakpoints</h4>
+
+<ul>
+<li><p>Set a breakpoint</p>
+
+<pre><code>break position
+</code></pre></li>
+
+<li><p>List breakpoints</p>
+
+<pre><code>info breakpoints
+</code></pre></li>
+
+<li><p>Enable/Disable breakpoints</p>
+
+<pre><code>disable 1
+enable 1
+</code></pre></li>
+
+<li><p>Deleting breakpoints</p>
+
+<pre><code>delete 1
+</code></pre></li>
+</ul>
+
+<h4 id="modifying-memory-and-registers">Modifying Memory and Registers</h4>
+
+<pre><code class="language-GDB">    set {char} 0xbffff7e6 = 'B'
+    set {int} (0xbffff7e6 + 1) = 66
+    set var1 = 100
+    set $eax = 10
+</code></pre>
+
+<pre><code class="language-C">    set {char} 0xbffff7e6 = 'B'
+    set {int} (0xbffff7e6 + 1) = 66
+    set var1 = 100
+    set $eax = 10
+</code></pre>
+
+<pre><code class="language-Shell">    set {char} 0xbffff7e6 = 'B'
+    set {int} (0xbffff7e6 + 1) = 66
+    set var1 = 100
+    set $eax = 10
+</code></pre>
+
+<h4 id="defining-macros">Defining macros</h4>
+
+<pre><code class="language-C">    define hook-stop
+        command 1
+        command 2
+        command 3
+    end
+</code></pre>
+
+<h4 id="working-with-data">Working with Data</h4>
+
+<ul>
+<li>Checking &ldquo;REGISTERS&rdquo; and MEMORY&rdquo;</li>
+</ul>
+
+<p><strong>Display Register Values : (Decimal, Binary, Hex)</strong></p>
+
+<pre><code>    print /d –&gt; Decimal
+    print /t –&gt; Binary
+    print /x –&gt; Hex
+    O/P :
+    (gdb) print /d $eax
+    $17 = 13
+    (gdb) print /t $eax
+    $18 = 1101
+    (gdb) print /x $eax
+    $19 = 0xd
+</code></pre>
+
+<h4 id="display-values-of-specific-memory-locations">Display values of specific memory locations :</h4>
+
+<p><strong>command : x/nyz (examine)</strong></p>
+
+<ul>
+<li>n –&gt; Number of fields to display ==&gt;</li>
+<li>y –&gt; Format for output ==&gt; c (character) , d (decimal) , x (Hexadecimal)</li>
+<li>z –&gt; Size of field to be displayed ==&gt; b (byte) , h (halfword), w (word 32 Bit)</li>
+</ul>
 
   </div>
   
 
 <div class="navigation navigation-single">
+    
+    <a href="/posts/installing-gdb-gef/" class="navigation-prev">
+      <i aria-hidden="true" class="fa fa-chevron-left"></i>
+      <span class="navigation-tittle">Installing GEF (GDB Plug-in)</span>
+    </a>
     
     
 </div>
@@ -266,6 +455,8 @@ appropriate version for your os and architecture.</p>
         hljs.initHighlightingOnLoad();
     </script>
     
+
+
 
 
 
