@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Windows on My Hack Lab</title>
+    <link>https://psylinux.github.io/tags/windows/</link>
+    <description>Recent content in Windows on My Hack Lab</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Sun, 16 Dec 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://psylinux.github.io/tags/windows/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>GCC Compiling Cheat Sheet</title>
+      <link>https://psylinux.github.io/posts/gcc-cheat-sheet/</link>
+      <pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://psylinux.github.io/posts/gcc-cheat-sheet/</guid>
+      <description>GCC and Compiling Cheat Sheet Static compiling gcc -static cve_2016_0728.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -8,6 +8,11 @@
   </url>
   
   <url>
+    <loc>https://psylinux.github.io/posts/gcc-cheat-sheet/</loc>
+    <lastmod>2018-12-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://psylinux.github.io/posts/getting-start-with-gdb/</loc>
     <lastmod>2018-12-16T00:00:00+00:00</lastmod>
   </url>
@@ -40,6 +45,18 @@
   </url>
   
   <url>
+    <loc>https://psylinux.github.io/tags/compiling/</loc>
+    <lastmod>2018-12-16T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://psylinux.github.io/tags/cross-compiling/</loc>
+    <lastmod>2018-12-16T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://psylinux.github.io/tags/development/</loc>
     <lastmod>2018-12-16T00:00:00+00:00</lastmod>
     <priority>0</priority>
@@ -47,6 +64,18 @@
   
   <url>
     <loc>https://psylinux.github.io/categories/development/</loc>
+    <lastmod>2018-12-16T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://psylinux.github.io/tags/gcc/</loc>
+    <lastmod>2018-12-16T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://psylinux.github.io/categories/gcc/</loc>
     <lastmod>2018-12-16T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
@@ -100,6 +129,12 @@
   
   <url>
     <loc>https://psylinux.github.io/tags/</loc>
+    <lastmod>2018-12-16T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://psylinux.github.io/tags/windows/</loc>
     <lastmod>2018-12-16T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>

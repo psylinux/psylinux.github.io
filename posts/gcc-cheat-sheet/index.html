@@ -17,17 +17,17 @@
     
     
 
-<title>Getting Started with GDB • My Hack Lab</title>
+<title>GCC Compiling Cheat Sheet • My Hack Lab</title>
 
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Getting Started with GDB"/>
-<meta name="twitter:description" content="Using the GNU Linux Debugger"/>
+<meta name="twitter:title" content="GCC Compiling Cheat Sheet"/>
+<meta name="twitter:description" content="Using the GNU GCC"/>
 
-<meta property="og:title" content="Getting Started with GDB" />
-<meta property="og:description" content="Using the GNU Linux Debugger" />
+<meta property="og:title" content="GCC Compiling Cheat Sheet" />
+<meta property="og:description" content="Using the GNU GCC" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://psylinux.github.io/posts/getting-start-with-gdb/" /><meta property="article:published_time" content="2018-12-16T00:00:00&#43;00:00"/>
+<meta property="og:url" content="https://psylinux.github.io/posts/gcc-cheat-sheet/" /><meta property="article:published_time" content="2018-12-16T00:00:00&#43;00:00"/>
 <meta property="article:modified_time" content="2018-12-16T00:00:00&#43;00:00"/><meta property="og:site_name" content="My Hack Lab" />
 
     
@@ -169,7 +169,7 @@
             
     <article>
   <header>
-    <h1>Getting Started with GDB</h1>
+    <h1>GCC Compiling Cheat Sheet</h1>
     
     
 <div class="post__meta">
@@ -190,7 +190,7 @@
               <a class="badge badge-category" href="/categories/development">DEVELOPMENT</a>
               •
           
-              <a class="badge badge-category" href="/categories/gdb">GDB</a>
+              <a class="badge badge-category" href="/categories/gcc">GCC</a>
               •
           
               <a class="badge badge-category" href="/categories/linux">LINUX</a>
@@ -208,10 +208,16 @@
           <a class="badge badge-tag" href="/tags/linux">linux</a>
            
       
-          <a class="badge badge-tag" href="/tags/gdb">gdb</a>
+          <a class="badge badge-tag" href="/tags/windows">windows</a>
            
       
-          <a class="badge badge-tag" href="/tags/gef">gef</a>
+          <a class="badge badge-tag" href="/tags/gcc">gcc</a>
+           
+      
+          <a class="badge badge-tag" href="/tags/compiling">compiling</a>
+           
+      
+          <a class="badge badge-tag" href="/tags/cross-compiling">cross-compiling</a>
            
       
           <a class="badge badge-tag" href="/tags/development">development</a>
@@ -220,7 +226,7 @@
     
     
     <br/>
-    <i class="fas fa-clock"></i> 2 min read
+    <i class="fas fa-clock"></i> 1 min read
 </div>
 
 
@@ -237,23 +243,14 @@
 <ul>
 <li>
 <ul>
-<li><a href="#preface">Preface</a></li>
-<li><a href="#gdb-cheat-sheet">GDB Cheat Sheet</a>
+<li><a href="#gcc-and-compiling-cheat-sheet">GCC and Compiling Cheat Sheet</a>
 <ul>
-<li><a href="#switching-between-at-t-and-intel-syntax">Switching between AT&amp;T and Intel Syntax</a></li>
-<li><a href="#to-run-the-program">To run the program</a></li>
-<li><a href="#listing-the-source-file">Listing the source file</a></li>
-<li><a href="#to-get-info-about-registers">To get info about registers</a></li>
-<li><a href="#to-list-all-functions-of-the-program">To list all functions of the program</a></li>
-<li><a href="#to-list-all-sources-where-symbols-were-read">To list all sources where symbols were read</a></li>
-<li><a href="#to-get-info-about-the-program">To get info about the program</a></li>
-<li><a href="#to-list-global-variables-and-static">To list global variables and static</a></li>
-<li><a href="#to-get-local-variables">To get local variables</a></li>
-<li><a href="#working-with-breakpoints">Working with breakpoints</a></li>
-<li><a href="#modifying-memory-and-registers">Modifying Memory and Registers</a></li>
-<li><a href="#defining-macros">Defining macros</a></li>
-<li><a href="#working-with-data">Working with Data</a></li>
-<li><a href="#display-values-of-specific-memory-locations">Display values of specific memory locations</a></li>
+<li><a href="#static-compiling">Static compiling</a></li>
+<li><a href="#cross-compiling-a-c-code-from-linux-to-windows">Cross compiling a C code from Linux to Windows</a></li>
+<li><a href="#compiling-with-debug-symbols">Compiling with debug symbols</a></li>
+<li><a href="#stripping-symbols-off-the-binary">Stripping symbols off the binary</a></li>
+<li><a href="#ripping-symbols-off-the-binary">Ripping Symbols off the binary</a></li>
+<li><a href="#working-with-pointers">Working with Pointers</a></li>
 </ul></li>
 </ul></li>
 </ul></li>
@@ -265,150 +262,99 @@
   <div class="post">
     
 
-<h3 id="preface">Preface</h3>
+<h3 id="gcc-and-compiling-cheat-sheet">GCC and Compiling Cheat Sheet</h3>
 
-<ol>
-<li>Before start, take a look at <a href="/post/gcc-cheat-sheet">GCC Compiling Cheat Sheet</a>.</li>
-<li>Go to <a href="/posts/installing-gdb-gef">Installing GEF (GDB Plug-in)</a>, to use GEF Plug-in.</li>
-</ol>
+<h4 id="static-compiling">Static compiling</h4>
 
-<h3 id="gdb-cheat-sheet">GDB Cheat Sheet</h3>
-
-<h4 id="switching-between-at-t-and-intel-syntax">Switching between AT&amp;T and Intel Syntax</h4>
-
-<pre><code>set disassembly-flavor intel
+<pre><code>gcc -static cve_2016_0728.c -o cve_2016_0728 -lkeyutils -Wall
 </code></pre>
 
-<h4 id="to-run-the-program">To run the program</h4>
-
-<pre><code>run args
-</code></pre>
-
-<h4 id="listing-the-source-file">Listing the source file</h4>
-
-<p><strong>Just work when source file is available at the same folder and with the same file name</strong></p>
-
-<pre><code>list    (Will start looking near at the main function)
-list 1  (Will list from the first line)
-</code></pre>
-
-<h4 id="to-get-info-about-registers">To get info about registers</h4>
-
-<pre><code>info registers
-</code></pre>
-
-<h4 id="to-list-all-functions-of-the-program">To list all functions of the program</h4>
-
-<pre><code>info functions
-</code></pre>
-
-<h4 id="to-list-all-sources-where-symbols-were-read">To list all sources where symbols were read</h4>
-
-<pre><code>info sources
-</code></pre>
-
-<h4 id="to-get-info-about-the-program">To get info about the program</h4>
-
-<pre><code>info source
-</code></pre>
-
-<h4 id="to-list-global-variables-and-static">To list global variables and static</h4>
-
-<pre><code>info variables
-</code></pre>
-
-<h4 id="to-get-local-variables">To get local variables</h4>
-
-<pre><code>info scope Function_Name
-</code></pre>
-
-<h4 id="working-with-breakpoints">Working with breakpoints</h4>
+<h4 id="cross-compiling-a-c-code-from-linux-to-windows">Cross compiling a C code from Linux to Windows</h4>
 
 <ul>
-<li><p>Set a breakpoint</p>
+<li><p>Install mingw-w64 cross-compiler:</p>
 
-<pre><code>break position
+<pre><code>apt-get install mingw-w64
 </code></pre></li>
 
-<li><p>List breakpoints</p>
+<li><p>To compile a Windows PE Executable 32bit:</p>
 
-<pre><code>info breakpoints
+<pre><code>i686-w64-mingw32-gcc 271.c -o 271
+x86_64-w64-mingw32-gcc-win32 271.c -o 271
 </code></pre></li>
 
-<li><p>Enable/Disable breakpoints</p>
+<li><p>Run the binary file with <strong>wine</strong>:</p>
 
-<pre><code>disable 1
-enable 1
-</code></pre></li>
-
-<li><p>Deleting breakpoints</p>
-
-<pre><code>delete 1
+<pre><code>wine file.exe
 </code></pre></li>
 </ul>
 
-<h4 id="modifying-memory-and-registers">Modifying Memory and Registers</h4>
+<h4 id="compiling-with-debug-symbols">Compiling with debug symbols</h4>
 
-<pre><code>    set {char} 0xbffff7e6 = 'B'
-    set {int} (0xbffff7e6 + 1) = 66
-    set var1 = 100
-    set $eax = 10
+<pre><code>gcc -ggdb source.c -o prog_with_symbols
 </code></pre>
 
-<h4 id="defining-macros">Defining macros</h4>
+<h4 id="stripping-symbols-off-the-binary">Stripping symbols off the binary</h4>
 
-<pre><code>    define hook-stop
-        command 1
-        command 2
-        command 3
-    end
+<pre><code>objcopy --strip-debug --strip-unneeded prog_not_stripped prog_stripped
 </code></pre>
 
-<h4 id="working-with-data">Working with Data</h4>
+<h4 id="ripping-symbols-off-the-binary">Ripping Symbols off the binary</h4>
 
-<ul>
-<li>Checking <em>REGISTERS</em> and <em>MEMORY</em></li>
-</ul>
-
-<p><strong>Display Register Values : (Decimal, Binary, Hex)</strong></p>
-
-<pre><code>    print /d –&gt; Decimal
-    print /t –&gt; Binary
-    print /x –&gt; Hex
-    O/P :
-    (gdb) print /d $eax
-    $17 = 13
-    (gdb) print /t $eax
-    $18 = 1101
-    (gdb) print /x $eax
-    $19 = 0xd
+<pre><code>objcopy --only-keep-debug rip_from_binary debug_file
 </code></pre>
 
-<h4 id="display-values-of-specific-memory-locations">Display values of specific memory locations</h4>
+<h4 id="working-with-pointers">Working with Pointers</h4>
 
-<p><strong>command : x/nyz (examine)</strong></p>
+<pre><code class="language-C">    #include &lt;stdio.h&gt;
 
-<ul>
-<li>n –&gt; Number of fields to display ==&gt;</li>
-<li>y –&gt; Format for output ==&gt; c (character) , d (decimal) , x (Hexadecimal)</li>
-<li>z –&gt; Size of field to be displayed ==&gt; b (byte), h (halfword), w (word)</li>
-</ul>
+    int main(void){
+        int var = 5;
+        int *p;
+        
+        printf(&quot;Address of var is: %p\n&quot;, &amp;var);
+        printf(&quot;Address of p is: %p\n&quot;, &amp;p);
+        
+        p = &amp;var;
+        printf(&quot;Content of p is: %p\n&quot;, p);
+        printf(&quot;Content wich p is pointing is: %i\n&quot;, *p);
+        printf(&quot;Content of var is: %i\n&quot;, var);
+        printf(&quot;Address of var is: %p\n&quot;, &amp;var);
+        printf(&quot;Address of p is: %p\n&quot;, &amp;p);
+        
+        printf(&quot;*********************\n&quot;);
+        *p = 100;    
+        printf(&quot;%i\n&quot;, var);
+        printf(&quot;%i\n&quot;, *p);
+        printf(&quot;Content of p is: %p\n&quot;, p);
+        printf(&quot;Address of var is: %p\n&quot;, &amp;var);
+        printf(&quot;Address of p is: %p\n&quot;, &amp;p); 
+
+        printf(&quot;*********************\n&quot;);
+        p = 300;    
+        printf(&quot;%i\n&quot;, var);
+        printf(&quot;%i\n&quot;, p);
+        printf(&quot;Content of p is: %p\n&quot;, p);
+        printf(&quot;Address of var is: %p\n&quot;, &amp;var);
+        printf(&quot;Address of p is: %p\n&quot;, &amp;p);
+
+        printf(&quot;*********************\n&quot;);
+        printf(&quot;Final content of var: %i\n&quot;, var);
+        printf(&quot;Content of p is: %p\n&quot;, p);
+        return 0;
+    }
+</code></pre>
 
   </div>
   
 
 <div class="navigation navigation-single">
     
-    <a href="/posts/installing-gdb-gef/" class="navigation-prev">
+    <a href="/posts/getting-start-with-gdb/" class="navigation-prev">
       <i aria-hidden="true" class="fa fa-chevron-left"></i>
-      <span class="navigation-tittle">Installing GEF (GDB Plug-in)</span>
+      <span class="navigation-tittle">Getting Started with GDB</span>
     </a>
     
-    
-    <a href="/posts/gcc-cheat-sheet/" class="navigation-next">
-      <span class="navigation-tittle">GCC Compiling Cheat Sheet</span>
-      <i aria-hidden="true" class="fa fa-chevron-right"></i>
-    </a>
     
 </div>
 

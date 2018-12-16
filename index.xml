@@ -21,12 +21,21 @@
     </item>
     
     <item>
+      <title>GCC Compiling Cheat Sheet</title>
+      <link>https://psylinux.github.io/posts/gcc-cheat-sheet/</link>
+      <pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://psylinux.github.io/posts/gcc-cheat-sheet/</guid>
+      <description>GCC and Compiling Cheat Sheet Static compiling gcc -static cve_2016_0728.</description>
+    </item>
+    
+    <item>
       <title>Getting Started with GDB</title>
       <link>https://psylinux.github.io/posts/getting-start-with-gdb/</link>
       <pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>https://psylinux.github.io/posts/getting-start-with-gdb/</guid>
-      <description>GDB Cheat Sheet To use GEF Plug-in on GDB, please refer to Installing GEF (GDB Plug-in).</description>
+      <description>Preface  Before start, take a look at GCC Compiling Cheat Sheet.</description>
     </item>
     
     <item>

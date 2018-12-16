@@ -12,11 +12,38 @@
     
     
     <item>
+      <title>Compiling</title>
+      <link>https://psylinux.github.io/tags/compiling/</link>
+      <pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://psylinux.github.io/tags/compiling/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Cross Compiling</title>
+      <link>https://psylinux.github.io/tags/cross-compiling/</link>
+      <pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://psylinux.github.io/tags/cross-compiling/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Development</title>
       <link>https://psylinux.github.io/tags/development/</link>
       <pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>https://psylinux.github.io/tags/development/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Gcc</title>
+      <link>https://psylinux.github.io/tags/gcc/</link>
+      <pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://psylinux.github.io/tags/gcc/</guid>
       <description></description>
     </item>
     
@@ -44,6 +71,15 @@
       <pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>https://psylinux.github.io/tags/linux/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Windows</title>
+      <link>https://psylinux.github.io/tags/windows/</link>
+      <pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://psylinux.github.io/tags/windows/</guid>
       <description></description>
     </item>
     
