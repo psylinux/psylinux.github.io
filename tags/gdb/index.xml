@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Gdb on My Hack Lab</title>
+    <link>https://psylinux.github.io/tags/gdb/</link>
+    <description>Recent content in Gdb on My Hack Lab</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 16 Dec 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://psylinux.github.io/tags/gdb/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Getting Started with GDB</title>
+      <link>https://psylinux.github.io/posts/getting-start-with-gdb/</link>
+      <pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://psylinux.github.io/posts/getting-start-with-gdb/</guid>
+      <description>Step 1. Configuring Plugins Installing GEF Goto GEF releases and download the appropriate version for your os and architecture.</description>
+    </item>
+    
+  </channel>
+</rss>
