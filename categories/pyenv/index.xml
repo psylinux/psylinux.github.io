@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>PyEnv on My Hack Lab</title>
+    <link>https://psylinux.github.io/categories/pyenv/</link>
+    <description>Recent content in PyEnv on My Hack Lab</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Fri, 04 Jan 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://psylinux.github.io/categories/pyenv/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Installing PyEnv</title>
+      <link>https://psylinux.github.io/posts/installing-pyenv/</link>
+      <pubDate>Fri, 04 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://psylinux.github.io/posts/installing-pyenv/</guid>
+      <description>Installing PyEnv apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python-openssl</description>
+    </item>
+    
+  </channel>
+</rss>

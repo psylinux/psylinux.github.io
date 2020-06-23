@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on My Hack Lab</title>
@@ -6,10 +6,91 @@
     <description>Recent content in Categories on My Hack Lab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Sun, 16 Dec 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 13 Jan 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://psylinux.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Debug</title>
+      <link>https://psylinux.github.io/categories/debug/</link>
+      <pubDate>Sun, 13 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://psylinux.github.io/categories/debug/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Development</title>
+      <link>https://psylinux.github.io/categories/development/</link>
+      <pubDate>Sun, 13 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://psylinux.github.io/categories/development/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Linux</title>
+      <link>https://psylinux.github.io/categories/linux/</link>
+      <pubDate>Sun, 13 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://psylinux.github.io/categories/linux/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Strace</title>
+      <link>https://psylinux.github.io/categories/strace/</link>
+      <pubDate>Sun, 13 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://psylinux.github.io/categories/strace/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>PyEnv</title>
+      <link>https://psylinux.github.io/categories/pyenv/</link>
+      <pubDate>Fri, 04 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://psylinux.github.io/categories/pyenv/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Python</title>
+      <link>https://psylinux.github.io/categories/python/</link>
+      <pubDate>Fri, 04 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://psylinux.github.io/categories/python/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Assembly</title>
+      <link>https://psylinux.github.io/categories/assembly/</link>
+      <pubDate>Fri, 28 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://psylinux.github.io/categories/assembly/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Exploitation</title>
+      <link>https://psylinux.github.io/categories/exploitation/</link>
+      <pubDate>Fri, 28 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://psylinux.github.io/categories/exploitation/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Glibc</title>
+      <link>https://psylinux.github.io/categories/glibc/</link>
+      <pubDate>Fri, 28 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://psylinux.github.io/categories/glibc/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>C Lang</title>
@@ -21,16 +102,7 @@
     </item>
     
     <item>
-      <title>Development</title>
-      <link>https://psylinux.github.io/categories/development/</link>
-      <pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://psylinux.github.io/categories/development/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Gcc</title>
+      <title>GCC</title>
       <link>https://psylinux.github.io/categories/gcc/</link>
       <pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate>
       
@@ -39,20 +111,11 @@
     </item>
     
     <item>
-      <title>Gdb</title>
+      <title>GDB</title>
       <link>https://psylinux.github.io/categories/gdb/</link>
       <pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>https://psylinux.github.io/categories/gdb/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Linux</title>
-      <link>https://psylinux.github.io/categories/linux/</link>
-      <pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://psylinux.github.io/categories/linux/</guid>
       <description></description>
     </item>
     

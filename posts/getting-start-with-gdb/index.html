@@ -11,7 +11,7 @@
 <meta http-equiv="Cache-Control" content="public" />
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.47.1" />
+<meta name="generator" content="Hugo 0.72.0" />
 
     
     
@@ -27,8 +27,10 @@
 <meta property="og:title" content="Getting Started with GDB" />
 <meta property="og:description" content="Using the GNU Linux Debugger" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://psylinux.github.io/posts/getting-start-with-gdb/" /><meta property="article:published_time" content="2018-12-16T00:00:00&#43;00:00"/>
-<meta property="article:modified_time" content="2018-12-16T00:00:00&#43;00:00"/><meta property="og:site_name" content="My Hack Lab" />
+<meta property="og:url" content="https://psylinux.github.io/posts/getting-start-with-gdb/" />
+<meta property="article:published_time" content="2018-12-16T00:00:00+00:00" />
+<meta property="article:modified_time" content="2018-12-16T00:00:00+00:00" /><meta property="og:site_name" content="My Hack Lab" />
+
 
     
 
@@ -42,7 +44,7 @@
 
 
 
-<link rel="stylesheet" href="/scss/hyde-hyde.1094a82d4672863fd081743e126ee1d0fe41c1321e0b4be51ce4baa431a8d0dc.css" integrity="sha256-EJSoLUZyhj/QgXQ&#43;Em7h0P5BwTIeC0vlHOS6pDGo0Nw=">
+<link rel="stylesheet" href="/scss/hyde-hyde.3081c4981fb69a2783dd36ecfdd0e6ba7a158d4cbfdd290ebce8f78ba0469fc6.css" integrity="sha256-MIHEmB&#43;2mieD3Tbs/dDmunoVjUy/3SkOvOj3i6BGn8Y=">
 
 
 <link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
@@ -50,7 +52,7 @@
 
 
 
-<link rel="stylesheet" href="/scss/hugo-toc.8549a64d301421b4256ea9a0d5ca8b99178799f569d5d2daeb95f24cef3ce6b7.css" integrity="sha256-hUmmTTAUIbQlbqmg1cqLmReHmfVp1dLa65XyTO885rc=">
+<link rel="stylesheet" href="/scss/hugo-toc.0873834b0f2e9fdc9e1d0301e8ebce21fc10383882a41e9373f29b90e85a9987.css" integrity="sha256-CHODSw8un9yeHQMB6OvOIfwQODiCpB6Tc/KbkOhamYc=">
 
 
 
@@ -62,6 +64,7 @@
     <!-- Icons -->
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
     <link rel="shortcut icon" href="/favicon.png">
+    
     
 
 </head>
@@ -80,13 +83,13 @@
         
         
         <div class="author-image">
-          <img src="https://psylinux.github.io//img/psylinux.png" alt="Author Image" class="img--circle img--headshot element--center">
+          <img src="https://psylinux.github.io/img/psylinux.png" alt="Author Image" class="img--circle img--headshot element--center">
         </div>
         
       
       
       <p class="site__description">
-        
+         Marcos Azevedo (a.k.a psylinux) 
       </p>
     </div>
     <div class="collapsible-menu">
@@ -107,8 +110,8 @@
 		 
 			 
 				<li>
-					<a href="/portfolio/">
-						<span>Portfolio</span>
+					<a href="/projects/">
+						<span>Projects</span>
 					</a>
 				</li>
 			 
@@ -121,7 +124,6 @@
 				</li>
 			 
 		
-		</li>
 	</ul>
 </div>
 
@@ -137,7 +139,10 @@
 	
 	
 	
+	
+	
 	<a href="https://linkedin.com/in/mtazevedo" rel="me"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a>
+	
 	
 	
 	
@@ -154,7 +159,7 @@
     </div>
     
 <div class="copyright">
-  &copy; 2018 psylinux
+  &copy; 2020 psylinux
   
     <a href="https://opensource.org/licenses/MIT">Copyright</a>
   
@@ -167,7 +172,8 @@
 
         <div class="content container">
             
-    <article>
+    
+<article>
   <header>
     <h1>Getting Started with GDB</h1>
     
@@ -220,158 +226,171 @@
     
     
     <br/>
-    <i class="fas fa-clock"></i> 2 min read
+    <i class="fas fa-clock"></i> 4 min read
 </div>
 
 
   </header>
   
   
-  <div class="toc-wrapper">
-    <input type="checkbox" id="tocToggle">
-    <label for="tocToggle">Table of Content</label>
-    
-        <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li>
-<ul>
-<li><a href="#preface">Preface</a></li>
-<li><a href="#gdb-cheat-sheet">GDB Cheat Sheet</a>
-<ul>
-<li><a href="#switching-between-at-t-and-intel-syntax">Switching between AT&amp;T and Intel Syntax</a></li>
-<li><a href="#to-run-the-program">To run the program</a></li>
-<li><a href="#listing-the-source-file">Listing the source file</a></li>
-<li><a href="#to-get-info-about-registers">To get info about registers</a></li>
-<li><a href="#to-list-all-functions-of-the-program">To list all functions of the program</a></li>
-<li><a href="#to-list-all-sources-where-symbols-were-read">To list all sources where symbols were read</a></li>
-<li><a href="#to-get-info-about-the-program">To get info about the program</a></li>
-<li><a href="#to-list-global-variables-and-static">To list global variables and static</a></li>
-<li><a href="#to-get-local-variables">To get local variables</a></li>
-<li><a href="#working-with-breakpoints">Working with breakpoints</a></li>
-<li><a href="#modifying-memory-and-registers">Modifying Memory and Registers</a></li>
-<li><a href="#defining-macros">Defining macros</a></li>
-<li><a href="#working-with-data">Working with Data</a></li>
-<li><a href="#display-values-of-specific-memory-locations">Display values of specific memory locations</a></li>
-</ul></li>
-</ul></li>
-</ul></li>
-</ul>
+  
+    <div class="toc-wrapper">
+      <input type="checkbox" id="tocToggle">
+      <label for="tocToggle">Table of Content</label>
+      
+          <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#preface">Preface</a></li>
+        <li><a href="#gdb-cheat-sheet">GDB Cheat Sheet</a></li>
+      </ul>
+    </li>
+  </ul>
 </nav>
-    
-  </div>
+      
+    </div>
+  
   
   <div class="post">
-    
-
-<h3 id="preface">Preface</h3>
-
+    <h3 id="preface">Preface</h3>
 <ol>
 <li>Before start, take a look at <a href="/post/gcc-cheat-sheet">GCC Compiling Cheat Sheet</a>.</li>
 <li>Go to <a href="/posts/installing-gdb-gef">Installing GEF (GDB Plug-in)</a>, to use GEF Plug-in.</li>
 </ol>
-
+<h4 id="compiling-with-debug-symbols">Compiling with debug symbols</h4>
+<pre><code>gcc -ggdb source.c -o prog_with_symbols
+</code></pre><h4 id="stripping-symbols-off-the-binary">Stripping symbols off the binary</h4>
+<ol>
+<li>Using strip command to rip off all symbols from a binary file</li>
+</ol>
+<pre><code>strip --strip-debug --strip-unneeded prog_not_stripped -o prog_nodebug_stripped
+</code></pre><ol start="2">
+<li>Using objcopy command to create a separated debug file</li>
+</ol>
+<pre><code>objcopy --only-keep-debug rip_from_binary debug_file
+</code></pre><h4 id="adding-debug-symbols-to-a-binary">Adding Debug Symbols to a binary</h4>
+<ol>
+<li>Add it in the binary itself</li>
+</ol>
+<pre><code>objcopy --add-gnu-debuglink=debug_file binary_file
+</code></pre><ol start="2">
+<li>Load the symbol file within GDB</li>
+</ol>
+<pre><code>symbol-file debug_file
+</code></pre><hr>
+<h4 id="analyzing-symbols-with-nm">Analyzing Symbols with NM</h4>
+<ul>
+<li>Lower case in local symbols</li>
+<li>Upper case in external symbols</li>
+</ul>
+<p>For more information about symbol types use <code>man nm</code></p>
+<p>|&mdash;&mdash;&mdash;&mdash;-|&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;|
+| Symbol Type |    Meaning                              |
+|&mdash;&mdash;&mdash;&mdash;-|&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;|
+|      A      | Absolute symbol                         |
+|&mdash;&mdash;&mdash;&mdash;-|&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;|
+|      B      | In the Uninitialized Data Section (BSS) |
+|&mdash;&mdash;&mdash;&mdash;-|&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;|
+|      D      | In the Initialized Data Section         |
+|&mdash;&mdash;&mdash;&mdash;-|&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;|
+|      N      | Debugging Symbol                        |
+|&mdash;&mdash;&mdash;&mdash;-|&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;|
+|      T      | In the Text Section                     |
+|&mdash;&mdash;&mdash;&mdash;-|&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;|
+|      U      | Symbol Undefined Right Now              |
+|&mdash;&mdash;&mdash;&mdash;-|&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;|</p>
+<p>Some useful command line option for nm:</p>
+<ul>
+<li>Using nm to search for a symbol and display the file name:</li>
+</ul>
+<pre><code>nm -A Binary_File | grep function_name
+</code></pre><ul>
+<li>Display symbols ordered by address:</li>
+</ul>
+<pre><code>nm -n Binary_File
+</code></pre><ul>
+<li>Display all the external symbols:</li>
+</ul>
+<pre><code>nm -g Binary_File
+</code></pre><ul>
+<li>Display all symbols, even debugger-only symbols; normally these are not listed:</li>
+</ul>
+<pre><code>nm -a Binary_File
+</code></pre><ul>
+<li>Listing only symbols only in the TEXT section</li>
+</ul>
+<pre><code>nm -a Binary_File | grep ' T ' # must leave the spaces around the T
+</code></pre><hr>
+<h4 id="decompiling-using-objdump">Decompiling using objdump</h4>
+<pre><code>objdump -M intel -D a.out | grep -A20 main.:
+</code></pre><hr>
 <h3 id="gdb-cheat-sheet">GDB Cheat Sheet</h3>
-
-<h4 id="switching-between-at-t-and-intel-syntax">Switching between AT&amp;T and Intel Syntax</h4>
-
+<h4 id="switching-between-att-and-intel-syntax">Switching between AT&amp;T and Intel Syntax</h4>
 <pre><code>set disassembly-flavor intel
-</code></pre>
-
-<h4 id="to-run-the-program">To run the program</h4>
-
+</code></pre><h4 id="disassembling">Disassembling</h4>
+<pre><code>disassemble /r main (We can use /r to show the opcodes)
+disassemble main
+disassemble _start
+disassemble 0x80484b0
+</code></pre><p>Two arguments (separated by a comma) are taken as a range of memory to dump, in the form of &ldquo;start,end&rdquo;, or &ldquo;start,+length&rdquo;.</p>
+<pre><code>disassemble main,+30
+</code></pre><h4 id="to-run-the-program">To run the program</h4>
 <pre><code>run args
-</code></pre>
-
-<h4 id="listing-the-source-file">Listing the source file</h4>
-
+</code></pre><h4 id="listing-the-source-file">Listing the source file</h4>
 <p><strong>Just work when source file is available at the same folder and with the same file name</strong></p>
-
 <pre><code>list    (Will start looking near at the main function)
 list 1  (Will list from the first line)
-</code></pre>
-
-<h4 id="to-get-info-about-registers">To get info about registers</h4>
-
+</code></pre><h4 id="to-get-info-about-registers">To get info about registers</h4>
 <pre><code>info registers
-</code></pre>
-
-<h4 id="to-list-all-functions-of-the-program">To list all functions of the program</h4>
-
+</code></pre><h4 id="to-list-all-functions-of-the-program">To list all functions of the program</h4>
 <pre><code>info functions
-</code></pre>
-
-<h4 id="to-list-all-sources-where-symbols-were-read">To list all sources where symbols were read</h4>
-
+</code></pre><h4 id="to-list-all-sources-where-symbols-were-read">To list all sources where symbols were read</h4>
 <pre><code>info sources
-</code></pre>
-
-<h4 id="to-get-info-about-the-program">To get info about the program</h4>
-
+</code></pre><h4 id="to-get-info-about-the-program">To get info about the program</h4>
 <pre><code>info source
-</code></pre>
-
-<h4 id="to-list-global-variables-and-static">To list global variables and static</h4>
-
+</code></pre><h4 id="to-list-global-variables-and-static-not-local-variables">To list global variables and static (not local variables)</h4>
 <pre><code>info variables
-</code></pre>
-
-<h4 id="to-get-local-variables">To get local variables</h4>
-
+</code></pre><h4 id="to-list-local-variables">To list local variables</h4>
 <pre><code>info scope Function_Name
-</code></pre>
-
-<h4 id="working-with-breakpoints">Working with breakpoints</h4>
-
+</code></pre><h4 id="to-list-all-symbols">To list all symbols</h4>
+<pre><code>maintenance print symbols
+maintenance print symbols file_to_store
+</code></pre><h4 id="working-with-breakpoints">Working with breakpoints</h4>
 <ul>
-<li><p>Set a breakpoint</p>
-
-<pre><code>break position
-</code></pre></li>
-
-<li><p>List breakpoints</p>
-
-<pre><code>info breakpoints
-</code></pre></li>
-
-<li><p>Enable/Disable breakpoints</p>
-
-<pre><code>disable 1
-enable 1
-</code></pre></li>
-
-<li><p>Deleting breakpoints</p>
-
-<pre><code>delete 1
-</code></pre></li>
+<li>Set a breakpoint</li>
 </ul>
-
-<h4 id="modifying-memory-and-registers">Modifying Memory and Registers</h4>
-
+<pre><code>    break position
+</code></pre><ul>
+<li>List breakpoints</li>
+</ul>
+<pre><code>    info breakpoints
+</code></pre><ul>
+<li>Enable/Disable breakpoints</li>
+</ul>
+<pre><code>    disable 1
+    enable 1
+</code></pre><ul>
+<li>Deleting breakpoints</li>
+</ul>
+<pre><code>    delete 1
+</code></pre><h4 id="modifying-memory-and-registers">Modifying Memory and Registers</h4>
 <pre><code>    set {char} 0xbffff7e6 = 'B'
+    set {char} 0x080484b0 = 0x00000001b8 (opcode of &quot;mov eax,0x1&quot;)
     set {int} (0xbffff7e6 + 1) = 66
     set var1 = 100
     set $eax = 10
-</code></pre>
-
-<h4 id="defining-macros">Defining macros</h4>
-
+</code></pre><h4 id="defining-macros">Defining macros</h4>
 <pre><code>    define hook-stop
         command 1
         command 2
         command 3
     end
-</code></pre>
-
-<h4 id="working-with-data">Working with Data</h4>
-
+</code></pre><h4 id="working-with-data">Working with Data</h4>
 <ul>
 <li>Checking <em>REGISTERS</em> and <em>MEMORY</em></li>
 </ul>
-
 <p><strong>Display Register Values : (Decimal, Binary, Hex)</strong></p>
-
 <pre><code>    print /d –&gt; Decimal
     print /t –&gt; Binary
     print /x –&gt; Hex
@@ -382,18 +401,33 @@ enable 1
     $18 = 1101
     (gdb) print /x $eax
     $19 = 0xd
-</code></pre>
-
-<h4 id="display-values-of-specific-memory-locations">Display values of specific memory locations</h4>
-
-<p><strong>command : x/nyz (examine)</strong></p>
-
+</code></pre><h4 id="display-values-of-specific-memory-locations">Display values of specific memory locations</h4>
+<p><strong>command &ldquo;Examine&rdquo;: x/nyz</strong></p>
 <ul>
 <li>n –&gt; Number of fields to display ==&gt;</li>
 <li>y –&gt; Format for output ==&gt; c (character) , d (decimal) , x (Hexadecimal)</li>
 <li>z –&gt; Size of field to be displayed ==&gt; b (byte), h (halfword), w (word)</li>
 </ul>
-
+<h4 id="convenience-variables">Convenience variables</h4>
+<pre><code>    (gdb) set $i = 10
+    (gdb) set $dyn = (char \*)malloc(10)
+    (gdb) $demo = &quot;psylinux&quot;
+    (gdb) set argv[1] = $demo
+</code></pre><h4 id="calling-functions">Calling functions</h4>
+<pre><code>    (gdb) info functions
+    (gdb) call Function_1(args_list)
+    (gdb) call strlen(&quot;psylinux&quot;)
+    (gdb) call strcpy ($dyn, argv[1])
+</code></pre><h4 id="conditional-breakpoint">Conditional breakpoint</h4>
+<p>Break only if the condition is satisfied.</p>
+<pre><code>    (gdb) break *0x0804844b
+    (gdb) condition 1 $eax == 0
+    (gdb) info b
+    Num     Type           Disp Enb Address    What
+    1       breakpoint     keep y   0x0804844b in main at main.c:8
+            stop only if $eax == 0
+            breakpoint already hit 1 time
+</code></pre>
   </div>
   
 
@@ -425,20 +459,18 @@ enable 1
         </div>
         
     
-<script defer src="https://use.fontawesome.com/releases/v5.5.0/js/all.js" integrity="sha384-GqVMZRt5Gn7tB9D9q7ONtcp4gtHIUEW/yG7h98J7IpE3kpi+srfFyyB/04OV6pG0" crossorigin="anonymous"></script>
+
+<script defer src="https://use.fontawesome.com/releases/v5.11.2/js/all.js" integrity="sha384-b3ua1l97aVGAPEIe48b4TC60WUQbQaGi2jqAWM90y0OZXZeyaTCWtBTKtjW2GXG1" crossorigin="anonymous"></script>
 
 
     
-    
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
         
-    
     <script type="text/javascript">
         
         hljs.initHighlightingOnLoad();
     </script>
     
-
 
 
 

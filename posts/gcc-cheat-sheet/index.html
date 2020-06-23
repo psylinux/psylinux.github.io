@@ -11,7 +11,7 @@
 <meta http-equiv="Cache-Control" content="public" />
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.47.1" />
+<meta name="generator" content="Hugo 0.72.0" />
 
     
     
@@ -27,8 +27,10 @@
 <meta property="og:title" content="GCC Compiling Cheat Sheet" />
 <meta property="og:description" content="Using the GNU GCC" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://psylinux.github.io/posts/gcc-cheat-sheet/" /><meta property="article:published_time" content="2018-12-16T00:00:00&#43;00:00"/>
-<meta property="article:modified_time" content="2018-12-16T00:00:00&#43;00:00"/><meta property="og:site_name" content="My Hack Lab" />
+<meta property="og:url" content="https://psylinux.github.io/posts/gcc-cheat-sheet/" />
+<meta property="article:published_time" content="2018-12-16T00:00:00+00:00" />
+<meta property="article:modified_time" content="2018-12-16T00:00:00+00:00" /><meta property="og:site_name" content="My Hack Lab" />
+
 
     
 
@@ -42,7 +44,7 @@
 
 
 
-<link rel="stylesheet" href="/scss/hyde-hyde.1094a82d4672863fd081743e126ee1d0fe41c1321e0b4be51ce4baa431a8d0dc.css" integrity="sha256-EJSoLUZyhj/QgXQ&#43;Em7h0P5BwTIeC0vlHOS6pDGo0Nw=">
+<link rel="stylesheet" href="/scss/hyde-hyde.3081c4981fb69a2783dd36ecfdd0e6ba7a158d4cbfdd290ebce8f78ba0469fc6.css" integrity="sha256-MIHEmB&#43;2mieD3Tbs/dDmunoVjUy/3SkOvOj3i6BGn8Y=">
 
 
 <link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
@@ -50,7 +52,7 @@
 
 
 
-<link rel="stylesheet" href="/scss/hugo-toc.8549a64d301421b4256ea9a0d5ca8b99178799f569d5d2daeb95f24cef3ce6b7.css" integrity="sha256-hUmmTTAUIbQlbqmg1cqLmReHmfVp1dLa65XyTO885rc=">
+<link rel="stylesheet" href="/scss/hugo-toc.0873834b0f2e9fdc9e1d0301e8ebce21fc10383882a41e9373f29b90e85a9987.css" integrity="sha256-CHODSw8un9yeHQMB6OvOIfwQODiCpB6Tc/KbkOhamYc=">
 
 
 
@@ -62,6 +64,7 @@
     <!-- Icons -->
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
     <link rel="shortcut icon" href="/favicon.png">
+    
     
 
 </head>
@@ -80,13 +83,13 @@
         
         
         <div class="author-image">
-          <img src="https://psylinux.github.io//img/psylinux.png" alt="Author Image" class="img--circle img--headshot element--center">
+          <img src="https://psylinux.github.io/img/psylinux.png" alt="Author Image" class="img--circle img--headshot element--center">
         </div>
         
       
       
       <p class="site__description">
-        
+         Marcos Azevedo (a.k.a psylinux) 
       </p>
     </div>
     <div class="collapsible-menu">
@@ -107,8 +110,8 @@
 		 
 			 
 				<li>
-					<a href="/portfolio/">
-						<span>Portfolio</span>
+					<a href="/projects/">
+						<span>Projects</span>
 					</a>
 				</li>
 			 
@@ -121,7 +124,6 @@
 				</li>
 			 
 		
-		</li>
 	</ul>
 </div>
 
@@ -137,7 +139,10 @@
 	
 	
 	
+	
+	
 	<a href="https://linkedin.com/in/mtazevedo" rel="me"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a>
+	
 	
 	
 	
@@ -154,7 +159,7 @@
     </div>
     
 <div class="copyright">
-  &copy; 2018 psylinux
+  &copy; 2020 psylinux
   
     <a href="https://opensource.org/licenses/MIT">Copyright</a>
   
@@ -167,7 +172,8 @@
 
         <div class="content container">
             
-    <article>
+    
+<article>
   <header>
     <h1>GCC Compiling Cheat Sheet</h1>
     
@@ -226,125 +232,106 @@
     
     
     <br/>
-    <i class="fas fa-clock"></i> 1 min read
+    <i class="fas fa-clock"></i> 2 min read
 </div>
 
 
   </header>
   
   
-  <div class="toc-wrapper">
-    <input type="checkbox" id="tocToggle">
-    <label for="tocToggle">Table of Content</label>
-    
-        <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li>
-<ul>
-<li><a href="#gcc-and-compiling-cheat-sheet">GCC and Compiling Cheat Sheet</a>
-<ul>
-<li><a href="#static-compiling">Static compiling</a></li>
-<li><a href="#cross-compiling-a-c-code-from-linux-to-windows">Cross compiling a C code from Linux to Windows</a></li>
-<li><a href="#compiling-with-debug-symbols">Compiling with debug symbols</a></li>
-<li><a href="#stripping-symbols-off-the-binary">Stripping symbols off the binary</a></li>
-<li><a href="#ripping-symbols-off-the-binary">Ripping Symbols off the binary</a></li>
-<li><a href="#having-fun-with-c-pointers">Having fun with C Pointers</a></li>
-</ul></li>
-</ul></li>
-</ul></li>
-</ul>
+  
+    <div class="toc-wrapper">
+      <input type="checkbox" id="tocToggle">
+      <label for="tocToggle">Table of Content</label>
+      
+          <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#gcc-and-compiling-cheat-sheet">GCC and Compiling Cheat Sheet</a></li>
+      </ul>
+    </li>
+  </ul>
 </nav>
-    
-  </div>
+      
+    </div>
+  
   
   <div class="post">
-    
-
-<h3 id="gcc-and-compiling-cheat-sheet">GCC and Compiling Cheat Sheet</h3>
-
+    <h3 id="gcc-and-compiling-cheat-sheet">GCC and Compiling Cheat Sheet</h3>
 <h4 id="static-compiling">Static compiling</h4>
-
 <pre><code>gcc -static cve_2016_0728.c -o cve_2016_0728 -lkeyutils -Wall
-</code></pre>
-
-<h4 id="cross-compiling-a-c-code-from-linux-to-windows">Cross compiling a C code from Linux to Windows</h4>
-
+</code></pre><h4 id="cross-compiling-a-c-code-from-linux-to-windows">Cross compiling a C code from Linux to Windows</h4>
 <ul>
-<li><p>Install mingw-w64 cross-compiler:</p>
-
+<li>
+<p>Install mingw-w64 cross-compiler:</p>
 <pre><code>apt-get install mingw-w64
 </code></pre></li>
-
-<li><p>To compile a Windows PE Executable 32bit:</p>
-
+<li>
+<p>To compile a Windows PE Executable 32bit:</p>
 <pre><code>i686-w64-mingw32-gcc 271.c -o 271
 x86_64-w64-mingw32-gcc-win32 271.c -o 271
 </code></pre></li>
-
-<li><p>Run the binary file with <strong>wine</strong>:</p>
-
+<li>
+<p>Run the binary file with <strong>wine</strong>:</p>
 <pre><code>wine file.exe
 </code></pre></li>
 </ul>
-
 <h4 id="compiling-with-debug-symbols">Compiling with debug symbols</h4>
-
+<p>Debug Symbol File Types:</p>
+<ol>
+<li>DWARF 2</li>
+<li>COFF</li>
+<li>XCOFF</li>
+<li>STABS</li>
+</ol>
+<ul>
+<li>GCC use the -g option to define the type:</li>
+</ul>
 <pre><code>gcc -ggdb source.c -o prog_with_symbols
-</code></pre>
-
-<h4 id="stripping-symbols-off-the-binary">Stripping symbols off the binary</h4>
-
+</code></pre><h4 id="stripping-symbols-off-the-binary">Stripping symbols off the binary</h4>
 <pre><code>objcopy --strip-debug --strip-unneeded prog_not_stripped prog_stripped
-</code></pre>
-
-<h4 id="ripping-symbols-off-the-binary">Ripping Symbols off the binary</h4>
-
+</code></pre><h4 id="ripping-symbols-off-the-binary">Ripping Symbols off the binary</h4>
 <pre><code>objcopy --only-keep-debug rip_from_binary debug_file
-</code></pre>
-
-<h4 id="having-fun-with-c-pointers">Having fun with C Pointers</h4>
-
-<pre><code class="language-C">    #include &lt;stdio.h&gt;
-
-    int main(void){
-        int var = 5;
-        int *p;
+</code></pre><h4 id="having-fun-with-c-pointers">Having fun with C Pointers</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C" data-lang="C">    <span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">void</span>){
+        <span style="color:#66d9ef">int</span> var <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>;
+        <span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span>p;
         
-        printf(&quot;Address of var is: %p\n&quot;, &amp;var);
-        printf(&quot;Address of p is: %p\n&quot;, &amp;p);
+        printf(<span style="color:#e6db74">&#34;Address of var is: %p</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, <span style="color:#f92672">&amp;</span>var);
+        printf(<span style="color:#e6db74">&#34;Address of p is: %p</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, <span style="color:#f92672">&amp;</span>p);
         
-        p = &amp;var;
-        printf(&quot;Content of p is: %p\n&quot;, p);
-        printf(&quot;Content wich p is pointing is: %i\n&quot;, *p);
-        printf(&quot;Content of var is: %i\n&quot;, var);
-        printf(&quot;Address of var is: %p\n&quot;, &amp;var);
-        printf(&quot;Address of p is: %p\n&quot;, &amp;p);
+        p <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>var;
+        printf(<span style="color:#e6db74">&#34;Content of p is: %p</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, p);
+        printf(<span style="color:#e6db74">&#34;Content wich p is pointing is: %i</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, <span style="color:#f92672">*</span>p);
+        printf(<span style="color:#e6db74">&#34;Content of var is: %i</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, var);
+        printf(<span style="color:#e6db74">&#34;Address of var is: %p</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, <span style="color:#f92672">&amp;</span>var);
+        printf(<span style="color:#e6db74">&#34;Address of p is: %p</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, <span style="color:#f92672">&amp;</span>p);
         
-        printf(&quot;*********************\n&quot;);
-        *p = 100;    
-        printf(&quot;%i\n&quot;, var);
-        printf(&quot;%i\n&quot;, *p);
-        printf(&quot;Content of p is: %p\n&quot;, p);
-        printf(&quot;Address of var is: %p\n&quot;, &amp;var);
-        printf(&quot;Address of p is: %p\n&quot;, &amp;p); 
+        printf(<span style="color:#e6db74">&#34;*********************</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+        <span style="color:#f92672">*</span>p <span style="color:#f92672">=</span> <span style="color:#ae81ff">100</span>;    
+        printf(<span style="color:#e6db74">&#34;%i</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, var);
+        printf(<span style="color:#e6db74">&#34;%i</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, <span style="color:#f92672">*</span>p);
+        printf(<span style="color:#e6db74">&#34;Content of p is: %p</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, p);
+        printf(<span style="color:#e6db74">&#34;Address of var is: %p</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, <span style="color:#f92672">&amp;</span>var);
+        printf(<span style="color:#e6db74">&#34;Address of p is: %p</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, <span style="color:#f92672">&amp;</span>p); 
 
-        printf(&quot;*********************\n&quot;);
-        p = 300;    
-        printf(&quot;%i\n&quot;, var);
-        printf(&quot;%i\n&quot;, p);
-        printf(&quot;Content of p is: %p\n&quot;, p);
-        printf(&quot;Address of var is: %p\n&quot;, &amp;var);
-        printf(&quot;Address of p is: %p\n&quot;, &amp;p);
+        printf(<span style="color:#e6db74">&#34;*********************</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+        p <span style="color:#f92672">=</span> <span style="color:#ae81ff">300</span>;    
+        printf(<span style="color:#e6db74">&#34;%i</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, var);
+        printf(<span style="color:#e6db74">&#34;%i</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, p);
+        printf(<span style="color:#e6db74">&#34;Content of p is: %p</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, p);
+        printf(<span style="color:#e6db74">&#34;Address of var is: %p</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, <span style="color:#f92672">&amp;</span>var);
+        printf(<span style="color:#e6db74">&#34;Address of p is: %p</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, <span style="color:#f92672">&amp;</span>p);
 
-        printf(&quot;*********************\n&quot;);
-        printf(&quot;Final content of var: %i\n&quot;, var);
-        printf(&quot;Content of p is: %p\n&quot;, p);
-        return 0;
+        printf(<span style="color:#e6db74">&#34;*********************</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+        printf(<span style="color:#e6db74">&#34;Final content of var: %i</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, var);
+        printf(<span style="color:#e6db74">&#34;Content of p is: %p</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, p);
+        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
     }
-</code></pre>
-
+</code></pre></div>
   </div>
   
 
@@ -355,6 +342,11 @@ x86_64-w64-mingw32-gcc-win32 271.c -o 271
       <span class="navigation-tittle">Getting Started with GDB</span>
     </a>
     
+    
+    <a href="/posts/installing-pyenv/" class="navigation-next">
+      <span class="navigation-tittle">Installing PyEnv</span>
+      <i aria-hidden="true" class="fa fa-chevron-right"></i>
+    </a>
     
 </div>
 
@@ -371,20 +363,18 @@ x86_64-w64-mingw32-gcc-win32 271.c -o 271
         </div>
         
     
-<script defer src="https://use.fontawesome.com/releases/v5.5.0/js/all.js" integrity="sha384-GqVMZRt5Gn7tB9D9q7ONtcp4gtHIUEW/yG7h98J7IpE3kpi+srfFyyB/04OV6pG0" crossorigin="anonymous"></script>
+
+<script defer src="https://use.fontawesome.com/releases/v5.11.2/js/all.js" integrity="sha384-b3ua1l97aVGAPEIe48b4TC60WUQbQaGi2jqAWM90y0OZXZeyaTCWtBTKtjW2GXG1" crossorigin="anonymous"></script>
 
 
     
-    
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
         
-    
     <script type="text/javascript">
         
         hljs.initHighlightingOnLoad();
     </script>
     
-
 
 
 
