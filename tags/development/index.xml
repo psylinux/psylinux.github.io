@@ -17,7 +17,7 @@
       <pubDate>Sun, 13 Jan 2019 00:00:00 +0000</pubDate>
       
       <guid>https://psylinux.github.io/posts/debugging-with-strace/</guid>
-      <description>Preface Strace is a debugging tool that help us to troubleshoot issues.</description>
+      <description>Strace debugging tool Preface Strace is a debugging tool that help us to troubleshoot issues.</description>
     </item>
     
     <item>
@@ -26,7 +26,7 @@
       <pubDate>Fri, 04 Jan 2019 00:00:00 +0000</pubDate>
       
       <guid>https://psylinux.github.io/posts/installing-pyenv/</guid>
-      <description>Installing PyEnv apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python-openssl</description>
+      <description>PyEnv Installing PyEnv apt-get install -y make build-essential libssl-dev \zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev \wget curl llvm libncurses5-dev libncursesw5-dev \xz-utils tk-dev libffi-dev liblzma-dev python-opensslcurl -L https://github.</description>
     </item>
     
     <item>
@@ -35,7 +35,7 @@
       <pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>https://psylinux.github.io/posts/gcc-cheat-sheet/</guid>
-      <description>GCC and Compiling Cheat Sheet Static compiling gcc -static cve_2016_0728.c -o cve_2016_0728 -lkeyutils -WallCross compiling a C code from Linux to Windows   Install mingw-w64 cross-compiler:</description>
+      <description>GCC and Compiling Cheat Sheet Static compiling gcc -static cve_2016_0728.c -o cve_2016_0728 -lkeyutils -WallCross compiling a C code from Linux to Windows Install mingw-w64 cross-compiler: apt-get install mingw-w64To compile a Windows PE Executable 32bit: i686-w64-mingw32-gcc 271.</description>
     </item>
     
     <item>
@@ -44,7 +44,7 @@
       <pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>https://psylinux.github.io/posts/getting-start-with-gdb/</guid>
-      <description>Preface  Before start, take a look at GCC Compiling Cheat Sheet.</description>
+      <description>Getting Started with GDB Preface  Before start, take a look at GCC Compiling Cheat Sheet.</description>
     </item>
     
     <item>
@@ -53,7 +53,7 @@
       <pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>https://psylinux.github.io/posts/installing-gdb-gef/</guid>
-      <description>Installing GEF Cloning Goto GEF Project and clone the repository to /opt:</description>
+      <description>GEF Installing GEF Cloning Goto GEF Project and clone the repository to /opt:</description>
     </item>
     
   </channel>

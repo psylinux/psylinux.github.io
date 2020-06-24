@@ -22,10 +22,10 @@
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="GCC Compiling Cheat Sheet"/>
-<meta name="twitter:description" content="Using the GNU GCC"/>
+<meta name="twitter:description" content="GCC and Compiling Cheat Sheet Static compiling gcc -static cve_2016_0728.c -o cve_2016_0728 -lkeyutils -WallCross compiling a C code from Linux to Windows Install mingw-w64 cross-compiler: apt-get install mingw-w64To compile a Windows PE Executable 32bit: i686-w64-mingw32-gcc 271."/>
 
 <meta property="og:title" content="GCC Compiling Cheat Sheet" />
-<meta property="og:description" content="Using the GNU GCC" />
+<meta property="og:description" content="GCC and Compiling Cheat Sheet Static compiling gcc -static cve_2016_0728.c -o cve_2016_0728 -lkeyutils -WallCross compiling a C code from Linux to Windows Install mingw-w64 cross-compiler: apt-get install mingw-w64To compile a Windows PE Executable 32bit: i686-w64-mingw32-gcc 271." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://psylinux.github.io/posts/gcc-cheat-sheet/" />
 <meta property="article:published_time" content="2018-12-16T00:00:00+00:00" />
@@ -190,16 +190,10 @@
           in
           
           
-              <a class="badge badge-category" href="/categories/c-lang">C LANG</a>
+              <a class="badge badge-category" href="/categories/cross-compiling">CROSS-COMPILING</a>
               •
           
               <a class="badge badge-category" href="/categories/development">DEVELOPMENT</a>
-              •
-          
-              <a class="badge badge-category" href="/categories/gcc">GCC</a>
-              •
-          
-              <a class="badge badge-category" href="/categories/linux">LINUX</a>
               
           
       
@@ -246,11 +240,22 @@
       
           <nav id="TableOfContents">
   <ul>
-    <li>
+    <li><a href="#static-compiling">Static compiling</a></li>
+    <li><a href="#cross-compiling-a-c-code-from-linux-to-windows">Cross compiling a C code from Linux to Windows</a>
       <ul>
-        <li><a href="#gcc-and-compiling-cheat-sheet">GCC and Compiling Cheat Sheet</a></li>
+        <li><a href="#install-mingw-w64-cross-compiler">Install mingw-w64 cross-compiler:</a></li>
+        <li><a href="#to-compile-a-windows-pe-executable-32bit">To compile a Windows PE Executable 32bit:</a></li>
+        <li><a href="#run-the-binary-file-with-wine">Run the binary file with <strong>wine</strong>:</a></li>
       </ul>
     </li>
+    <li><a href="#compiling-with-debug-symbols">Compiling with debug symbols</a>
+      <ul>
+        <li><a href="#gcc-use-the--g-option-to-define-the-type">GCC use the -g option to define the type:</a></li>
+        <li><a href="#stripping-symbols-off-the-binary">Stripping symbols off the binary</a></li>
+        <li><a href="#ripping-symbols-off-the-binary">Ripping Symbols off the binary</a></li>
+      </ul>
+    </li>
+    <li><a href="#having-fun-with-c-pointers">Having fun with C Pointers</a></li>
   </ul>
 </nav>
       
@@ -258,26 +263,18 @@
   
   
   <div class="post">
-    <h3 id="gcc-and-compiling-cheat-sheet">GCC and Compiling Cheat Sheet</h3>
-<h4 id="static-compiling">Static compiling</h4>
+    <h1 id="gcc-and-compiling-cheat-sheet">GCC and Compiling Cheat Sheet</h1>
+<h2 id="static-compiling">Static compiling</h2>
 <pre><code>gcc -static cve_2016_0728.c -o cve_2016_0728 -lkeyutils -Wall
-</code></pre><h4 id="cross-compiling-a-c-code-from-linux-to-windows">Cross compiling a C code from Linux to Windows</h4>
-<ul>
-<li>
-<p>Install mingw-w64 cross-compiler:</p>
+</code></pre><h2 id="cross-compiling-a-c-code-from-linux-to-windows">Cross compiling a C code from Linux to Windows</h2>
+<h3 id="install-mingw-w64-cross-compiler">Install mingw-w64 cross-compiler:</h3>
 <pre><code>apt-get install mingw-w64
-</code></pre></li>
-<li>
-<p>To compile a Windows PE Executable 32bit:</p>
+</code></pre><h3 id="to-compile-a-windows-pe-executable-32bit">To compile a Windows PE Executable 32bit:</h3>
 <pre><code>i686-w64-mingw32-gcc 271.c -o 271
 x86_64-w64-mingw32-gcc-win32 271.c -o 271
-</code></pre></li>
-<li>
-<p>Run the binary file with <strong>wine</strong>:</p>
+</code></pre><h3 id="run-the-binary-file-with-wine">Run the binary file with <strong>wine</strong>:</h3>
 <pre><code>wine file.exe
-</code></pre></li>
-</ul>
-<h4 id="compiling-with-debug-symbols">Compiling with debug symbols</h4>
+</code></pre><h2 id="compiling-with-debug-symbols">Compiling with debug symbols</h2>
 <p>Debug Symbol File Types:</p>
 <ol>
 <li>DWARF 2</li>
@@ -285,52 +282,50 @@ x86_64-w64-mingw32-gcc-win32 271.c -o 271
 <li>XCOFF</li>
 <li>STABS</li>
 </ol>
-<ul>
-<li>GCC use the -g option to define the type:</li>
-</ul>
+<h3 id="gcc-use-the--g-option-to-define-the-type">GCC use the -g option to define the type:</h3>
 <pre><code>gcc -ggdb source.c -o prog_with_symbols
-</code></pre><h4 id="stripping-symbols-off-the-binary">Stripping symbols off the binary</h4>
+</code></pre><h3 id="stripping-symbols-off-the-binary">Stripping symbols off the binary</h3>
 <pre><code>objcopy --strip-debug --strip-unneeded prog_not_stripped prog_stripped
-</code></pre><h4 id="ripping-symbols-off-the-binary">Ripping Symbols off the binary</h4>
+</code></pre><h3 id="ripping-symbols-off-the-binary">Ripping Symbols off the binary</h3>
 <pre><code>objcopy --only-keep-debug rip_from_binary debug_file
-</code></pre><h4 id="having-fun-with-c-pointers">Having fun with C Pointers</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C" data-lang="C">    <span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</code></pre><h2 id="having-fun-with-c-pointers">Having fun with C Pointers</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C" data-lang="C"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
 </span><span style="color:#75715e"></span>
-    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">void</span>){
-        <span style="color:#66d9ef">int</span> var <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>;
-        <span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span>p;
-        
-        printf(<span style="color:#e6db74">&#34;Address of var is: %p</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, <span style="color:#f92672">&amp;</span>var);
-        printf(<span style="color:#e6db74">&#34;Address of p is: %p</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, <span style="color:#f92672">&amp;</span>p);
-        
-        p <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>var;
-        printf(<span style="color:#e6db74">&#34;Content of p is: %p</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, p);
-        printf(<span style="color:#e6db74">&#34;Content wich p is pointing is: %i</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, <span style="color:#f92672">*</span>p);
-        printf(<span style="color:#e6db74">&#34;Content of var is: %i</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, var);
-        printf(<span style="color:#e6db74">&#34;Address of var is: %p</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, <span style="color:#f92672">&amp;</span>var);
-        printf(<span style="color:#e6db74">&#34;Address of p is: %p</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, <span style="color:#f92672">&amp;</span>p);
-        
-        printf(<span style="color:#e6db74">&#34;*********************</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
-        <span style="color:#f92672">*</span>p <span style="color:#f92672">=</span> <span style="color:#ae81ff">100</span>;    
-        printf(<span style="color:#e6db74">&#34;%i</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, var);
-        printf(<span style="color:#e6db74">&#34;%i</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, <span style="color:#f92672">*</span>p);
-        printf(<span style="color:#e6db74">&#34;Content of p is: %p</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, p);
-        printf(<span style="color:#e6db74">&#34;Address of var is: %p</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, <span style="color:#f92672">&amp;</span>var);
-        printf(<span style="color:#e6db74">&#34;Address of p is: %p</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, <span style="color:#f92672">&amp;</span>p); 
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">void</span>){
+    <span style="color:#66d9ef">int</span> var <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>;
+    <span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span>p;
 
-        printf(<span style="color:#e6db74">&#34;*********************</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
-        p <span style="color:#f92672">=</span> <span style="color:#ae81ff">300</span>;    
-        printf(<span style="color:#e6db74">&#34;%i</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, var);
-        printf(<span style="color:#e6db74">&#34;%i</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, p);
-        printf(<span style="color:#e6db74">&#34;Content of p is: %p</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, p);
-        printf(<span style="color:#e6db74">&#34;Address of var is: %p</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, <span style="color:#f92672">&amp;</span>var);
-        printf(<span style="color:#e6db74">&#34;Address of p is: %p</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, <span style="color:#f92672">&amp;</span>p);
+    printf(<span style="color:#e6db74">&#34;Address of var is: %p</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, <span style="color:#f92672">&amp;</span>var);
+    printf(<span style="color:#e6db74">&#34;Address of p is: %p</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, <span style="color:#f92672">&amp;</span>p);
 
-        printf(<span style="color:#e6db74">&#34;*********************</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
-        printf(<span style="color:#e6db74">&#34;Final content of var: %i</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, var);
-        printf(<span style="color:#e6db74">&#34;Content of p is: %p</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, p);
-        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
-    }
+    p <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>var;
+    printf(<span style="color:#e6db74">&#34;Content of p is: %p</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, p);
+    printf(<span style="color:#e6db74">&#34;Content wich p is pointing is: %i</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, <span style="color:#f92672">*</span>p);
+    printf(<span style="color:#e6db74">&#34;Content of var is: %i</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, var);
+    printf(<span style="color:#e6db74">&#34;Address of var is: %p</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, <span style="color:#f92672">&amp;</span>var);
+    printf(<span style="color:#e6db74">&#34;Address of p is: %p</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, <span style="color:#f92672">&amp;</span>p);
+
+    printf(<span style="color:#e6db74">&#34;*********************</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+    <span style="color:#f92672">*</span>p <span style="color:#f92672">=</span> <span style="color:#ae81ff">100</span>;
+    printf(<span style="color:#e6db74">&#34;%i</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, var);
+    printf(<span style="color:#e6db74">&#34;%i</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, <span style="color:#f92672">*</span>p);
+    printf(<span style="color:#e6db74">&#34;Content of p is: %p</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, p);
+    printf(<span style="color:#e6db74">&#34;Address of var is: %p</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, <span style="color:#f92672">&amp;</span>var);
+    printf(<span style="color:#e6db74">&#34;Address of p is: %p</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, <span style="color:#f92672">&amp;</span>p);
+
+    printf(<span style="color:#e6db74">&#34;*********************</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+    p <span style="color:#f92672">=</span> <span style="color:#ae81ff">300</span>;
+    printf(<span style="color:#e6db74">&#34;%i</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, var);
+    printf(<span style="color:#e6db74">&#34;%i</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, p);
+    printf(<span style="color:#e6db74">&#34;Content of p is: %p</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, p);
+    printf(<span style="color:#e6db74">&#34;Address of var is: %p</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, <span style="color:#f92672">&amp;</span>var);
+    printf(<span style="color:#e6db74">&#34;Address of p is: %p</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, <span style="color:#f92672">&amp;</span>p);
+
+    printf(<span style="color:#e6db74">&#34;*********************</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+    printf(<span style="color:#e6db74">&#34;Final content of var: %i</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, var);
+    printf(<span style="color:#e6db74">&#34;Content of p is: %p</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, p);
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
 </code></pre></div>
   </div>
   
@@ -343,8 +338,8 @@ x86_64-w64-mingw32-gcc-win32 271.c -o 271
     </a>
     
     
-    <a href="/posts/installing-pyenv/" class="navigation-next">
-      <span class="navigation-tittle">Installing PyEnv</span>
+    <a href="/posts/linux-syscalls-in-assembly/" class="navigation-next">
+      <span class="navigation-tittle">Using the Linux Syscalls in Assembly&#34;</span>
       <i aria-hidden="true" class="fa fa-chevron-right"></i>
     </a>
     

@@ -17,15 +17,15 @@
     
     
 
-<title>Using the Linux Syscalls in Assembly • My Hack Lab</title>
+<title>Using the Linux Syscalls in Assembly&#34; • My Hack Lab</title>
 
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Using the Linux Syscalls in Assembly"/>
-<meta name="twitter:description" content="In this post we&rsquo;ll see how a process running in the userland can invoke syscalls to run system commands."/>
+<meta name="twitter:title" content="Using the Linux Syscalls in Assembly&#34;"/>
+<meta name="twitter:description" content="Using the Linux Syscalls in Assembly Preface In this post we&rsquo;ll see how a process running in the userland can invoke syscalls to run system commands."/>
 
-<meta property="og:title" content="Using the Linux Syscalls in Assembly" />
-<meta property="og:description" content="In this post we&rsquo;ll see how a process running in the userland can invoke syscalls to run system commands." />
+<meta property="og:title" content="Using the Linux Syscalls in Assembly&#34;" />
+<meta property="og:description" content="Using the Linux Syscalls in Assembly Preface In this post we&rsquo;ll see how a process running in the userland can invoke syscalls to run system commands." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://psylinux.github.io/posts/linux-syscalls-in-assembly/" />
 <meta property="article:published_time" content="2018-12-28T00:00:00+00:00" />
@@ -175,7 +175,7 @@
     
 <article>
   <header>
-    <h1>Using the Linux Syscalls in Assembly</h1>
+    <h1>Using the Linux Syscalls in Assembly&#34;</h1>
     
     
 <div class="post__meta">
@@ -230,9 +230,6 @@
            
       
           <a class="badge badge-tag" href="/tags/exploitation">exploitation</a>
-           
-      
-          <a class="badge badge-tag" href="/tags/o.s.">o.s.</a>
           
       
     
@@ -250,23 +247,38 @@
       <input type="checkbox" id="tocToggle">
       <label for="tocToggle">Table of Content</label>
       
-          <nav id="TableOfContents"></nav>
+          <nav id="TableOfContents">
+  <ul>
+    <li><a href="#preface">Preface</a></li>
+    <li><a href="#objective">Objective</a></li>
+    <li><a href="#writing-the-program">Writing the program</a></li>
+    <li><a href="#invoking-the-syscalls">Invoking the syscalls</a></li>
+    <li><a href="#the-assembly-code">The assembly code</a></li>
+    <li><a href="#compiling-the-code">Compiling the code</a></li>
+  </ul>
+</nav>
       
     </div>
   
   
   <div class="post">
-    <p>In this post we&rsquo;ll see how a process running in the <strong>userland</strong> can invoke <strong>syscalls</strong> to run system commands. We&rsquo;ll build a program, an Linux elf64 binary, to use some basics <strong>syscalls</strong> to print a message on the screen. For this task we&rsquo;ll take a look at the <code>write</code> syscall that allow us to print a message on the screen.</p>
-<p>In Linux x64, we can use the file <strong>.h</strong> (header) bellow to find more information about the <code>write</code> syscall:</p>
-<pre><code class="language-code" data-lang="code">$ cat /usr/include/x86_64-linux-gnu/asm/unistd_64.h | grep write 
-#define __NR_write 1 
-#define __NR_pwrite64 18 
-#define __NR_writev 20 
-#define __NR_pwritev 296 
+    <h1 id="using-the-linux-syscalls-in-assembly">Using the Linux Syscalls in Assembly</h1>
+<h2 id="preface">Preface</h2>
+<p>In this post we&rsquo;ll see how a process running in the <strong>userland</strong> can invoke <strong>syscalls</strong> to run system commands.</p>
+<h2 id="objective">Objective</h2>
+<p>We&rsquo;ll build a program, an Linux elf64 binary, to use some basics <strong>syscalls</strong> to print a message on the screen.</p>
+<h2 id="writing-the-program">Writing the program</h2>
+<p>For this task we&rsquo;ll take a look at the <code>write</code> syscall that allow us to print a message on the screen.
+In Linux x64, we can use the file <strong>.h</strong> (header) bellow to find more information about the <code>write</code> syscall:</p>
+<pre><code>$ cat /usr/include/x86_64-linux-gnu/asm/unistd_64.h | grep write
+#define __NR_write 1
+#define __NR_pwrite64 18
+#define __NR_writev 20
+#define __NR_pwritev 296
 #define __NR_process_vm_writev 311
 #define __NR_pwritev2 328
 </code></pre><p>Now that we know that must use the number <strong>1</strong> to call the write syscall, let&rsquo;s check the developer&rsquo;s manual to learn more about this syscall.</p>
-<pre><code class="language-code" data-lang="code">$man 2 write
+<pre><code>$ man 2 write
 </code></pre><p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
 <p>As we can see, in this snipped code, the <code>write</code> syscall has three arguments:</p>
 <p><strong>ssize_t write(int fd, const void *buf, size_t count);</strong></p>
@@ -274,6 +286,7 @@
 <p><strong>0</strong> -&gt; Standard Input -&gt; stdin
 <strong>1</strong> -&gt; Standard Output -&gt; stdout
 <strong>2</strong> -&gt; Standard Error -&gt; stderr</p>
+<h2 id="invoking-the-syscalls">Invoking the syscalls</h2>
 <p>Reading the syscall manual, we learn how to setup our x64 arch registers to invoke syscalls:</p>
 <p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
 <ol>
@@ -285,57 +298,59 @@
 <li>The fifth argument goes in <strong>R8</strong></li>
 <li>The sixth argument goes in <strong>R9</strong></li>
 </ol>
+<h2 id="the-assembly-code">The assembly code</h2>
 <p>For our purpose we&rsquo;ll choose the standard output <strong>1</strong> to print the message on the screen. The second argument, will be a pointer to the string &ldquo;<em>Hacking The Planet</em>&rdquo;, and the third argument will be the count for the string, including spaces, which in our case will be <strong>16</strong>.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#a6e22e">global</span> <span style="color:#66d9ef">_start</span>
 
-<span style="color:#a6e22e">section</span> <span style="color:#66d9ef">.text</span> 
+<span style="color:#a6e22e">section</span> <span style="color:#66d9ef">.text</span>
 
-<span style="color:#66d9ef">_start</span>:
+_start:
 <span style="color:#75715e">;
 </span><span style="color:#75715e">; Setting up the registers to print the message
 </span><span style="color:#75715e">; using the &#34;write&#34; syscall
 </span><span style="color:#75715e">;
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">rax</span>, <span style="color:#ae81ff">1</span> 
-	<span style="color:#66d9ef">mov</span> <span style="color:#66d9ef">rdi</span>, <span style="color:#ae81ff">1</span>
-	<span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">rsi</span>, <span style="color:#66d9ef">msg</span> 
-	<span style="color:#66d9ef">mov</span> <span style="color:#66d9ef">rdx</span>, <span style="color:#66d9ef">length</span>
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">rax</span>, <span style="color:#ae81ff">1</span>
+	<span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">rdi</span>, <span style="color:#ae81ff">1</span>
+	<span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">rsi</span>, <span style="color:#66d9ef">msg</span>
+	<span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">rdx</span>, <span style="color:#66d9ef">length</span>
 	<span style="color:#a6e22e">syscall</span>
 
 <span style="color:#a6e22e">section</span> <span style="color:#66d9ef">.data</span>
 	msg: <span style="color:#a6e22e">db</span> <span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#66d9ef">Hack</span> <span style="color:#66d9ef">The</span> <span style="color:#66d9ef">Planet</span><span style="color:#960050;background-color:#1e0010">&#39;</span>,<span style="color:#ae81ff">0xa</span>
 	length: <span style="color:#a6e22e">equ</span> <span style="color:#66d9ef">$-msg</span>
-</code></pre></div><p>Let&rsquo;s compile aqnd link this assembly pseudo code:</p>
-<pre><code class="language-code" data-lang="code">nasm -felf64 syscall-001.nasm -o syscall-001.o
-ld syscall-001.o -o syscall-001.bin
+</code></pre></div><h2 id="compiling-the-code">Compiling the code</h2>
+<p>Let&rsquo;s compile aqnd link this assembly pseudo code:</p>
+<pre><code>$ nasm -felf64 syscall-001.nasm -o syscall-001.o
+$ ld syscall-001.o -o syscall-001.bin
 </code></pre><p>Once we run our program with <strong>./syscall-001.bin</strong> we can see that our message &ldquo;Hack The Planet&rdquo; is printed out on the screen, but the <em>Segmentation Fault</em> error message appears at the end of execution:</p>
 <p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
 <p>If we want that our program exits nicely, then we have to use <code>exit</code> syscall. Let&rsquo;s take a deeper look at this issue.</p>
 <p>Let&rsquo;s get back to that header file which contains all the syscalls for Linux x64:</p>
-<pre><code class="language-code" data-lang="code">$ cat /usr/include/x86_64-linux-gnu/asm/unistd_64.h | grep exit 
+<pre><code>$ cat /usr/include/x86_64-linux-gnu/asm/unistd_64.h | grep exit
 #define __NR_exit 60
 #define __NR_exit_group 231
 #define __NR_exit_group 231
 </code></pre><p>As we can see the <code>exit</code> syscall has the number 60. Let&rsquo;s check the <strong>man page</strong> for better understand this <strong>syscall</strong>.</p>
-<pre><code class="language-code" data-lang="code">$man 2 exit
+<pre><code>$man 2 exit
 </code></pre><p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
 <p>There is only one argument &ldquo;<strong>int status</strong>&rdquo; to define the exit status, for example, 0 (zero) status for no error:</p>
-<pre><code class="language-code" data-lang="code">...&lt;snip&gt;
-void _exit(int status);
-&lt;snip&gt;...
-</code></pre><p>So let&rsquo;s add the exit syscall portion to our program, and set the exit(1) just for testing.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C" data-lang="C">...<span style="color:#f92672">&lt;</span>snip<span style="color:#f92672">&gt;</span>
+<span style="color:#66d9ef">void</span> _exit(<span style="color:#66d9ef">int</span> status);
+<span style="color:#f92672">&lt;</span>snip<span style="color:#f92672">&gt;</span>...
+</code></pre></div><p>So let&rsquo;s add the exit syscall portion to our program, and set the exit(1) just for testing.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#a6e22e">global</span> <span style="color:#66d9ef">_start</span>
 
-<span style="color:#a6e22e">section</span> <span style="color:#66d9ef">.text</span> 
+<span style="color:#a6e22e">section</span> <span style="color:#66d9ef">.text</span>
 
-<span style="color:#66d9ef">_start</span>:
+_start:
 <span style="color:#75715e">;
 </span><span style="color:#75715e">; Setting up the registers to print the message
 </span><span style="color:#75715e">; using the &#34;write&#34; syscall
 </span><span style="color:#75715e">;
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">rax</span>, <span style="color:#ae81ff">1</span> 
-	<span style="color:#66d9ef">mov</span> <span style="color:#66d9ef">rdi</span>, <span style="color:#ae81ff">1</span>
-	<span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">rsi</span>, <span style="color:#66d9ef">msg</span> 
-	<span style="color:#66d9ef">mov</span> <span style="color:#66d9ef">rdx</span>, <span style="color:#66d9ef">length</span>
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">rax</span>, <span style="color:#ae81ff">1</span>
+	<span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">rdi</span>, <span style="color:#ae81ff">1</span>
+	<span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">rsi</span>, <span style="color:#66d9ef">msg</span>
+	<span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">rdx</span>, <span style="color:#66d9ef">length</span>
 	<span style="color:#a6e22e">syscall</span>
 
 <span style="color:#75715e">;
@@ -344,8 +359,8 @@ void _exit(int status);
 </span><span style="color:#75715e">; Note: if we comment this the process will finish with
 </span><span style="color:#75715e">; Segmentation Fault error
 </span><span style="color:#75715e">;
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">rax</span>, <span style="color:#ae81ff">60</span> 
-	<span style="color:#66d9ef">mov</span> <span style="color:#66d9ef">rdi</span>, <span style="color:#ae81ff">1</span>
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">rax</span>, <span style="color:#ae81ff">60</span>
+	<span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">rdi</span>, <span style="color:#ae81ff">1</span>
 	<span style="color:#a6e22e">syscall</span>
 
 
@@ -353,8 +368,8 @@ void _exit(int status);
 	msg: <span style="color:#a6e22e">db</span> <span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#66d9ef">Hack</span> <span style="color:#66d9ef">The</span> <span style="color:#66d9ef">Planet</span><span style="color:#960050;background-color:#1e0010">&#39;</span>,<span style="color:#ae81ff">0xa</span>
 	length: <span style="color:#a6e22e">equ</span> <span style="color:#66d9ef">$-msg</span>
 </code></pre></div><p>Now, we compile the assembly pseudo code:</p>
-<pre><code class="language-code" data-lang="code">nasm -felf64 syscall-001.nasm -o syscall-001.o
-ld syscall-001.o -o syscall-001.bin
+<pre><code>$ nasm -felf64 syscall-001.nasm -o syscall-001.o
+$ ld syscall-001.o -o syscall-001.bin
 </code></pre><p>And after we run the <em>./syscall-001.bin</em>, we can check that the exit status is <strong>&ldquo;1&rdquo;</strong> as we designed to be.</p>
 <p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
 <p>If we use the <code>strace</code> command to analise this elf32 binary we shall see some interesting stuff. For example, we can see that when we run the binary, the shell uses an <strong>execve</strong> with our binary passed as an argument along with other environment variables.</p>
@@ -369,11 +384,16 @@ ld syscall-001.o -o syscall-001.bin
 
 <div class="navigation navigation-single">
     
-    <a href="/posts/debugging-with-strace/" class="navigation-prev">
+    <a href="/posts/gcc-cheat-sheet/" class="navigation-prev">
       <i aria-hidden="true" class="fa fa-chevron-left"></i>
-      <span class="navigation-tittle">Debugging with strace</span>
+      <span class="navigation-tittle">GCC Compiling Cheat Sheet</span>
     </a>
     
+    
+    <a href="/posts/linux-shell-tricks/" class="navigation-next">
+      <span class="navigation-tittle">Linux Shell Tricks</span>
+      <i aria-hidden="true" class="fa fa-chevron-right"></i>
+    </a>
     
 </div>
 

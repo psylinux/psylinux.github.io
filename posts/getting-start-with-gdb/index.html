@@ -22,10 +22,10 @@
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Getting Started with GDB"/>
-<meta name="twitter:description" content="Using the GNU Linux Debugger"/>
+<meta name="twitter:description" content="Getting Started with GDB Preface  Before start, take a look at GCC Compiling Cheat Sheet."/>
 
 <meta property="og:title" content="Getting Started with GDB" />
-<meta property="og:description" content="Using the GNU Linux Debugger" />
+<meta property="og:description" content="Getting Started with GDB Preface  Before start, take a look at GCC Compiling Cheat Sheet." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://psylinux.github.io/posts/getting-start-with-gdb/" />
 <meta property="article:published_time" content="2018-12-16T00:00:00+00:00" />
@@ -190,13 +190,10 @@
           in
           
           
-              <a class="badge badge-category" href="/categories/c-lang">C LANG</a>
+              <a class="badge badge-category" href="/categories/debug">DEBUG</a>
               •
           
               <a class="badge badge-category" href="/categories/development">DEVELOPMENT</a>
-              •
-          
-              <a class="badge badge-category" href="/categories/gdb">GDB</a>
               •
           
               <a class="badge badge-category" href="/categories/linux">LINUX</a>
@@ -240,10 +237,34 @@
       
           <nav id="TableOfContents">
   <ul>
-    <li>
+    <li><a href="#preface">Preface</a></li>
+    <li><a href="#compiling-with-debug-symbols">Compiling with debug symbols</a></li>
+    <li><a href="#stripping-symbols-off-the-binary">Stripping symbols off the binary</a></li>
+    <li><a href="#adding-debug-symbols-to-a-binary">Adding Debug Symbols to a binary</a></li>
+    <li><a href="#analyzing-symbols-with-nm">Analyzing Symbols with NM</a>
       <ul>
-        <li><a href="#preface">Preface</a></li>
-        <li><a href="#gdb-cheat-sheet">GDB Cheat Sheet</a></li>
+        <li><a href="#some-useful-command-line-option-for-nm">Some useful command line option for nm</a></li>
+      </ul>
+    </li>
+    <li><a href="#decompiling-using-objdump">Decompiling using objdump</a></li>
+    <li><a href="#gdb-cheat-sheet">GDB Cheat Sheet</a>
+      <ul>
+        <li><a href="#switching-between-att-and-intel-syntax">Switching between AT&amp;T and Intel Syntax</a></li>
+        <li><a href="#disassembling">Disassembling</a></li>
+        <li><a href="#to-run-the-program">To run the program</a></li>
+        <li><a href="#listing-the-source-file">Listing the source file</a></li>
+        <li><a href="#to-get-info-about-registers">To get info about registers</a></li>
+        <li><a href="#to-list-all-functions-of-the-program">To list all functions of the program</a></li>
+        <li><a href="#to-list-all-sources-where-symbols-were-read">To list all sources where symbols were read</a></li>
+        <li><a href="#to-get-info-about-the-program">To get info about the program</a></li>
+        <li><a href="#to-list-global-variables-and-static-not-local-variables">To list global variables and static (not local variables)</a></li>
+        <li><a href="#to-list-local-variables">To list local variables</a></li>
+        <li><a href="#to-list-all-symbols">To list all symbols</a></li>
+        <li><a href="#working-with-breakpoints">Working with breakpoints</a></li>
+        <li><a href="#modifying-memory-and-registers">Modifying Memory and Registers</a></li>
+        <li><a href="#defining-macros">Defining macros</a></li>
+        <li><a href="#working-with-data">Working with Data</a></li>
+        <li><a href="#conditional-breakpoint">Conditional breakpoint</a></li>
       </ul>
     </li>
   </ul>
@@ -253,14 +274,15 @@
   
   
   <div class="post">
-    <h3 id="preface">Preface</h3>
+    <h1 id="getting-started-with-gdb">Getting Started with GDB</h1>
+<h2 id="preface">Preface</h2>
 <ol>
 <li>Before start, take a look at <a href="/post/gcc-cheat-sheet">GCC Compiling Cheat Sheet</a>.</li>
 <li>Go to <a href="/posts/installing-gdb-gef">Installing GEF (GDB Plug-in)</a>, to use GEF Plug-in.</li>
 </ol>
-<h4 id="compiling-with-debug-symbols">Compiling with debug symbols</h4>
+<h2 id="compiling-with-debug-symbols">Compiling with debug symbols</h2>
 <pre><code>gcc -ggdb source.c -o prog_with_symbols
-</code></pre><h4 id="stripping-symbols-off-the-binary">Stripping symbols off the binary</h4>
+</code></pre><h2 id="stripping-symbols-off-the-binary">Stripping symbols off the binary</h2>
 <ol>
 <li>Using strip command to rip off all symbols from a binary file</li>
 </ol>
@@ -269,7 +291,7 @@
 <li>Using objcopy command to create a separated debug file</li>
 </ol>
 <pre><code>objcopy --only-keep-debug rip_from_binary debug_file
-</code></pre><h4 id="adding-debug-symbols-to-a-binary">Adding Debug Symbols to a binary</h4>
+</code></pre><h2 id="adding-debug-symbols-to-a-binary">Adding Debug Symbols to a binary</h2>
 <ol>
 <li>Add it in the binary itself</li>
 </ol>
@@ -279,128 +301,127 @@
 </ol>
 <pre><code>symbol-file debug_file
 </code></pre><hr>
-<h4 id="analyzing-symbols-with-nm">Analyzing Symbols with NM</h4>
+<h2 id="analyzing-symbols-with-nm">Analyzing Symbols with NM</h2>
 <ul>
 <li>Lower case in local symbols</li>
 <li>Upper case in external symbols</li>
 </ul>
 <p>For more information about symbol types use <code>man nm</code></p>
-<p>|&mdash;&mdash;&mdash;&mdash;-|&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;|
-| Symbol Type |    Meaning                              |
-|&mdash;&mdash;&mdash;&mdash;-|&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;|
-|      A      | Absolute symbol                         |
-|&mdash;&mdash;&mdash;&mdash;-|&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;|
-|      B      | In the Uninitialized Data Section (BSS) |
-|&mdash;&mdash;&mdash;&mdash;-|&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;|
-|      D      | In the Initialized Data Section         |
-|&mdash;&mdash;&mdash;&mdash;-|&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;|
-|      N      | Debugging Symbol                        |
-|&mdash;&mdash;&mdash;&mdash;-|&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;|
-|      T      | In the Text Section                     |
-|&mdash;&mdash;&mdash;&mdash;-|&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;|
-|      U      | Symbol Undefined Right Now              |
-|&mdash;&mdash;&mdash;&mdash;-|&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;|</p>
-<p>Some useful command line option for nm:</p>
-<ul>
-<li>Using nm to search for a symbol and display the file name:</li>
-</ul>
+<table>
+<thead>
+<tr>
+<th align="left">Symbol Type</th>
+<th align="left">Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">A</td>
+<td align="left">Absolute symbol</td>
+</tr>
+<tr>
+<td align="left">B</td>
+<td align="left">In the Uninitialized Data Section (BSS)</td>
+</tr>
+<tr>
+<td align="left">D</td>
+<td align="left">In the Initialized Data Section</td>
+</tr>
+<tr>
+<td align="left">N</td>
+<td align="left">Debugging Symbol</td>
+</tr>
+<tr>
+<td align="left">T</td>
+<td align="left">In the Text Section</td>
+</tr>
+<tr>
+<td align="left">U</td>
+<td align="left">Symbol Undefined Right Now</td>
+</tr>
+</tbody>
+</table>
+<h3 id="some-useful-command-line-option-for-nm">Some useful command line option for nm</h3>
+<h4 id="using-nm-to-search-for-a-symbol-and-display-the-file-name">Using nm to search for a symbol and display the file name:</h4>
 <pre><code>nm -A Binary_File | grep function_name
-</code></pre><ul>
-<li>Display symbols ordered by address:</li>
-</ul>
+</code></pre><h4 id="display-symbols-ordered-by-address">Display symbols ordered by address:</h4>
 <pre><code>nm -n Binary_File
-</code></pre><ul>
-<li>Display all the external symbols:</li>
-</ul>
+</code></pre><h4 id="display-all-the-external-symbols">Display all the external symbols:</h4>
 <pre><code>nm -g Binary_File
-</code></pre><ul>
-<li>Display all symbols, even debugger-only symbols; normally these are not listed:</li>
-</ul>
+</code></pre><h4 id="display-all-symbols-even-debugger-only-symbols-normally-these-are-not-listed">Display all symbols, even debugger-only symbols; normally these are not listed:</h4>
 <pre><code>nm -a Binary_File
-</code></pre><ul>
-<li>Listing only symbols only in the TEXT section</li>
-</ul>
+</code></pre><h4 id="listing-only-symbols-only-in-the-text-section">Listing only symbols only in the TEXT section</h4>
 <pre><code>nm -a Binary_File | grep ' T ' # must leave the spaces around the T
 </code></pre><hr>
-<h4 id="decompiling-using-objdump">Decompiling using objdump</h4>
+<h2 id="decompiling-using-objdump">Decompiling using objdump</h2>
 <pre><code>objdump -M intel -D a.out | grep -A20 main.:
 </code></pre><hr>
-<h3 id="gdb-cheat-sheet">GDB Cheat Sheet</h3>
-<h4 id="switching-between-att-and-intel-syntax">Switching between AT&amp;T and Intel Syntax</h4>
+<h2 id="gdb-cheat-sheet">GDB Cheat Sheet</h2>
+<h3 id="switching-between-att-and-intel-syntax">Switching between AT&amp;T and Intel Syntax</h3>
 <pre><code>set disassembly-flavor intel
-</code></pre><h4 id="disassembling">Disassembling</h4>
+</code></pre><h3 id="disassembling">Disassembling</h3>
 <pre><code>disassemble /r main (We can use /r to show the opcodes)
 disassemble main
 disassemble _start
 disassemble 0x80484b0
 </code></pre><p>Two arguments (separated by a comma) are taken as a range of memory to dump, in the form of &ldquo;start,end&rdquo;, or &ldquo;start,+length&rdquo;.</p>
 <pre><code>disassemble main,+30
-</code></pre><h4 id="to-run-the-program">To run the program</h4>
+</code></pre><h3 id="to-run-the-program">To run the program</h3>
 <pre><code>run args
-</code></pre><h4 id="listing-the-source-file">Listing the source file</h4>
+</code></pre><h3 id="listing-the-source-file">Listing the source file</h3>
 <p><strong>Just work when source file is available at the same folder and with the same file name</strong></p>
 <pre><code>list    (Will start looking near at the main function)
 list 1  (Will list from the first line)
-</code></pre><h4 id="to-get-info-about-registers">To get info about registers</h4>
+</code></pre><h3 id="to-get-info-about-registers">To get info about registers</h3>
 <pre><code>info registers
-</code></pre><h4 id="to-list-all-functions-of-the-program">To list all functions of the program</h4>
+</code></pre><h3 id="to-list-all-functions-of-the-program">To list all functions of the program</h3>
 <pre><code>info functions
-</code></pre><h4 id="to-list-all-sources-where-symbols-were-read">To list all sources where symbols were read</h4>
+</code></pre><h3 id="to-list-all-sources-where-symbols-were-read">To list all sources where symbols were read</h3>
 <pre><code>info sources
-</code></pre><h4 id="to-get-info-about-the-program">To get info about the program</h4>
+</code></pre><h3 id="to-get-info-about-the-program">To get info about the program</h3>
 <pre><code>info source
-</code></pre><h4 id="to-list-global-variables-and-static-not-local-variables">To list global variables and static (not local variables)</h4>
+</code></pre><h3 id="to-list-global-variables-and-static-not-local-variables">To list global variables and static (not local variables)</h3>
 <pre><code>info variables
-</code></pre><h4 id="to-list-local-variables">To list local variables</h4>
+</code></pre><h3 id="to-list-local-variables">To list local variables</h3>
 <pre><code>info scope Function_Name
-</code></pre><h4 id="to-list-all-symbols">To list all symbols</h4>
+</code></pre><h3 id="to-list-all-symbols">To list all symbols</h3>
 <pre><code>maintenance print symbols
 maintenance print symbols file_to_store
-</code></pre><h4 id="working-with-breakpoints">Working with breakpoints</h4>
-<ul>
-<li>Set a breakpoint</li>
-</ul>
-<pre><code>    break position
-</code></pre><ul>
-<li>List breakpoints</li>
-</ul>
-<pre><code>    info breakpoints
-</code></pre><ul>
-<li>Enable/Disable breakpoints</li>
-</ul>
-<pre><code>    disable 1
-    enable 1
-</code></pre><ul>
-<li>Deleting breakpoints</li>
-</ul>
-<pre><code>    delete 1
-</code></pre><h4 id="modifying-memory-and-registers">Modifying Memory and Registers</h4>
-<pre><code>    set {char} 0xbffff7e6 = 'B'
-    set {char} 0x080484b0 = 0x00000001b8 (opcode of &quot;mov eax,0x1&quot;)
-    set {int} (0xbffff7e6 + 1) = 66
-    set var1 = 100
-    set $eax = 10
-</code></pre><h4 id="defining-macros">Defining macros</h4>
-<pre><code>    define hook-stop
-        command 1
-        command 2
-        command 3
-    end
-</code></pre><h4 id="working-with-data">Working with Data</h4>
-<ul>
-<li>Checking <em>REGISTERS</em> and <em>MEMORY</em></li>
-</ul>
+</code></pre><h3 id="working-with-breakpoints">Working with breakpoints</h3>
+<h4 id="set-a-breakpoint">Set a breakpoint</h4>
+<pre><code>break position
+</code></pre><h4 id="list-breakpoints">List breakpoints</h4>
+<pre><code>info breakpoints
+</code></pre><h4 id="enabledisable-breakpoints">Enable/Disable breakpoints</h4>
+<pre><code>disable 1
+enable 1
+</code></pre><h4 id="deleting-breakpoints">Deleting breakpoints</h4>
+<pre><code>delete 1
+</code></pre><h3 id="modifying-memory-and-registers">Modifying Memory and Registers</h3>
+<pre><code>set {char} 0xbffff7e6 = 'B'
+set {char} 0x080484b0 = 0x00000001b8 (opcode of &quot;mov eax,0x1&quot;)
+set {int} (0xbffff7e6 + 1) = 66
+set var1 = 100
+set $eax = 10
+</code></pre><h3 id="defining-macros">Defining macros</h3>
+<pre><code>define hook-stop
+    command 1
+    command 2
+    command 3
+end
+</code></pre><h3 id="working-with-data">Working with Data</h3>
+<h4 id="checking-_registers_-and-_memory_">Checking <em>REGISTERS</em> and <em>MEMORY</em></h4>
 <p><strong>Display Register Values : (Decimal, Binary, Hex)</strong></p>
-<pre><code>    print /d –&gt; Decimal
-    print /t –&gt; Binary
-    print /x –&gt; Hex
-    O/P :
-    (gdb) print /d $eax
-    $17 = 13
-    (gdb) print /t $eax
-    $18 = 1101
-    (gdb) print /x $eax
-    $19 = 0xd
+<pre><code>print /d –&gt; Decimal
+print /t –&gt; Binary
+print /x –&gt; Hex
+O/P :
+(gdb) print /d $eax
+$17 = 13
+(gdb) print /t $eax
+$18 = 1101
+(gdb) print /x $eax
+$19 = 0xd
 </code></pre><h4 id="display-values-of-specific-memory-locations">Display values of specific memory locations</h4>
 <p><strong>command &ldquo;Examine&rdquo;: x/nyz</strong></p>
 <ul>
@@ -409,24 +430,24 @@ maintenance print symbols file_to_store
 <li>z –&gt; Size of field to be displayed ==&gt; b (byte), h (halfword), w (word)</li>
 </ul>
 <h4 id="convenience-variables">Convenience variables</h4>
-<pre><code>    (gdb) set $i = 10
-    (gdb) set $dyn = (char \*)malloc(10)
-    (gdb) $demo = &quot;psylinux&quot;
-    (gdb) set argv[1] = $demo
+<pre><code>(gdb) set $i = 10
+(gdb) set $dyn = (char \*)malloc(10)
+(gdb) $demo = &quot;psylinux&quot;
+(gdb) set argv[1] = $demo
 </code></pre><h4 id="calling-functions">Calling functions</h4>
-<pre><code>    (gdb) info functions
-    (gdb) call Function_1(args_list)
-    (gdb) call strlen(&quot;psylinux&quot;)
-    (gdb) call strcpy ($dyn, argv[1])
-</code></pre><h4 id="conditional-breakpoint">Conditional breakpoint</h4>
+<pre><code>(gdb) info functions
+(gdb) call Function_1(args_list)
+(gdb) call strlen(&quot;psylinux&quot;)
+(gdb) call strcpy ($dyn, argv[1])
+</code></pre><h3 id="conditional-breakpoint">Conditional breakpoint</h3>
 <p>Break only if the condition is satisfied.</p>
-<pre><code>    (gdb) break *0x0804844b
-    (gdb) condition 1 $eax == 0
-    (gdb) info b
-    Num     Type           Disp Enb Address    What
-    1       breakpoint     keep y   0x0804844b in main at main.c:8
-            stop only if $eax == 0
-            breakpoint already hit 1 time
+<pre><code>(gdb) break *0x0804844b
+(gdb) condition 1 $eax == 0
+(gdb) info b
+Num     Type           Disp Enb Address    What
+1       breakpoint     keep y   0x0804844b in main at main.c:8
+        stop only if $eax == 0
+        breakpoint already hit 1 time
 </code></pre>
   </div>
   

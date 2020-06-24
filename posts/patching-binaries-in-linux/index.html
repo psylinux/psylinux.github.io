@@ -17,18 +17,19 @@
     
     
 
-<title> • My Hack Lab</title>
+<title>Patching binary files in Linux • My Hack Lab</title>
 
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content=""/>
-<meta name="twitter:description" content="Patching binary in Linux Using xxd   Binary to Hex xxd prog1."/>
+<meta name="twitter:title" content="Patching binary files in Linux"/>
+<meta name="twitter:description" content="Patching binary files in Linux Using xxd Binary to Hex $ xxd prog1."/>
 
-<meta property="og:title" content="" />
-<meta property="og:description" content="Patching binary in Linux Using xxd   Binary to Hex xxd prog1." />
+<meta property="og:title" content="Patching binary files in Linux" />
+<meta property="og:description" content="Patching binary files in Linux Using xxd Binary to Hex $ xxd prog1." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://psylinux.github.io/posts/patching-binaries-in-linux/" />
-<meta property="og:site_name" content="My Hack Lab" />
+<meta property="article:published_time" content="2019-01-14T00:00:00+00:00" />
+<meta property="article:modified_time" content="2019-01-14T00:00:00+00:00" /><meta property="og:site_name" content="My Hack Lab" />
 
 
     
@@ -174,14 +175,60 @@
     
 <article>
   <header>
-    <h1></h1>
+    <h1>Patching binary files in Linux</h1>
     
     
 <div class="post__meta">
     
     
+      <i class="fas fa-calendar-alt"></i> Jan 14, 2019
     
     
+    
+      
+      
+          in
+          
+          
+              <a class="badge badge-category" href="/categories/assembly">ASSEMBLY</a>
+              •
+          
+              <a class="badge badge-category" href="/categories/development">DEVELOPMENT</a>
+              •
+          
+              <a class="badge badge-category" href="/categories/exploitation">EXPLOITATION</a>
+              
+          
+      
+    
+    
+    
+      
+      
+          <br/>
+           <i class="fas fa-tags"></i>
+          
+          <a class="badge badge-tag" href="/tags/assembly">assembly</a>
+           
+      
+          <a class="badge badge-tag" href="/tags/nasm">nasm</a>
+           
+      
+          <a class="badge badge-tag" href="/tags/dev">dev</a>
+           
+      
+          <a class="badge badge-tag" href="/tags/glibc">glibc</a>
+           
+      
+          <a class="badge badge-tag" href="/tags/linux">linux</a>
+           
+      
+          <a class="badge badge-tag" href="/tags/userland">userland</a>
+           
+      
+          <a class="badge badge-tag" href="/tags/exploitation">exploitation</a>
+          
+      
     
     
     <br/>
@@ -199,12 +246,13 @@
       
           <nav id="TableOfContents">
   <ul>
-    <li><a href="#patching-binary-in-linux">Patching binary in Linux</a>
+    <li><a href="#using-xxd">Using xxd</a>
       <ul>
-        <li><a href="#using-xxd">Using xxd</a></li>
-        <li><a href="#using-bsdiff">Using bsdiff</a></li>
+        <li><a href="#binary-to-hex">Binary to Hex</a></li>
+        <li><a href="#hex-to-binary">Hex to Binary</a></li>
       </ul>
     </li>
+    <li><a href="#using-bsdiff">Using bsdiff</a></li>
   </ul>
 </nav>
       
@@ -212,37 +260,35 @@
   
   
   <div class="post">
-    <h2 id="patching-binary-in-linux">Patching binary in Linux</h2>
-<h3 id="using-xxd">Using xxd</h3>
-<ul>
-<li>
-<p>Binary to Hex
-xxd prog1.bin &gt; b1.hex
-xxd prog1.bin &gt; b2.hex</p>
-</li>
-<li>
-<p>Hex to Binary
-xxd -r -p b1.hex new_prog1.bin</p>
-</li>
+    <h1 id="patching-binary-files-in-linux">Patching binary files in Linux</h1>
+<h2 id="using-xxd">Using xxd</h2>
+<h3 id="binary-to-hex">Binary to Hex</h3>
+<pre><code>$ xxd prog1.bin &gt; b1.hex
+$ xxd prog1.bin &gt; b2.hex
+</code></pre><h3 id="hex-to-binary">Hex to Binary</h3>
+<pre><code>$ xxd -r -p b1.hex new_prog1.bin
+</code></pre><ul>
+<li>Then we can generate the diff like this:</li>
 </ul>
-<p>diff b1.hex b2.hex
-or
-vimdiff b1.hex b2.hex</p>
-<h3 id="using-bsdiff">Using bsdiff</h3>
-<p>apt-get install bsdiff</p>
-<p>bsdiff old_prog.bin new_prog.bin patch.bin
-bspatch old_prog.bin output.bin patch.bin</p>
+<pre><code>diff b1.hex b2.hex
+</code></pre><p>or</p>
+<pre><code>vimdiff b1.hex b2.hex
+</code></pre><h2 id="using-bsdiff">Using bsdiff</h2>
+<pre><code>$ apt-get install bsdiff
 
+$ bsdiff old_prog.bin new_prog.bin patch.bin
+$ bspatch old_prog.bin output.bin patch.bin
+</code></pre>
   </div>
   
 
 <div class="navigation navigation-single">
     
-    
-    <a href="/posts/installing-gdb-gef/" class="navigation-next">
-      <span class="navigation-tittle">Installing GEF (GDB Plug-in)</span>
-      <i aria-hidden="true" class="fa fa-chevron-right"></i>
+    <a href="/posts/debugging-with-strace/" class="navigation-prev">
+      <i aria-hidden="true" class="fa fa-chevron-left"></i>
+      <span class="navigation-tittle">Debugging with strace</span>
     </a>
+    
     
 </div>
 

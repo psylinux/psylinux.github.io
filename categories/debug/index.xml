@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Debug on My Hack Lab</title>
+    <title>debug on My Hack Lab</title>
     <link>https://psylinux.github.io/categories/debug/</link>
-    <description>Recent content in Debug on My Hack Lab</description>
+    <description>Recent content in debug on My Hack Lab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <lastBuildDate>Sun, 13 Jan 2019 00:00:00 +0000</lastBuildDate>
@@ -17,7 +17,25 @@
       <pubDate>Sun, 13 Jan 2019 00:00:00 +0000</pubDate>
       
       <guid>https://psylinux.github.io/posts/debugging-with-strace/</guid>
-      <description>Preface Strace is a debugging tool that help us to troubleshoot issues.</description>
+      <description>Strace debugging tool Preface Strace is a debugging tool that help us to troubleshoot issues.</description>
+    </item>
+    
+    <item>
+      <title>Getting Started with GDB</title>
+      <link>https://psylinux.github.io/posts/getting-start-with-gdb/</link>
+      <pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://psylinux.github.io/posts/getting-start-with-gdb/</guid>
+      <description>Getting Started with GDB Preface  Before start, take a look at GCC Compiling Cheat Sheet.</description>
+    </item>
+    
+    <item>
+      <title>Installing GEF (GDB Plug-in)</title>
+      <link>https://psylinux.github.io/posts/installing-gdb-gef/</link>
+      <pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://psylinux.github.io/posts/installing-gdb-gef/</guid>
+      <description>GEF Installing GEF Cloning Goto GEF Project and clone the repository to /opt:</description>
     </item>
     
   </channel>

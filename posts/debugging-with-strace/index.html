@@ -22,10 +22,10 @@
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Debugging with strace"/>
-<meta name="twitter:description" content="Debugging with strace"/>
+<meta name="twitter:description" content="Strace debugging tool Preface Strace is a debugging tool that help us to troubleshoot issues."/>
 
 <meta property="og:title" content="Debugging with strace" />
-<meta property="og:description" content="Debugging with strace" />
+<meta property="og:description" content="Strace debugging tool Preface Strace is a debugging tool that help us to troubleshoot issues." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://psylinux.github.io/posts/debugging-with-strace/" />
 <meta property="article:published_time" content="2019-01-13T00:00:00+00:00" />
@@ -197,9 +197,6 @@
               •
           
               <a class="badge badge-category" href="/categories/linux">LINUX</a>
-              •
-          
-              <a class="badge badge-category" href="/categories/strace">STRACE</a>
               
           
       
@@ -240,11 +237,11 @@
       
           <nav id="TableOfContents">
   <ul>
-    <li>
-      <ul>
-        <li><a href="#preface">Preface</a></li>
-      </ul>
-    </li>
+    <li><a href="#preface">Preface</a></li>
+    <li><a href="#tracing-an-execution">Tracing an execution</a></li>
+    <li><a href="#using-filters">Using filters</a></li>
+    <li><a href="#attaching-to-a-running-process">Attaching to a running process</a></li>
+    <li><a href="#show-the-program-statistics">Show the program statistics</a></li>
   </ul>
 </nav>
       
@@ -252,28 +249,22 @@
   
   
   <div class="post">
-    <h3 id="preface">Preface</h3>
-<p>Strace is a debugging tool that help us to troubleshoot issues. Strace monitors the system calls and signals of a specific program and it is helpful when we do not have the source code and would like to debug the execution of a program. The strace provides us the execution sequence of a binary from start to end including a very nice matrix that we&rsquo;ll look at this article.</p>
-<p>Strace can show us all passed arguments with great filter capabilities.</p>
-<ul>
-<li>Tracing an execution
--o write to an output file
+    <h1 id="strace-debugging-tool">Strace debugging tool</h1>
+<h2 id="preface">Preface</h2>
+<p>Strace is a debugging tool that help us to troubleshoot issues. Strace monitors the system calls and signals of a specific program and it is helpful when we do not have the source code and would like to debug the execution of a program. The strace provides us the execution sequence of a binary from start to end including a very nice matrix that we&rsquo;ll look at this article.
+Strace can show us all passed arguments with great filter capabilities.</p>
+<h2 id="tracing-an-execution">Tracing an execution</h2>
+<pre><code>-x write to an output file
 -t shows the timestamp
--r shows the relative timestamp</li>
-</ul>
+-r shows the relative timestamp
+</code></pre>
 <pre><code>strace Binary_File
-</code></pre><ul>
-<li>Using filters
-We can call the program with arguments and use the -e option to filter just what we want:</li>
-</ul>
-<pre><code>strace -e socket, send, recv  nc google.com 80
-</code></pre><ul>
-<li>Attaching to a running process</li>
-</ul>
+</code></pre><h2 id="using-filters">Using filters</h2>
+<p>We can call the program with arguments and use the -e option to filter just what we want:</p>
+<pre><code>strace -e socket, send, recv nc google.com 80
+</code></pre><h2 id="attaching-to-a-running-process">Attaching to a running process</h2>
 <pre><code>strace -p PID
-</code></pre><ul>
-<li>Show the program statistics</li>
-</ul>
+</code></pre><h2 id="show-the-program-statistics">Show the program statistics</h2>
 <pre><code>strace -c binary_file arguments
 </code></pre>
   </div>
@@ -287,8 +278,8 @@ We can call the program with arguments and use the -e option to filter just what
     </a>
     
     
-    <a href="/posts/linux-syscalls-in-assembly/" class="navigation-next">
-      <span class="navigation-tittle">Using the Linux Syscalls in Assembly</span>
+    <a href="/posts/patching-binaries-in-linux/" class="navigation-next">
+      <span class="navigation-tittle">Patching binary files in Linux</span>
       <i aria-hidden="true" class="fa fa-chevron-right"></i>
     </a>
     

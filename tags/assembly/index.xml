@@ -6,18 +6,27 @@
     <description>Recent content in assembly on My Hack Lab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Fri, 28 Dec 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 14 Jan 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://psylinux.github.io/tags/assembly/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Using the Linux Syscalls in Assembly</title>
+      <title>Patching binary files in Linux</title>
+      <link>https://psylinux.github.io/posts/patching-binaries-in-linux/</link>
+      <pubDate>Mon, 14 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://psylinux.github.io/posts/patching-binaries-in-linux/</guid>
+      <description>Patching binary files in Linux Using xxd Binary to Hex $ xxd prog1.</description>
+    </item>
+    
+    <item>
+      <title>Using the Linux Syscalls in Assembly&#34;</title>
       <link>https://psylinux.github.io/posts/linux-syscalls-in-assembly/</link>
       <pubDate>Fri, 28 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>https://psylinux.github.io/posts/linux-syscalls-in-assembly/</guid>
-      <description>In this post we&amp;rsquo;ll see how a process running in the userland can invoke syscalls to run system commands.</description>
+      <description>Using the Linux Syscalls in Assembly Preface In this post we&amp;rsquo;ll see how a process running in the userland can invoke syscalls to run system commands.</description>
     </item>
     
   </channel>

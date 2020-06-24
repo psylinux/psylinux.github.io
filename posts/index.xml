@@ -6,18 +6,18 @@
     <description>Recent content in Posts on My Hack Lab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Sun, 13 Jan 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 14 Jan 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://psylinux.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Using the Linux Syscalls in Assembly</title>
-      <link>https://psylinux.github.io/posts/linux-syscalls-in-assembly/</link>
-      <pubDate>Fri, 28 Dec 2018 00:00:00 +0000</pubDate>
+      <title>Patching binary files in Linux</title>
+      <link>https://psylinux.github.io/posts/patching-binaries-in-linux/</link>
+      <pubDate>Mon, 14 Jan 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://psylinux.github.io/posts/linux-syscalls-in-assembly/</guid>
-      <description>In this post we&amp;rsquo;ll see how a process running in the userland can invoke syscalls to run system commands.</description>
+      <guid>https://psylinux.github.io/posts/patching-binaries-in-linux/</guid>
+      <description>Patching binary files in Linux Using xxd Binary to Hex $ xxd prog1.</description>
     </item>
     
     <item>
@@ -26,7 +26,7 @@
       <pubDate>Sun, 13 Jan 2019 00:00:00 +0000</pubDate>
       
       <guid>https://psylinux.github.io/posts/debugging-with-strace/</guid>
-      <description>Preface Strace is a debugging tool that help us to troubleshoot issues.</description>
+      <description>Strace debugging tool Preface Strace is a debugging tool that help us to troubleshoot issues.</description>
     </item>
     
     <item>
@@ -35,7 +35,25 @@
       <pubDate>Fri, 04 Jan 2019 00:00:00 +0000</pubDate>
       
       <guid>https://psylinux.github.io/posts/installing-pyenv/</guid>
-      <description>Installing PyEnv apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python-openssl</description>
+      <description>PyEnv Installing PyEnv apt-get install -y make build-essential libssl-dev \zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev \wget curl llvm libncurses5-dev libncursesw5-dev \xz-utils tk-dev libffi-dev liblzma-dev python-opensslcurl -L https://github.</description>
+    </item>
+    
+    <item>
+      <title>Linux Shell Tricks</title>
+      <link>https://psylinux.github.io/posts/linux-shell-tricks/</link>
+      <pubDate>Fri, 28 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://psylinux.github.io/posts/linux-shell-tricks/</guid>
+      <description>Linux Shell Tricks To find the corresponding hex code echo -n &amp;quot;&amp;amp;&amp;quot; | hexdump -C How to redirect standard error in bash nixCraft Article</description>
+    </item>
+    
+    <item>
+      <title>Using the Linux Syscalls in Assembly&#34;</title>
+      <link>https://psylinux.github.io/posts/linux-syscalls-in-assembly/</link>
+      <pubDate>Fri, 28 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://psylinux.github.io/posts/linux-syscalls-in-assembly/</guid>
+      <description>Using the Linux Syscalls in Assembly Preface In this post we&amp;rsquo;ll see how a process running in the userland can invoke syscalls to run system commands.</description>
     </item>
     
     <item>
@@ -44,7 +62,7 @@
       <pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>https://psylinux.github.io/posts/gcc-cheat-sheet/</guid>
-      <description>GCC and Compiling Cheat Sheet Static compiling gcc -static cve_2016_0728.c -o cve_2016_0728 -lkeyutils -WallCross compiling a C code from Linux to Windows   Install mingw-w64 cross-compiler:</description>
+      <description>GCC and Compiling Cheat Sheet Static compiling gcc -static cve_2016_0728.c -o cve_2016_0728 -lkeyutils -WallCross compiling a C code from Linux to Windows Install mingw-w64 cross-compiler: apt-get install mingw-w64To compile a Windows PE Executable 32bit: i686-w64-mingw32-gcc 271.</description>
     </item>
     
     <item>
@@ -53,7 +71,7 @@
       <pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>https://psylinux.github.io/posts/getting-start-with-gdb/</guid>
-      <description>Preface  Before start, take a look at GCC Compiling Cheat Sheet.</description>
+      <description>Getting Started with GDB Preface  Before start, take a look at GCC Compiling Cheat Sheet.</description>
     </item>
     
     <item>
@@ -62,16 +80,7 @@
       <pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>https://psylinux.github.io/posts/installing-gdb-gef/</guid>
-      <description>Installing GEF Cloning Goto GEF Project and clone the repository to /opt:</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://psylinux.github.io/posts/patching-binaries-in-linux/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://psylinux.github.io/posts/patching-binaries-in-linux/</guid>
-      <description>Patching binary in Linux Using xxd   Binary to Hex xxd prog1.</description>
+      <description>GEF Installing GEF Cloning Goto GEF Project and clone the repository to /opt:</description>
     </item>
     
   </channel>
