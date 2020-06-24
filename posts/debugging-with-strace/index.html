@@ -258,14 +258,14 @@ Strace can show us all passed arguments with great filter capabilities.</p>
 -t shows the timestamp
 -r shows the relative timestamp
 </code></pre>
-<pre><code>strace Binary_File
+<pre><code>$ strace Binary_File
 </code></pre><h2 id="using-filters">Using filters</h2>
 <p>We can call the program with arguments and use the -e option to filter just what we want:</p>
-<pre><code>strace -e socket, send, recv nc google.com 80
+<pre><code>$ strace -e socket, send, recv nc google.com 80
 </code></pre><h2 id="attaching-to-a-running-process">Attaching to a running process</h2>
-<pre><code>strace -p PID
+<pre><code>$ strace -p PID
 </code></pre><h2 id="show-the-program-statistics">Show the program statistics</h2>
-<pre><code>strace -c binary_file arguments
+<pre><code>$ strace -c binary_file arguments
 </code></pre>
   </div>
   
