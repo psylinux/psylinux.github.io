@@ -17,25 +17,25 @@
     
     
 
-<title>Linux Shell Tricks • My Hack Lab</title>
+<title>Cheat Sheet :: Linux Shell Tricks • My Hack Lab</title>
 
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Linux Shell Tricks"/>
+<meta name="twitter:title" content="Cheat Sheet :: Linux Shell Tricks"/>
 <meta name="twitter:description" content="Linux Shell Tricks To find the corresponding hex code echo -n &quot;&amp;&quot; | hexdump -C How to redirect standard error in bash nixCraft Article"/>
 
-<meta property="og:title" content="Linux Shell Tricks" />
+<meta property="og:title" content="Cheat Sheet :: Linux Shell Tricks" />
 <meta property="og:description" content="Linux Shell Tricks To find the corresponding hex code echo -n &quot;&amp;&quot; | hexdump -C How to redirect standard error in bash nixCraft Article" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://psylinux.github.io/posts/linux-shell-tricks/" />
-<meta property="article:published_time" content="2018-12-28T00:00:00+00:00" />
-<meta property="article:modified_time" content="2018-12-28T00:00:00+00:00" /><meta property="og:site_name" content="My Hack Lab" />
+<meta property="article:published_time" content="2020-06-16T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-06-16T00:00:00+00:00" /><meta property="og:site_name" content="My Hack Lab" />
 
 
     
 
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai-sublime.min.css">
 
 
 
@@ -110,7 +110,7 @@
 		 
 			 
 				<li>
-					<a href="/projects/">
+					<a href="/portfolio/">
 						<span>Projects</span>
 					</a>
 				</li>
@@ -175,13 +175,13 @@
     
 <article>
   <header>
-    <h1>Linux Shell Tricks</h1>
+    <h1>Cheat Sheet :: Linux Shell Tricks</h1>
     
     
 <div class="post__meta">
     
     
-      <i class="fas fa-calendar-alt"></i> Dec 28, 2018
+      <i class="fas fa-calendar-alt"></i> Jun 16, 2020
     
     
     
@@ -190,10 +190,10 @@
           in
           
           
-              <a class="badge badge-category" href="/categories/exploitation">EXPLOITATION</a>
+              <a class="badge badge-category" href="/categories/cheatsheet">CHEATSHEET</a>
               •
           
-              <a class="badge badge-category" href="/categories/linux">LINUX</a>
+              <a class="badge badge-category" href="/categories/exploitation-techniques">EXPLOITATION-TECHNIQUES</a>
               
           
       
@@ -212,9 +212,6 @@
            
       
           <a class="badge badge-tag" href="/tags/linux">linux</a>
-           
-      
-          <a class="badge badge-tag" href="/tags/exploitation">exploitation</a>
           
       
     
@@ -315,19 +312,21 @@
 <li>
 <p>For lines where windows editor put ^M and you want to remove (using vi).
 <code>:%s/^V^M//g</code></p>
+</li>
+<li>
 <p>The final command will look like this:
 <code>:%s/^M//g</code></p>
 </li>
 </ul>
 <h3 id="using-sed">Using sed</h3>
-<p><code>sed -e &quot;s/^M//&quot; file-orig.sh &gt; file-mod.sh</code></p>
-<h3 id="using-dos2unix">Using Dos2Unix</h3>
+<pre><code>sed -e &quot;s/^M//&quot; file-orig.sh &gt; file-mod.sh
+</code></pre><h3 id="using-dos2unix">Using Dos2Unix</h3>
 <pre><code>dos2unix input
 dos2unix -b input
 </code></pre><h3 id="using-tr">Using tr</h3>
-<p>To delete a CRLF:
-<code>tr -d '\r' &lt; input &gt; output</code></p>
-<h3 id="using-egrep">Using egrep</h3>
+<p>To delete a CRLF:</p>
+<pre><code>tr -d '\r' &lt; input &gt; output
+</code></pre><h3 id="using-egrep">Using egrep</h3>
 <pre><code>egrep -v &quot;^#|^$&quot; squid.original &gt; squid.conf
 </code></pre><h3 id="using-grep">Using grep</h3>
 <pre><code>grep -v ^[&quot;#&quot;] squid.original &gt; squid.conf
@@ -348,9 +347,9 @@ rlwrap ./exploit.sh
 <li>On attacker&rsquo;s machine:</li>
 </ul>
 <pre><code>stty raw -echo
-</code></pre><ol start="4">
+</code></pre><ul>
 <li>Now press <code>fg</code> to get the shell back</li>
-</ol>
+</ul>
 <hr>
 <h2 id="backup-of-files-permissions">Backup of files permissions</h2>
 <ul>
@@ -364,7 +363,7 @@ rlwrap ./exploit.sh
 </code></pre><hr>
 <h2 id="smart-management-of-soft-links-with-_stow_">Smart management of soft links with <em>stow</em></h2>
 <ul>
-<li>Instalation</li>
+<li>Installation</li>
 </ul>
 <pre><code>apt install stow
 </code></pre><ul>
@@ -381,16 +380,11 @@ rlwrap ./exploit.sh
 
 <div class="navigation navigation-single">
     
-    <a href="/posts/linux-syscalls-in-assembly/" class="navigation-prev">
+    <a href="/posts/privilege-escalation/" class="navigation-prev">
       <i aria-hidden="true" class="fa fa-chevron-left"></i>
-      <span class="navigation-tittle">Using the Linux Syscalls in Assembly&#34;</span>
+      <span class="navigation-tittle">Cheat Sheet :: Privilege Escalation</span>
     </a>
     
-    
-    <a href="/posts/installing-pyenv/" class="navigation-next">
-      <span class="navigation-tittle">Installing PyEnv</span>
-      <i aria-hidden="true" class="fa fa-chevron-right"></i>
-    </a>
     
 </div>
 

@@ -3,6 +3,16 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://psylinux.github.io/posts/linux-shell-tricks/</loc>
+    <lastmod>2020-06-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://psylinux.github.io/posts/privilege-escalation/</loc>
+    <lastmod>2020-06-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://psylinux.github.io/posts/patching-binaries-in-linux/</loc>
     <lastmod>2019-01-14T00:00:00+00:00</lastmod>
   </url>
@@ -15,11 +25,6 @@
   <url>
     <loc>https://psylinux.github.io/posts/installing-pyenv/</loc>
     <lastmod>2019-01-04T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://psylinux.github.io/posts/linux-shell-tricks/</loc>
-    <lastmod>2018-12-28T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -43,17 +48,77 @@
   </url>
   
   <url>
+    <loc>https://psylinux.github.io/tags/bash/</loc>
+    <lastmod>2020-06-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://psylinux.github.io/categories/</loc>
+    <lastmod>2020-06-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://psylinux.github.io/tags/cheatsheet/</loc>
+    <lastmod>2020-06-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://psylinux.github.io/categories/cheatsheet/</loc>
+    <lastmod>2020-06-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://psylinux.github.io/tags/exploitation-techniques/</loc>
+    <lastmod>2020-06-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://psylinux.github.io/categories/exploitation-techniques/</loc>
+    <lastmod>2020-06-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://psylinux.github.io/tags/linux/</loc>
+    <lastmod>2020-06-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://psylinux.github.io/</loc>
+    <lastmod>2020-06-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://psylinux.github.io/posts/</loc>
+    <lastmod>2020-06-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://psylinux.github.io/tags/priv-escalation/</loc>
+    <lastmod>2020-06-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://psylinux.github.io/categories/priv-escalation/</loc>
+    <lastmod>2020-06-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://psylinux.github.io/tags/shell/</loc>
+    <lastmod>2020-06-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://psylinux.github.io/tags/</loc>
+    <lastmod>2020-06-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://psylinux.github.io/tags/assembly/</loc>
     <lastmod>2019-01-14T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://psylinux.github.io/categories/assembly/</loc>
-    <lastmod>2019-01-14T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://psylinux.github.io/categories/</loc>
     <lastmod>2019-01-14T00:00:00+00:00</lastmod>
   </url>
   
@@ -83,27 +148,7 @@
   </url>
   
   <url>
-    <loc>https://psylinux.github.io/tags/linux/</loc>
-    <lastmod>2019-01-14T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://psylinux.github.io/</loc>
-    <lastmod>2019-01-14T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://psylinux.github.io/tags/nasm/</loc>
-    <lastmod>2019-01-14T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://psylinux.github.io/posts/</loc>
-    <lastmod>2019-01-14T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://psylinux.github.io/tags/</loc>
     <lastmod>2019-01-14T00:00:00+00:00</lastmod>
   </url>
   
@@ -158,17 +203,7 @@
   </url>
   
   <url>
-    <loc>https://psylinux.github.io/tags/bash/</loc>
-    <lastmod>2018-12-28T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://psylinux.github.io/categories/glibc/</loc>
-    <lastmod>2018-12-28T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://psylinux.github.io/tags/shell/</loc>
     <lastmod>2018-12-28T00:00:00+00:00</lastmod>
   </url>
   
@@ -178,7 +213,7 @@
   </url>
   
   <url>
-    <loc>https://psylinux.github.io/projects/auto-ssh/</loc>
+    <loc>https://psylinux.github.io/portfolio/auto-ssh/</loc>
     <lastmod>2018-12-16T00:00:00+00:00</lastmod>
   </url>
   
@@ -213,32 +248,32 @@
   </url>
   
   <url>
-    <loc>https://psylinux.github.io/projects/speed-report/</loc>
+    <loc>https://psylinux.github.io/portfolio/speed-report/</loc>
     <lastmod>2018-12-16T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://psylinux.github.io/projects/offensive-tools/</loc>
+    <loc>https://psylinux.github.io/portfolio/offensive-tools/</loc>
     <lastmod>2018-12-16T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://psylinux.github.io/projects/my-presentations/</loc>
+    <loc>https://psylinux.github.io/portfolio/my-presentations/</loc>
     <lastmod>2018-12-16T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://psylinux.github.io/projects/packer-vm-templates/</loc>
+    <loc>https://psylinux.github.io/portfolio/packer-vm-templates/</loc>
     <lastmod>2018-12-16T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://psylinux.github.io/projects/poc-compiler/</loc>
+    <loc>https://psylinux.github.io/portfolio/poc-compiler/</loc>
     <lastmod>2018-12-16T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://psylinux.github.io/projects/</loc>
+    <loc>https://psylinux.github.io/portfolio/</loc>
     <lastmod>2018-12-16T00:00:00+00:00</lastmod>
   </url>
   

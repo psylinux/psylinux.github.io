@@ -2,66 +2,66 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Projects on My Hack Lab</title>
-    <link>https://psylinux.github.io/projects/</link>
+    <link>https://psylinux.github.io/portfolio/</link>
     <description>Recent content in Projects on My Hack Lab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <lastBuildDate>Sun, 16 Dec 2018 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://psylinux.github.io/projects/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://psylinux.github.io/portfolio/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Auto SSH</title>
-      <link>https://psylinux.github.io/projects/auto-ssh/</link>
+      <link>https://psylinux.github.io/portfolio/auto-ssh/</link>
       <pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://psylinux.github.io/projects/auto-ssh/</guid>
+      <guid>https://psylinux.github.io/portfolio/auto-ssh/</guid>
       <description>auto-ssh.sh :: This script will mount a auto file system using ssh and will open a ssh session with X11 Forward activated.</description>
     </item>
     
     <item>
       <title>Internet Speed Report</title>
-      <link>https://psylinux.github.io/projects/speed-report/</link>
+      <link>https://psylinux.github.io/portfolio/speed-report/</link>
       <pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://psylinux.github.io/projects/speed-report/</guid>
+      <guid>https://psylinux.github.io/portfolio/speed-report/</guid>
       <description>Internet Speed Report :: Internet Speed Report is a simple command line script that automates internet speed testing by generating graphics report in .</description>
     </item>
     
     <item>
       <title>My Offensive Security Tools</title>
-      <link>https://psylinux.github.io/projects/offensive-tools/</link>
+      <link>https://psylinux.github.io/portfolio/offensive-tools/</link>
       <pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://psylinux.github.io/projects/offensive-tools/</guid>
+      <guid>https://psylinux.github.io/portfolio/offensive-tools/</guid>
       <description>My Offensive Security Tools :: Here is a collection of scripts and other security tools that I use for offensive security tests.</description>
     </item>
     
     <item>
       <title>My Presentations</title>
-      <link>https://psylinux.github.io/projects/my-presentations/</link>
+      <link>https://psylinux.github.io/portfolio/my-presentations/</link>
       <pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://psylinux.github.io/projects/my-presentations/</guid>
+      <guid>https://psylinux.github.io/portfolio/my-presentations/</guid>
       <description>My Presentations :: Some of my presentations and published articles in different conferences&amp;rdquo;.</description>
     </item>
     
     <item>
       <title>Packer VM Templates</title>
-      <link>https://psylinux.github.io/projects/packer-vm-templates/</link>
+      <link>https://psylinux.github.io/portfolio/packer-vm-templates/</link>
       <pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://psylinux.github.io/projects/packer-vm-templates/</guid>
+      <guid>https://psylinux.github.io/portfolio/packer-vm-templates/</guid>
       <description>Packer VM Templates :: This script will mount a auto file system using ssh and will open a ssh session with X11 Forward activated.</description>
     </item>
     
     <item>
       <title>POC Compiler</title>
-      <link>https://psylinux.github.io/projects/poc-compiler/</link>
+      <link>https://psylinux.github.io/portfolio/poc-compiler/</link>
       <pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://psylinux.github.io/projects/poc-compiler/</guid>
+      <guid>https://psylinux.github.io/portfolio/poc-compiler/</guid>
       <description>POC-Compiler.sh :: Simple Bash Script to compile the PoC files in C or Assembly (nasm) without any protection.</description>
     </item>
     

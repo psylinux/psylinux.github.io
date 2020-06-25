@@ -6,15 +6,15 @@
     <description>Recent content in bash on My Hack Lab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Fri, 28 Dec 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 16 Jun 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://psylinux.github.io/tags/bash/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Linux Shell Tricks</title>
+      <title>Cheat Sheet :: Linux Shell Tricks</title>
       <link>https://psylinux.github.io/posts/linux-shell-tricks/</link>
-      <pubDate>Fri, 28 Dec 2018 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 16 Jun 2020 00:00:00 +0000</pubDate>
       
       <guid>https://psylinux.github.io/posts/linux-shell-tricks/</guid>
       <description>Linux Shell Tricks To find the corresponding hex code echo -n &amp;quot;&amp;amp;&amp;quot; | hexdump -C How to redirect standard error in bash nixCraft Article</description>

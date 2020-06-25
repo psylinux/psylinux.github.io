@@ -35,11 +35,11 @@
       <pubDate>Fri, 04 Jan 2019 00:00:00 +0000</pubDate>
       
       <guid>https://psylinux.github.io/posts/installing-pyenv/</guid>
-      <description>PyEnv Installing Dependencies apt-get install -y make build-essential libssl-dev \zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev \wget curl llvm libncurses5-dev libncursesw5-dev \xz-utils tk-dev libffi-dev liblzma-dev python-opensslInstalling PyEnv curl -L https://github.</description>
+      <description>PyEnv Installing Dependencies sudo apt install -y make build-essential libssl-dev \zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev \wget curl llvm libncurses5-dev libncursesw5-dev \xz-utils tk-dev libffi-dev liblzma-dev python-opensslInstalling PyEnv curl -L https://github.</description>
     </item>
     
     <item>
-      <title>Using the Linux Syscalls in Assembly&#34;</title>
+      <title>Using the Linux Syscalls in Assembly</title>
       <link>https://psylinux.github.io/posts/linux-syscalls-in-assembly/</link>
       <pubDate>Fri, 28 Dec 2018 00:00:00 +0000</pubDate>
       
@@ -71,7 +71,7 @@
       <pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>https://psylinux.github.io/posts/installing-gdb-gef/</guid>
-      <description>GEF Installing GEF Cloning Goto GEF Project and clone the repository to /opt:</description>
+      <description>GEF Installing GEF Cloning Goto GEF Project and clone the repository to /opt</description>
     </item>
     
   </channel>

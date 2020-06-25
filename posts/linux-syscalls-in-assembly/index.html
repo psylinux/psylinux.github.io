@@ -17,14 +17,14 @@
     
     
 
-<title>Using the Linux Syscalls in Assembly&#34; • My Hack Lab</title>
+<title>Using the Linux Syscalls in Assembly • My Hack Lab</title>
 
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Using the Linux Syscalls in Assembly&#34;"/>
+<meta name="twitter:title" content="Using the Linux Syscalls in Assembly"/>
 <meta name="twitter:description" content="Using the Linux Syscalls in Assembly Preface In this post we&rsquo;ll see how a process running in the userland can invoke syscalls to run system commands."/>
 
-<meta property="og:title" content="Using the Linux Syscalls in Assembly&#34;" />
+<meta property="og:title" content="Using the Linux Syscalls in Assembly" />
 <meta property="og:description" content="Using the Linux Syscalls in Assembly Preface In this post we&rsquo;ll see how a process running in the userland can invoke syscalls to run system commands." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://psylinux.github.io/posts/linux-syscalls-in-assembly/" />
@@ -35,7 +35,7 @@
     
 
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai-sublime.min.css">
 
 
 
@@ -110,7 +110,7 @@
 		 
 			 
 				<li>
-					<a href="/projects/">
+					<a href="/portfolio/">
 						<span>Projects</span>
 					</a>
 				</li>
@@ -175,7 +175,7 @@
     
 <article>
   <header>
-    <h1>Using the Linux Syscalls in Assembly&#34;</h1>
+    <h1>Using the Linux Syscalls in Assembly</h1>
     
     
 <div class="post__meta">
@@ -279,7 +279,7 @@ In Linux x64, we can use the file <strong>.h</strong> (header) bellow to find mo
 #define __NR_pwritev2 328
 </code></pre><p>Now that we know that must use the number <strong>1</strong> to call the write syscall, let&rsquo;s check the developer&rsquo;s manual to learn more about this syscall.</p>
 <pre><code>$ man 2 write
-</code></pre><p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+</code></pre><p><img src="../pics/write_syscall_1.png" alt=""></p>
 <p>As we can see, in this snipped code, the <code>write</code> syscall has three arguments:</p>
 <p><strong>ssize_t write(int fd, const void *buf, size_t count);</strong></p>
 <p>The first argument is the file descriptor, which has three modes:</p>
@@ -288,7 +288,7 @@ In Linux x64, we can use the file <strong>.h</strong> (header) bellow to find mo
 <strong>2</strong> -&gt; Standard Error -&gt; stderr</p>
 <h2 id="invoking-the-syscalls">Invoking the syscalls</h2>
 <p>Reading the syscall manual, we learn how to setup our x64 arch registers to invoke syscalls:</p>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+<p><img src="../pics/exit_syscall_reg_1.png" alt=""></p>
 <ol>
 <li>The syscall number goes in <strong>RAX</strong></li>
 <li>The first argument goes in <strong>RDI</strong></li>
@@ -323,7 +323,7 @@ _start:
 <pre><code>$ nasm -felf64 syscall-001.nasm -o syscall-001.o
 $ ld syscall-001.o -o syscall-001.bin
 </code></pre><p>Once we run our program with <strong>./syscall-001.bin</strong> we can see that our message &ldquo;Hack The Planet&rdquo; is printed out on the screen, but the <em>Segmentation Fault</em> error message appears at the end of execution:</p>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+<p><img src="../pics/write_syscall_2.png" alt=""></p>
 <p>If we want that our program exits nicely, then we have to use <code>exit</code> syscall. Let&rsquo;s take a deeper look at this issue.</p>
 <p>Let&rsquo;s get back to that header file which contains all the syscalls for Linux x64:</p>
 <pre><code>$ cat /usr/include/x86_64-linux-gnu/asm/unistd_64.h | grep exit
@@ -332,7 +332,7 @@ $ ld syscall-001.o -o syscall-001.bin
 #define __NR_exit_group 231
 </code></pre><p>As we can see the <code>exit</code> syscall has the number 60. Let&rsquo;s check the <strong>man page</strong> for better understand this <strong>syscall</strong>.</p>
 <pre><code>$man 2 exit
-</code></pre><p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+</code></pre><p><img src="../pics/exit_syscall_1.png" alt=""></p>
 <p>There is only one argument &ldquo;<strong>int status</strong>&rdquo; to define the exit status, for example, 0 (zero) status for no error:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C" data-lang="C">...<span style="color:#f92672">&lt;</span>snip<span style="color:#f92672">&gt;</span>
 <span style="color:#66d9ef">void</span> _exit(<span style="color:#66d9ef">int</span> status);
@@ -370,13 +370,13 @@ _start:
 <pre><code>$ nasm -felf64 syscall-001.nasm -o syscall-001.o
 $ ld syscall-001.o -o syscall-001.bin
 </code></pre><p>And after we run the <em>./syscall-001.bin</em>, we can check that the exit status is <strong>&ldquo;1&rdquo;</strong> as we designed to be.</p>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+<p><img src="../pics/exit_syscall_2.png" alt=""></p>
 <p>If we use the <code>strace</code> command to analise this elf32 binary we shall see some interesting stuff. For example, we can see that when we run the binary, the shell uses an <strong>execve</strong> with our binary passed as an argument along with other environment variables.</p>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+<p><img src="../pics/exit_syscall_3.png" alt=""></p>
+<p><img src="../pics/execve_1.png" alt=""></p>
 <hr>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+<p><img src="../pics/syscall_execution_1.png" alt=""></p>
+<p><img src="../pics/syscall_execution_2.png" alt=""></p>
 
   </div>
   
@@ -389,8 +389,8 @@ $ ld syscall-001.o -o syscall-001.bin
     </a>
     
     
-    <a href="/posts/linux-shell-tricks/" class="navigation-next">
-      <span class="navigation-tittle">Linux Shell Tricks</span>
+    <a href="/posts/installing-pyenv/" class="navigation-next">
+      <span class="navigation-tittle">Installing PyEnv</span>
       <i aria-hidden="true" class="fa fa-chevron-right"></i>
     </a>
     
