@@ -13,10 +13,10 @@
     
     <item>
       <title>Cheat Sheet :: Privilege Escalation</title>
-      <link>https://psylinux.github.io/posts/privilege-escalation/</link>
+      <link>https://psylinux.github.io/posts/cheatsheet-privilege-escalation/</link>
       <pubDate>Tue, 16 Jun 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://psylinux.github.io/posts/privilege-escalation/</guid>
+      <guid>https://psylinux.github.io/posts/cheatsheet-privilege-escalation/</guid>
       <description>Privilege Escalation Using scripts to enum the machine   https://github.</description>
     </item>
     
