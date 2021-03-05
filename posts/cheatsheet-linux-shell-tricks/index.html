@@ -11,7 +11,7 @@
 <meta http-equiv="Cache-Control" content="public" />
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.72.0" />
+<meta name="generator" content="Hugo 0.81.0" />
 
     
     
@@ -27,9 +27,10 @@
 <meta property="og:title" content="Cheat Sheet :: Linux Shell Tricks" />
 <meta property="og:description" content="Linux Shell Tricks To find the corresponding hex code echo -n &quot;&amp;&quot; | hexdump -C How to redirect standard error in bash nixCraft Article" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://psylinux.github.io/posts/cheatsheet-linux-shell-tricks/" />
-<meta property="article:published_time" content="2020-06-16T00:00:00+00:00" />
-<meta property="article:modified_time" content="2020-06-16T00:00:00+00:00" /><meta property="og:site_name" content="My Hack Lab" />
+<meta property="og:url" content="https://psylinux.github.io/posts/cheatsheet-linux-shell-tricks/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-06-16T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2020-06-16T00:00:00&#43;00:00" /><meta property="og:site_name" content="My Hack Lab" />
+
 
 
     
@@ -44,7 +45,7 @@
 
 
 
-<link rel="stylesheet" href="/scss/hyde-hyde.3081c4981fb69a2783dd36ecfdd0e6ba7a158d4cbfdd290ebce8f78ba0469fc6.css" integrity="sha256-MIHEmB&#43;2mieD3Tbs/dDmunoVjUy/3SkOvOj3i6BGn8Y=">
+<link rel="stylesheet" href="/scss/hyde-hyde.71157e768c4e111a23c3531b95e0cbb59bbef3c9e6901d36247cb53d6b6be258.css" integrity="sha256-cRV&#43;doxOERojw1MbleDLtZu&#43;88nmkB02JHy1PWtr4lg=">
 
 
 <link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
@@ -159,7 +160,7 @@
     </div>
     
 <div class="copyright">
-  &copy; 2020 psylinux
+  &copy; 2021 psylinux
   
     <a href="https://opensource.org/licenses/MIT">Copyright</a>
   
@@ -269,34 +270,34 @@
 <table>
 <thead>
 <tr>
-<th align="left">Command</th>
-<th align="left">Description/Purpose</th>
+<th style="text-align:left">Command</th>
+<th style="text-align:left">Description/Purpose</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="left">command 2&gt;filename</td>
-<td align="left">Redirect stderr to filename</td>
+<td style="text-align:left">command 2&gt;filename</td>
+<td style="text-align:left">Redirect stderr to filename</td>
 </tr>
 <tr>
-<td align="left">command &gt;output 2&gt;filename</td>
-<td align="left">Redirect stderr to file named filename and stdout to file named output</td>
+<td style="text-align:left">command &gt;output 2&gt;filename</td>
+<td style="text-align:left">Redirect stderr to file named filename and stdout to file named output</td>
 </tr>
 <tr>
-<td align="left">command &amp;&gt; filename</td>
-<td align="left">Redirect stderr and stdout to filename</td>
+<td style="text-align:left">command &amp;&gt; filename</td>
+<td style="text-align:left">Redirect stderr and stdout to filename</td>
 </tr>
 <tr>
-<td align="left">command 2&gt;&amp;-</td>
-<td align="left">Just suppress error messages. No file created. No error message displayed on screen</td>
+<td style="text-align:left">command 2&gt;&amp;-</td>
+<td style="text-align:left">Just suppress error messages. No file created. No error message displayed on screen</td>
 </tr>
 <tr>
-<td align="left">command 2&gt;/dev/null</td>
-<td align="left">Just suppress error messages.</td>
+<td style="text-align:left">command 2&gt;/dev/null</td>
+<td style="text-align:left">Just suppress error messages.</td>
 </tr>
 <tr>
-<td align="left">command 2&gt;&amp;1</td>
-<td align="left">Redirect error messages to standard output. Useful in shell script when you need to forcefully display error messages on screen</td>
+<td style="text-align:left">command 2&gt;&amp;1</td>
+<td style="text-align:left">Redirect error messages to standard output. Useful in shell script when you need to forcefully display error messages on screen</td>
 </tr>
 </tbody>
 </table>

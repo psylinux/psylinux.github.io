@@ -6,11 +6,7 @@
     <description>Recent content in Projects on My Hack Lab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Sun, 16 Dec 2018 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://psylinux.github.io/portfolio/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sun, 16 Dec 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://psylinux.github.io/portfolio/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Auto SSH</title>
       <link>https://psylinux.github.io/portfolio/auto-ssh/</link>
@@ -44,7 +40,7 @@
       <pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>https://psylinux.github.io/portfolio/my-presentations/</guid>
-      <description>My Presentations :: Some of my presentations and published articles in different conferences&amp;rdquo;.</description>
+      <description>My Presentations :: Some of my presentations and published articles in different conferences&amp;quot;.</description>
     </item>
     
     <item>

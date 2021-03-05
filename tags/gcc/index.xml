@@ -6,18 +6,14 @@
     <description>Recent content in gcc on My Hack Lab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Sun, 16 Dec 2018 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://psylinux.github.io/tags/gcc/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sun, 16 Dec 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://psylinux.github.io/tags/gcc/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Cheat Sheet :: GCC Compiling Cheat Sheet</title>
       <link>https://psylinux.github.io/posts/cheatsheet-gcc-compiling/</link>
       <pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>https://psylinux.github.io/posts/cheatsheet-gcc-compiling/</guid>
-      <description>GCC and Compiling Cheat Sheet Static compiling gcc -static cve_2016_0728.c -o cve_2016_0728 -lkeyutils -WallCross compiling a C code from Linux to Windows Install mingw-w64 cross-compiler: apt-get install mingw-w64To compile a Windows PE Executable 32bit: i686-w64-mingw32-gcc 271.</description>
+      <description>GCC and Compiling Cheat Sheet Static compiling gcc -static cve_2016_0728.c -o cve_2016_0728 -lkeyutils -Wall Cross compiling a C code from Linux to Windows Install mingw-w64 cross-compiler: apt-get install mingw-w64 To compile a Windows PE Executable 32bit: i686-w64-mingw32-gcc 271.</description>
     </item>
     
   </channel>

@@ -6,11 +6,7 @@
     <description>Recent content on My Hack Lab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Tue, 16 Jun 2020 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://psylinux.github.io/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Tue, 16 Jun 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://psylinux.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Cheat Sheet :: Linux Shell Tricks</title>
       <link>https://psylinux.github.io/posts/cheatsheet-linux-shell-tricks/</link>
@@ -71,7 +67,7 @@
       <pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>https://psylinux.github.io/posts/cheatsheet-gcc-compiling/</guid>
-      <description>GCC and Compiling Cheat Sheet Static compiling gcc -static cve_2016_0728.c -o cve_2016_0728 -lkeyutils -WallCross compiling a C code from Linux to Windows Install mingw-w64 cross-compiler: apt-get install mingw-w64To compile a Windows PE Executable 32bit: i686-w64-mingw32-gcc 271.</description>
+      <description>GCC and Compiling Cheat Sheet Static compiling gcc -static cve_2016_0728.c -o cve_2016_0728 -lkeyutils -Wall Cross compiling a C code from Linux to Windows Install mingw-w64 cross-compiler: apt-get install mingw-w64 To compile a Windows PE Executable 32bit: i686-w64-mingw32-gcc 271.</description>
     </item>
     
     <item>
@@ -90,6 +86,15 @@
       
       <guid>https://psylinux.github.io/posts/installing-gdb-gef/</guid>
       <description>GEF Installing GEF Cloning Goto GEF Project and clone the repository to /opt</description>
+    </item>
+    
+    <item>
+      <title>HowTo :: SSH access using a GPG key for authentication</title>
+      <link>https://psylinux.github.io/posts/ssh-with-gpg/</link>
+      <pubDate>Tue, 02 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://psylinux.github.io/posts/ssh-with-gpg/</guid>
+      <description>Many of us are familiar with Secure Shell (SSH), which allows us to connect to other systems using a key instead of a password.</description>
     </item>
     
     <item>
@@ -134,7 +139,7 @@
       <pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>https://psylinux.github.io/portfolio/my-presentations/</guid>
-      <description>My Presentations :: Some of my presentations and published articles in different conferences&amp;rdquo;.</description>
+      <description>My Presentations :: Some of my presentations and published articles in different conferences&amp;quot;.</description>
     </item>
     
     <item>

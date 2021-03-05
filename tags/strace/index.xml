@@ -6,11 +6,7 @@
     <description>Recent content in strace on My Hack Lab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Sun, 13 Jan 2019 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://psylinux.github.io/tags/strace/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sun, 13 Jan 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://psylinux.github.io/tags/strace/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Debugging with strace</title>
       <link>https://psylinux.github.io/posts/debugging-with-strace/</link>

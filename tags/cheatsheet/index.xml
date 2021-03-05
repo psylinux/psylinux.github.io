@@ -6,11 +6,7 @@
     <description>Recent content in cheatsheet on My Hack Lab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Tue, 16 Jun 2020 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://psylinux.github.io/tags/cheatsheet/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Tue, 16 Jun 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://psylinux.github.io/tags/cheatsheet/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Cheat Sheet :: Linux Shell Tricks</title>
       <link>https://psylinux.github.io/posts/cheatsheet-linux-shell-tricks/</link>
@@ -35,7 +31,7 @@
       <pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>https://psylinux.github.io/posts/cheatsheet-gcc-compiling/</guid>
-      <description>GCC and Compiling Cheat Sheet Static compiling gcc -static cve_2016_0728.c -o cve_2016_0728 -lkeyutils -WallCross compiling a C code from Linux to Windows Install mingw-w64 cross-compiler: apt-get install mingw-w64To compile a Windows PE Executable 32bit: i686-w64-mingw32-gcc 271.</description>
+      <description>GCC and Compiling Cheat Sheet Static compiling gcc -static cve_2016_0728.c -o cve_2016_0728 -lkeyutils -Wall Cross compiling a C code from Linux to Windows Install mingw-w64 cross-compiler: apt-get install mingw-w64 To compile a Windows PE Executable 32bit: i686-w64-mingw32-gcc 271.</description>
     </item>
     
   </channel>

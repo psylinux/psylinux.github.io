@@ -6,11 +6,7 @@
     <description>Recent content in python on My Hack Lab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Fri, 04 Jan 2019 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://psylinux.github.io/tags/python/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Fri, 04 Jan 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://psylinux.github.io/tags/python/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Installing PyEnv</title>
       <link>https://psylinux.github.io/posts/installing-pyenv/</link>

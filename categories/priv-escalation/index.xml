@@ -6,11 +6,7 @@
     <description>Recent content in priv-escalation on My Hack Lab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Tue, 16 Jun 2020 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://psylinux.github.io/categories/priv-escalation/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Tue, 16 Jun 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://psylinux.github.io/categories/priv-escalation/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Cheat Sheet :: Privilege Escalation</title>
       <link>https://psylinux.github.io/posts/cheatsheet-privilege-escalation/</link>
