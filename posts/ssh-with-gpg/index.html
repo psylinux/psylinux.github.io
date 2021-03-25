@@ -349,10 +349,10 @@ Keygrip <span style="color:#f92672">=</span> 2BE91C3C443AA29C3703D004587AD6DA9D7
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Bash" data-lang="Bash">$ echo 2BE91C3C443AA29C3703D004587AD6DA9D7E40FC &gt;&gt; ~/.gnupg/sshcontrol
 </code></pre></div><p>Last, you need to tell SSH how to access the <strong>gpg-agent</strong>. This is done by changing the value of the <strong>SSH_AUTH_SOCK</strong> environment variable. The following two lines, when added to your <strong>~/.bashrc</strong>, will ensure the variable is set correctly and that the agent is launched and ready for use.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Bash" data-lang="Bash">$ cat ~/.bashrc
-...
+
 export SSH_AUTH_SOCK<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>gpgconf --list-dirs agent-ssh-socket<span style="color:#66d9ef">)</span>
 gpgconf --launch gpg-agent
-...
+
 </code></pre></div><p>To continue, execute those commands in your current session.</p>
 <h2 id="share-your-ssh-key">Share your SSH key</h2>
 <p>In order to use SSH, you need to share your public key with the remote host. You have two options. First, you can run <strong>ssh-add -L</strong> to list your public keys and copy it manually to the remote host. You can also use <strong>ssh-copy-id</strong>. From this perspective, nothing has changed.</p>
