@@ -22,7 +22,7 @@
       <pubDate>Tue, 16 Jun 2020 17:38:15 -0300</pubDate>
       
       <guid>https://psylinux.github.io/posts/cheatsheet_linux_shell_tricks/</guid>
-      <description>Cheat Sheet :: Linux Shell Tricks To find the corresponding hex code echo -n &amp;#34;&amp;amp;&amp;#34; | hexdump -C How to redirect standard error in bash nixCraft Article</description>
+      <description>To find the corresponding hex code echo -n &amp;#34;&amp;amp;&amp;#34; | hexdump -C How to redirect standard error in bash nixCraft Article</description>
     </item>
     
     <item>
@@ -31,7 +31,8 @@
       <pubDate>Tue, 16 Jun 2020 17:38:15 -0300</pubDate>
       
       <guid>https://psylinux.github.io/posts/cheatsheet_privilege_escalation/</guid>
-      <description>Cheat Sheet :: Privilege Escalation Using scripts to enum the machine   https://github.</description>
+      <description>Using scripts to enum the machine   https://github.com/rebootuser/LinEnum
+  https://github.</description>
     </item>
     
     <item>
@@ -40,7 +41,7 @@
       <pubDate>Mon, 14 Jan 2019 17:38:15 -0300</pubDate>
       
       <guid>https://psylinux.github.io/posts/howto_patching_binaries_in_linux/</guid>
-      <description>Patching binary files in Linux Using xxd Binary to Hex $ xxd prog1.</description>
+      <description>Using xxd Binary to Hex $ xxd prog1.bin &amp;gt; b1.hex $ xxd prog1.</description>
     </item>
     
     <item>
@@ -49,7 +50,7 @@
       <pubDate>Sun, 13 Jan 2019 17:38:15 -0300</pubDate>
       
       <guid>https://psylinux.github.io/posts/article_debugging_with_strace/</guid>
-      <description>Strace debugging tool Preface Strace is a debugging tool that help us to troubleshoot issues.</description>
+      <description>Preface Strace is a debugging tool that help us to troubleshoot issues.</description>
     </item>
     
     <item>
@@ -58,7 +59,7 @@
       <pubDate>Fri, 04 Jan 2019 17:38:15 -0300</pubDate>
       
       <guid>https://psylinux.github.io/posts/howto_install_pyenv/</guid>
-      <description>HowTo :: Install PyEnv  Installing Dependencies  sudo apt install -y make build-essential libssl-dev \ zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev \ wget curl llvm libncurses5-dev libncursesw5-dev \ xz-utils tk-dev libffi-dev liblzma-dev python-openssl  Installing PyEnv  curl -L https://github.</description>
+      <description>Installing Dependencies sudo apt install -y make build-essential libssl-dev \ zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev \ wget curl llvm libncurses5-dev libncursesw5-dev \ xz-utils tk-dev libffi-dev liblzma-dev python-openssl Installing PyEnv curl -L https://github.</description>
     </item>
     
     <item>
@@ -67,7 +68,7 @@
       <pubDate>Fri, 28 Dec 2018 17:38:15 -0300</pubDate>
       
       <guid>https://psylinux.github.io/posts/article_linux_syscalls_in_assembly/</guid>
-      <description>Using the Linux Syscalls in Assembly Preface In this post we&amp;rsquo;ll see how a process running in the userland can invoke syscalls to run system commands.</description>
+      <description>Preface In this post we&amp;rsquo;ll see how a process running in the userland can invoke syscalls to run system commands.</description>
     </item>
     
     <item>
@@ -76,7 +77,7 @@
       <pubDate>Sun, 16 Dec 2018 17:38:15 -0300</pubDate>
       
       <guid>https://psylinux.github.io/posts/article_getting_start_with_gdb/</guid>
-      <description>Getting Started with GDB Preface  Before start, take a look at GCC Compiling Cheat Sheet.</description>
+      <description>Preface  Before start, take a look at GCC Compiling Cheat Sheet.</description>
     </item>
     
     <item>
@@ -85,7 +86,7 @@
       <pubDate>Sun, 16 Dec 2018 17:38:15 -0300</pubDate>
       
       <guid>https://psylinux.github.io/posts/cheatsheet_gcc_compiling/</guid>
-      <description>Cheat Sheet :: GCC Syntax and Compiling Options Static compiling gcc -static cve_2016_0728.</description>
+      <description>Static compiling gcc -static cve_2016_0728.c -o cve_2016_0728 -lkeyutils -Wall Cross compiling a C code from Linux to Windows Install mingw-w64 cross-compiler: apt-get install mingw-w64 To compile a Windows PE Executable 32bit: i686-w64-mingw32-gcc 271.</description>
     </item>
     
     <item>
@@ -103,7 +104,7 @@
       <pubDate>Tue, 02 Oct 2018 17:38:15 -0300</pubDate>
       
       <guid>https://psylinux.github.io/posts/howto_ssh_with_gpg/</guid>
-      <description>HowTo :: SSH access using a GPG key for authentication Many of us are familiar with Secure Shell (SSH), which allows us to connect to other systems using a key instead of a password.</description>
+      <description>Many of us are familiar with Secure Shell (SSH), which allows us to connect to other systems using a key instead of a password.</description>
     </item>
     
     <item>

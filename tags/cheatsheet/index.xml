@@ -22,7 +22,7 @@
       <pubDate>Tue, 16 Jun 2020 17:38:15 -0300</pubDate>
       
       <guid>https://psylinux.github.io/posts/cheatsheet_linux_shell_tricks/</guid>
-      <description>Cheat Sheet :: Linux Shell Tricks To find the corresponding hex code echo -n &amp;#34;&amp;amp;&amp;#34; | hexdump -C How to redirect standard error in bash nixCraft Article</description>
+      <description>To find the corresponding hex code echo -n &amp;#34;&amp;amp;&amp;#34; | hexdump -C How to redirect standard error in bash nixCraft Article</description>
     </item>
     
     <item>
@@ -31,7 +31,8 @@
       <pubDate>Tue, 16 Jun 2020 17:38:15 -0300</pubDate>
       
       <guid>https://psylinux.github.io/posts/cheatsheet_privilege_escalation/</guid>
-      <description>Cheat Sheet :: Privilege Escalation Using scripts to enum the machine   https://github.</description>
+      <description>Using scripts to enum the machine   https://github.com/rebootuser/LinEnum
+  https://github.</description>
     </item>
     
     <item>
@@ -40,7 +41,7 @@
       <pubDate>Sun, 16 Dec 2018 17:38:15 -0300</pubDate>
       
       <guid>https://psylinux.github.io/posts/cheatsheet_gcc_compiling/</guid>
-      <description>Cheat Sheet :: GCC Syntax and Compiling Options Static compiling gcc -static cve_2016_0728.</description>
+      <description>Static compiling gcc -static cve_2016_0728.c -o cve_2016_0728 -lkeyutils -Wall Cross compiling a C code from Linux to Windows Install mingw-w64 cross-compiler: apt-get install mingw-w64 To compile a Windows PE Executable 32bit: i686-w64-mingw32-gcc 271.</description>
     </item>
     
   </channel>
