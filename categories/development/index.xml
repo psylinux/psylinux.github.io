@@ -70,14 +70,5 @@
       <description>HowTo :: Install GEF Cloning Goto GEF Project and clone the repository to /opt</description>
     </item>
     
-    <item>
-      <title>TEST</title>
-      <link>https://psylinux.github.io/posts/cheatsheet_tmux_new/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://psylinux.github.io/posts/cheatsheet_tmux_new/</guid>
-      <description>Cheat Sheet </description>
-    </item>
-    
   </channel>
 </rss>
