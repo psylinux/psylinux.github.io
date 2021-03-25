@@ -23,6 +23,9 @@
     <loc>https://psylinux.github.io/posts/article_linux_syscalls_in_assembly/</loc>
     <lastmod>2018-12-28T17:38:15-03:00</lastmod>
   </url><url>
+    <loc>https://psylinux.github.io/posts/cheatsheet_tmux_new/</loc>
+    <lastmod>2018-12-28T17:38:15-03:00</lastmod>
+  </url><url>
     <loc>https://psylinux.github.io/posts/article_getting_start_with_gdb/</loc>
     <lastmod>2018-12-16T17:38:15-03:00</lastmod>
   </url><url>
@@ -70,9 +73,6 @@
   </url><url>
     <loc>https://psylinux.github.io/tags/tmux/</loc>
     <lastmod>2021-03-25T17:19:34-03:00</lastmod>
-  </url><url>
-    <loc>https://psylinux.github.io/tags/#includestdio.h/</loc>
-    <lastmod>2020-06-16T17:38:15-03:00</lastmod>
   </url><url>
     <loc>https://psylinux.github.io/tags/bash/</loc>
     <lastmod>2020-06-16T17:38:15-03:00</lastmod>
@@ -220,7 +220,5 @@
   </url><url>
     <loc>https://psylinux.github.io/categories/ssh/</loc>
     <lastmod>2018-10-02T17:38:15-03:00</lastmod>
-  </url><url>
-    <loc>https://psylinux.github.io/posts/cheatsheet_tmux_new/</loc>
   </url>
 </urlset>

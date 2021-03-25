@@ -16,5 +16,14 @@
       <description>Using the Linux Syscalls in Assembly Preface In this post we&amp;rsquo;ll see how a process running in the userland can invoke syscalls to run system commands.</description>
     </item>
     
+    <item>
+      <title>TEST</title>
+      <link>https://psylinux.github.io/posts/cheatsheet_tmux_new/</link>
+      <pubDate>Fri, 28 Dec 2018 17:38:15 -0300</pubDate>
+      
+      <guid>https://psylinux.github.io/posts/cheatsheet_tmux_new/</guid>
+      <description>Cheat Sheet :: TMUX Working with Sessions Start a New Session $ tmux new-session  Or you can type  $ tmux  Or you can use the shorthand  tmux new  If you&amp;rsquo;re already inside the tmux  : newStart a New Session with the name mysession $ tmux new -s mysession : new -s mysession Kill/Delete Sessions  Kill/Delete mysession  $ tmux kill-session -t mysession  Or you can use the shorthand  $ tmux kill-ses -t mysession  Kill/Delete all sessions but mysession  $ tmux kill-session -a -t mysession  Kill/Delete all sessions but the current session  $ tmux kill-session -a Rename session  If you&amp;rsquo;re already inside the tmux  Ctrl + b + $Detach from session  If you&amp;rsquo;re already inside the tmux  Ctrl + b + dMove Between Sessions  Move to previous session // If you&amp;rsquo;re already inside the tmux  Ctrl + b + ( Move to next session // If you&amp;rsquo;re already inside the tmux  Ctrl + b + )Attach to the last session $ tmux attach-session  Or  $ tmux attach  Or  $ tmux at  Or you can use the shorthand  $ tmux a Attach to a session using a name  Attach to a session with the name mysession  $ tmux attach-session -t mysession  Or  $ tmux attach -t mysession  Or  $ tmux at -t mysession  Or you can use the shorthand  $ tmux a -t mysession Show all sessions  Listing all sessions  $ tmux list-sessions  Or you can use the shorthand  $ tmux ls  If you&amp;rsquo;re already inside the tmux  Ctrl + b + sWorking with Windows Start a new Window  Start a new session with the name mysession and window name mywindow  $ tmux new -s mysession -n mywindow  Create a new Window // If you&amp;rsquo;re already inside the tmux  Ctrl + b + cRename a Window  Rename current window  Ctrl + b + , Close the current window  Ctrl + b + &amp;amp;Moving Between Windows  Previous window  Ctrl + b + p Next window  Ctrl + b + n Select window by number  Ctrl + b + 0.</description>
+    </item>
+    
   </channel>
 </rss>
