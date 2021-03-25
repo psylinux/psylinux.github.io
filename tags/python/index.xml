@@ -8,12 +8,12 @@
     <language>en-US</language>
     <lastBuildDate>Fri, 04 Jan 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://psylinux.github.io/tags/python/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Installing PyEnv</title>
-      <link>https://psylinux.github.io/posts/installing-pyenv/</link>
+      <title>HowTo :: Install PyEnv</title>
+      <link>https://psylinux.github.io/posts/howto_install_pyenv/</link>
       <pubDate>Fri, 04 Jan 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://psylinux.github.io/posts/installing-pyenv/</guid>
-      <description>PyEnv Installing Dependencies sudo apt install -y make build-essential libssl-dev \zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev \wget curl llvm libncurses5-dev libncursesw5-dev \xz-utils tk-dev libffi-dev liblzma-dev python-opensslInstalling PyEnv curl -L https://github.</description>
+      <guid>https://psylinux.github.io/posts/howto_install_pyenv/</guid>
+      <description>HowTo :: Install PyEnv Installing Dependencies sudo apt install -y make build-essential libssl-dev \ zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev \ wget curl llvm libncurses5-dev libncursesw5-dev \ xz-utils tk-dev libffi-dev liblzma-dev python-openssl Installing PyEnv curl -L https://github.</description>
     </item>
     
   </channel>

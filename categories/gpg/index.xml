@@ -9,10 +9,10 @@
     <lastBuildDate>Tue, 02 Oct 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://psylinux.github.io/categories/gpg/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>HowTo :: SSH access using a GPG key for authentication</title>
-      <link>https://psylinux.github.io/posts/ssh-with-gpg/</link>
+      <link>https://psylinux.github.io/posts/howto_ssh_with_gpg/</link>
       <pubDate>Tue, 02 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://psylinux.github.io/posts/ssh-with-gpg/</guid>
+      <guid>https://psylinux.github.io/posts/howto_ssh_with_gpg/</guid>
       <description>HowTo :: SSH access using a GPG key for authentication Many of us are familiar with Secure Shell (SSH), which allows us to connect to other systems using a key instead of a password.</description>
     </item>
     

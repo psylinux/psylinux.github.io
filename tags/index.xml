@@ -6,11 +6,11 @@
     <description>Recent content in Tags on My Hack Lab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Thu, 25 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://psylinux.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 25 Mar 2021 17:19:34 -0300</lastBuildDate><atom:link href="https://psylinux.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>cheatsheet</title>
       <link>https://psylinux.github.io/tags/cheatsheet/</link>
-      <pubDate>Thu, 25 Mar 2021 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 25 Mar 2021 17:19:34 -0300</pubDate>
       
       <guid>https://psylinux.github.io/tags/cheatsheet/</guid>
       <description></description>
@@ -19,7 +19,7 @@
     <item>
       <title>linux</title>
       <link>https://psylinux.github.io/tags/linux/</link>
-      <pubDate>Thu, 25 Mar 2021 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 25 Mar 2021 17:19:34 -0300</pubDate>
       
       <guid>https://psylinux.github.io/tags/linux/</guid>
       <description></description>
@@ -28,7 +28,7 @@
     <item>
       <title>shell</title>
       <link>https://psylinux.github.io/tags/shell/</link>
-      <pubDate>Thu, 25 Mar 2021 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 25 Mar 2021 17:19:34 -0300</pubDate>
       
       <guid>https://psylinux.github.io/tags/shell/</guid>
       <description></description>
@@ -37,7 +37,7 @@
     <item>
       <title>sysadmin</title>
       <link>https://psylinux.github.io/tags/sysadmin/</link>
-      <pubDate>Thu, 25 Mar 2021 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 25 Mar 2021 17:19:34 -0300</pubDate>
       
       <guid>https://psylinux.github.io/tags/sysadmin/</guid>
       <description></description>
@@ -46,7 +46,7 @@
     <item>
       <title>tmux</title>
       <link>https://psylinux.github.io/tags/tmux/</link>
-      <pubDate>Thu, 25 Mar 2021 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 25 Mar 2021 17:19:34 -0300</pubDate>
       
       <guid>https://psylinux.github.io/tags/tmux/</guid>
       <description></description>
@@ -161,6 +161,15 @@
     </item>
     
     <item>
+      <title>howto</title>
+      <link>https://psylinux.github.io/tags/howto/</link>
+      <pubDate>Fri, 04 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://psylinux.github.io/tags/howto/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>pyenv</title>
       <link>https://psylinux.github.io/tags/pyenv/</link>
       <pubDate>Fri, 04 Jan 2019 00:00:00 +0000</pubDate>
@@ -238,15 +247,6 @@
       <pubDate>Tue, 02 Oct 2018 00:00:00 +0000</pubDate>
       
       <guid>https://psylinux.github.io/tags/gpg/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>howto</title>
-      <link>https://psylinux.github.io/tags/howto/</link>
-      <pubDate>Tue, 02 Oct 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://psylinux.github.io/tags/howto/</guid>
       <description></description>
     </item>
     

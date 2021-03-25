@@ -6,32 +6,32 @@
     <description>Recent content in cheatsheet on My Hack Lab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Thu, 25 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://psylinux.github.io/categories/cheatsheet/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 25 Mar 2021 17:19:34 -0300</lastBuildDate><atom:link href="https://psylinux.github.io/categories/cheatsheet/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Cheat Sheet :: Tmux</title>
       <link>https://psylinux.github.io/posts/cheatsheet_tmux/</link>
-      <pubDate>Thu, 25 Mar 2021 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 25 Mar 2021 17:19:34 -0300</pubDate>
       
       <guid>https://psylinux.github.io/posts/cheatsheet_tmux/</guid>
-      <description>TMUX Working with Sessions Start a New Session $ tmux new-session  Or you can type  $ tmux  Or you can use the shorthand  tmux new  If you&amp;rsquo;re already inside the tmux  : newStart a New Session with the name mysession $ tmux new -s mysession : new -s mysession Kill/Delete Sessions  Kill/Delete mysession  $ tmux kill-session -t mysession  Or you can use the shorthand  $ tmux kill-ses -t mysession  Kill/Delete all sessions but mysession  $ tmux kill-session -a -t mysession  Kill/Delete all sessions but the current session  $ tmux kill-session -a Rename session  If you&amp;rsquo;re already inside the tmux  Ctrl + b + $Detach from session  If you&amp;rsquo;re already inside the tmux  Ctrl + b + dMove Between Sessions  Move to previous session // If you&amp;rsquo;re already inside the tmux  Ctrl + b + ( Move to next session // If you&amp;rsquo;re already inside the tmux  Ctrl + b + )Attach to the last session $ tmux attach-session  Or  $ tmux attach  Or  $ tmux at  Or you can use the shorthand  $ tmux a Attach to a session using a name  Attach to a session with the name mysession  $ tmux attach-session -t mysession  Or  $ tmux attach -t mysession  Or  $ tmux at -t mysession  Or you can use the shorthand  $ tmux a -t mysession Show all sessions  Listing all sessions  $ tmux list-sessions  Or you can use the shorthand  $ tmux ls  If you&amp;rsquo;re already inside the tmux  Ctrl + b + sWorking with Windows Start a new Window  Start a new session with the name mysession and window name mywindow  $ tmux new -s mysession -n mywindow  Create a new Window // If you&amp;rsquo;re already inside the tmux  Ctrl + b + cRename a Window  Rename current window  Ctrl + b + , Close the current window  Ctrl + b + &amp;amp;Moving Between Windows  Previous window  Ctrl + b + p Next window  Ctrl + b + n Select window by number  Ctrl + b + 0.</description>
+      <description>Cheat Sheet :: TMUX Working with Sessions Start a New Session $ tmux new-session  Or you can type  $ tmux  Or you can use the shorthand  tmux new  If you&amp;rsquo;re already inside the tmux  : newStart a New Session with the name mysession $ tmux new -s mysession : new -s mysession Kill/Delete Sessions  Kill/Delete mysession  $ tmux kill-session -t mysession  Or you can use the shorthand  $ tmux kill-ses -t mysession  Kill/Delete all sessions but mysession  $ tmux kill-session -a -t mysession  Kill/Delete all sessions but the current session  $ tmux kill-session -a Rename session  If you&amp;rsquo;re already inside the tmux  Ctrl + b + $Detach from session  If you&amp;rsquo;re already inside the tmux  Ctrl + b + dMove Between Sessions  Move to previous session // If you&amp;rsquo;re already inside the tmux  Ctrl + b + ( Move to next session // If you&amp;rsquo;re already inside the tmux  Ctrl + b + )Attach to the last session $ tmux attach-session  Or  $ tmux attach  Or  $ tmux at  Or you can use the shorthand  $ tmux a Attach to a session using a name  Attach to a session with the name mysession  $ tmux attach-session -t mysession  Or  $ tmux attach -t mysession  Or  $ tmux at -t mysession  Or you can use the shorthand  $ tmux a -t mysession Show all sessions  Listing all sessions  $ tmux list-sessions  Or you can use the shorthand  $ tmux ls  If you&amp;rsquo;re already inside the tmux  Ctrl + b + sWorking with Windows Start a new Window  Start a new session with the name mysession and window name mywindow  $ tmux new -s mysession -n mywindow  Create a new Window // If you&amp;rsquo;re already inside the tmux  Ctrl + b + cRename a Window  Rename current window  Ctrl + b + , Close the current window  Ctrl + b + &amp;amp;Moving Between Windows  Previous window  Ctrl + b + p Next window  Ctrl + b + n Select window by number  Ctrl + b + 0.</description>
     </item>
     
     <item>
       <title>Cheat Sheet :: Linux Shell Tricks</title>
-      <link>https://psylinux.github.io/posts/cheatsheet-linux-shell-tricks/</link>
+      <link>https://psylinux.github.io/posts/cheatsheet_linux_shell_tricks/</link>
       <pubDate>Tue, 16 Jun 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://psylinux.github.io/posts/cheatsheet-linux-shell-tricks/</guid>
-      <description>Linux Shell Tricks To find the corresponding hex code echo -n &amp;quot;&amp;amp;&amp;quot; | hexdump -C How to redirect standard error in bash nixCraft Article</description>
+      <guid>https://psylinux.github.io/posts/cheatsheet_linux_shell_tricks/</guid>
+      <description>Cheat Sheet :: Linux Shell Tricks To find the corresponding hex code echo -n &amp;quot;&amp;amp;&amp;quot; | hexdump -C How to redirect standard error in bash nixCraft Article</description>
     </item>
     
     <item>
       <title>Cheat Sheet :: Privilege Escalation</title>
-      <link>https://psylinux.github.io/posts/cheatsheet-privilege-escalation/</link>
+      <link>https://psylinux.github.io/posts/cheatsheet_privilege_escalation/</link>
       <pubDate>Tue, 16 Jun 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://psylinux.github.io/posts/cheatsheet-privilege-escalation/</guid>
-      <description>Privilege Escalation Using scripts to enum the machine   https://github.</description>
+      <guid>https://psylinux.github.io/posts/cheatsheet_privilege_escalation/</guid>
+      <description>Cheat Sheet :: Privilege Escalation Using scripts to enum the machine   https://github.</description>
     </item>
     
     <item>
@@ -40,7 +40,7 @@
       <pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>https://psylinux.github.io/posts/cheatsheet_gcc_compiling/</guid>
-      <description>GCC Syntax and Compiling Options Static compiling gcc -static cve_2016_0728.c -o cve_2016_0728 -lkeyutils -Wall Cross compiling a C code from Linux to Windows Install mingw-w64 cross-compiler: apt-get install mingw-w64 To compile a Windows PE Executable 32bit: i686-w64-mingw32-gcc 271.</description>
+      <description>Cheat Sheet :: GCC Syntax and Compiling Options Static compiling gcc -static cve_2016_0728.</description>
     </item>
     
   </channel>

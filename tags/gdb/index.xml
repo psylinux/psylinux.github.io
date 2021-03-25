@@ -9,20 +9,20 @@
     <lastBuildDate>Sun, 16 Dec 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://psylinux.github.io/tags/gdb/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Getting Started with GDB</title>
-      <link>https://psylinux.github.io/posts/getting-start-with-gdb/</link>
+      <link>https://psylinux.github.io/posts/getting_start_with_gdb/</link>
       <pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://psylinux.github.io/posts/getting-start-with-gdb/</guid>
+      <guid>https://psylinux.github.io/posts/getting_start_with_gdb/</guid>
       <description>Getting Started with GDB Preface  Before start, take a look at GCC Compiling Cheat Sheet.</description>
     </item>
     
     <item>
-      <title>Installing GEF (GDB Plug-in)</title>
-      <link>https://psylinux.github.io/posts/installing-gdb-gef/</link>
+      <title>HowTo :: Install GEF (GDB Plug-in)</title>
+      <link>https://psylinux.github.io/posts/howto_install_gdb_gef/</link>
       <pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://psylinux.github.io/posts/installing-gdb-gef/</guid>
-      <description>GEF Installing GEF Cloning Goto GEF Project and clone the repository to /opt</description>
+      <guid>https://psylinux.github.io/posts/howto_install_gdb_gef/</guid>
+      <description>HowTo :: Install GEF Cloning Goto GEF Project and clone the repository to /opt</description>
     </item>
     
   </channel>

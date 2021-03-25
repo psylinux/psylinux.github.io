@@ -6,11 +6,11 @@
     <description>Recent content in Categories on My Hack Lab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Thu, 25 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://psylinux.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 25 Mar 2021 17:19:34 -0300</lastBuildDate><atom:link href="https://psylinux.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>cheatsheet</title>
       <link>https://psylinux.github.io/categories/cheatsheet/</link>
-      <pubDate>Thu, 25 Mar 2021 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 25 Mar 2021 17:19:34 -0300</pubDate>
       
       <guid>https://psylinux.github.io/categories/cheatsheet/</guid>
       <description></description>
@@ -19,7 +19,7 @@
     <item>
       <title>shell</title>
       <link>https://psylinux.github.io/categories/shell/</link>
-      <pubDate>Thu, 25 Mar 2021 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 25 Mar 2021 17:19:34 -0300</pubDate>
       
       <guid>https://psylinux.github.io/categories/shell/</guid>
       <description></description>
@@ -28,7 +28,7 @@
     <item>
       <title>sysadmin</title>
       <link>https://psylinux.github.io/categories/sysadmin/</link>
-      <pubDate>Thu, 25 Mar 2021 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 25 Mar 2021 17:19:34 -0300</pubDate>
       
       <guid>https://psylinux.github.io/categories/sysadmin/</guid>
       <description></description>
@@ -98,6 +98,15 @@
     </item>
     
     <item>
+      <title>howto</title>
+      <link>https://psylinux.github.io/categories/howto/</link>
+      <pubDate>Fri, 04 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://psylinux.github.io/categories/howto/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>PyEnv</title>
       <link>https://psylinux.github.io/categories/pyenv/</link>
       <pubDate>Fri, 04 Jan 2019 00:00:00 +0000</pubDate>
@@ -139,15 +148,6 @@
       <pubDate>Tue, 02 Oct 2018 00:00:00 +0000</pubDate>
       
       <guid>https://psylinux.github.io/categories/gpg/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>howto</title>
-      <link>https://psylinux.github.io/categories/howto/</link>
-      <pubDate>Tue, 02 Oct 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://psylinux.github.io/categories/howto/</guid>
       <description></description>
     </item>
     

@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    
+    
+
+
+    <head>
+    <link href="https://gmpg.org/xfn/11" rel="profile">
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Cache-Control" content="public" />
+<!-- Enable responsiveness on mobile devices -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.81.0" />
+
+    
+    
+    
+
+<title>Using the Linux Syscalls in Assembly • My Hack Lab</title>
+
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Using the Linux Syscalls in Assembly"/>
+<meta name="twitter:description" content="Using the Linux Syscalls in Assembly Preface In this post we&rsquo;ll see how a process running in the userland can invoke syscalls to run system commands."/>
+
+<meta property="og:title" content="Using the Linux Syscalls in Assembly" />
+<meta property="og:description" content="Using the Linux Syscalls in Assembly Preface In this post we&rsquo;ll see how a process running in the userland can invoke syscalls to run system commands." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://psylinux.github.io/posts/linux_syscalls_in_assembly/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2018-12-28T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2018-12-28T00:00:00&#43;00:00" /><meta property="og:site_name" content="My Hack Lab" />
+
+
+
+    
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai-sublime.min.css">
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/scss/hyde-hyde.71157e768c4e111a23c3531b95e0cbb59bbef3c9e6901d36247cb53d6b6be258.css" integrity="sha256-cRV&#43;doxOERojw1MbleDLtZu&#43;88nmkB02JHy1PWtr4lg=">
+
+
+<link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
+
+
+
+
+<link rel="stylesheet" href="/scss/hugo-toc.0873834b0f2e9fdc9e1d0301e8ebce21fc10383882a41e9373f29b90e85a9987.css" integrity="sha256-CHODSw8un9yeHQMB6OvOIfwQODiCpB6Tc/KbkOhamYc=">
+
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" href="/favicon.png">
+    
+    
+
+</head>
+
+
+    <body class=" ">
+    
+<div class="sidebar">
+  <div class="container ">
+    <div class="sidebar-about">
+      <span class="site__title">
+        <a href="https://psylinux.github.io/">My Hack Lab</a>
+      </span>
+      
+        
+        
+        
+        <div class="author-image">
+          <img src="https://psylinux.github.io/img/psylinux.png" alt="Author Image" class="img--circle img--headshot element--center">
+        </div>
+        
+      
+      
+      <p class="site__description">
+         Marcos Azevedo (a.k.a psylinux) 
+      </p>
+    </div>
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menuToggle">
+      <label for="menuToggle">My Hack Lab</label>
+      <div class="menu-content">
+        <div>
+	<ul class="sidebar-nav">
+		 
+		 
+			 
+				<li>
+					<a href="/posts/">
+						<span>Posts</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/portfolio/">
+						<span>Projects</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/about/">
+						<span>About</span>
+					</a>
+				</li>
+			 
+		
+	</ul>
+</div>
+
+        <section class="social">
+	
+	<a href="https://twitter.com/psylinux" rel="me"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	<a href="https://github.com/psylinux" rel="me"><i class="fab fa-github fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://linkedin.com/in/mtazevedo" rel="me"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<a href="mailto:psylinux@gmail.com" rel="me"><i class="fas fa-at fa-lg" aria-hidden="true"></i></a>
+	
+</section>
+
+      </div>
+    </div>
+    
+<div class="copyright">
+  &copy; 2021 psylinux
+  
+    <a href="https://opensource.org/licenses/MIT">Copyright</a>
+  
+</div>
+
+
+
+  </div>
+</div>
+
+        <div class="content container">
+            
+    
+<article>
+  <header>
+    <h1>Using the Linux Syscalls in Assembly</h1>
+    
+    
+<div class="post__meta">
+    
+    
+      <i class="fas fa-calendar-alt"></i> Dec 28, 2018
+    
+    
+    
+      
+      
+          in
+          
+          
+              <a class="badge badge-category" href="/categories/assembly">ASSEMBLY</a>
+              •
+          
+              <a class="badge badge-category" href="/categories/development">DEVELOPMENT</a>
+              •
+          
+              <a class="badge badge-category" href="/categories/exploitation">EXPLOITATION</a>
+              •
+          
+              <a class="badge badge-category" href="/categories/glibc">GLIBC</a>
+              
+          
+      
+    
+    
+    
+      
+      
+          <br/>
+           <i class="fas fa-tags"></i>
+          
+          <a class="badge badge-tag" href="/tags/assembly">assembly</a>
+           
+      
+          <a class="badge badge-tag" href="/tags/nasm">nasm</a>
+           
+      
+          <a class="badge badge-tag" href="/tags/dev">dev</a>
+           
+      
+          <a class="badge badge-tag" href="/tags/glibc">glibc</a>
+           
+      
+          <a class="badge badge-tag" href="/tags/linux">linux</a>
+           
+      
+          <a class="badge badge-tag" href="/tags/userland">userland</a>
+           
+      
+          <a class="badge badge-tag" href="/tags/exploitation">exploitation</a>
+          
+      
+    
+    
+    <br/>
+    <i class="fas fa-clock"></i> 4 min read
+</div>
+
+
+  </header>
+  
+  
+  
+    <div class="toc-wrapper">
+      <input type="checkbox" id="tocToggle">
+      <label for="tocToggle">Table of Content</label>
+      
+          <nav id="TableOfContents">
+  <ul>
+    <li><a href="#preface">Preface</a></li>
+    <li><a href="#objective">Objective</a></li>
+    <li><a href="#writing-the-program">Writing the program</a></li>
+    <li><a href="#invoking-the-syscalls">Invoking the syscalls</a></li>
+    <li><a href="#the-assembly-code">The assembly code</a></li>
+    <li><a href="#compiling-the-code">Compiling the code</a></li>
+  </ul>
+</nav>
+      
+    </div>
+  
+  
+  <div class="post">
+    <h1 id="using-the-linux-syscalls-in-assembly">Using the Linux Syscalls in Assembly</h1>
+<h2 id="preface">Preface</h2>
+<p>In this post we&rsquo;ll see how a process running in the <strong>userland</strong> can invoke <strong>syscalls</strong> to run system commands.</p>
+<h2 id="objective">Objective</h2>
+<p>We&rsquo;ll build a program, an Linux elf64 binary, to use some basics <strong>syscalls</strong> to print a message on the screen.</p>
+<h2 id="writing-the-program">Writing the program</h2>
+<p>For this task we&rsquo;ll take a look at the <code>write</code> syscall that allow us to print a message on the screen.
+In Linux x64, we can use the file <strong>.h</strong> (header) bellow to find more information about the <code>write</code> syscall:</p>
+<pre><code>$ cat /usr/include/x86_64-linux-gnu/asm/unistd_64.h | grep write
+#define __NR_write 1
+#define __NR_pwrite64 18
+#define __NR_writev 20
+#define __NR_pwritev 296
+#define __NR_process_vm_writev 311
+#define __NR_pwritev2 328
+</code></pre><p>Now that we know that must use the number <strong>1</strong> to call the write syscall, let&rsquo;s check the developer&rsquo;s manual to learn more about this syscall.</p>
+<pre><code>$ man 2 write
+</code></pre><p><img src="../pics/write_syscall_1.png" alt=""></p>
+<p>As we can see, in this snipped code, the <code>write</code> syscall has three arguments:</p>
+<p><strong>ssize_t write(int fd, const void *buf, size_t count);</strong></p>
+<p>The first argument is the file descriptor, which has three modes:</p>
+<p><strong>0</strong> -&gt; Standard Input -&gt; stdin
+<strong>1</strong> -&gt; Standard Output -&gt; stdout
+<strong>2</strong> -&gt; Standard Error -&gt; stderr</p>
+<h2 id="invoking-the-syscalls">Invoking the syscalls</h2>
+<p>Reading the syscall manual, we learn how to setup our x64 arch registers to invoke syscalls:</p>
+<p><img src="../pics/exit_syscall_reg_1.png" alt=""></p>
+<ol>
+<li>The syscall number goes in <strong>RAX</strong></li>
+<li>The first argument goes in <strong>RDI</strong></li>
+<li>The second argument goes in <strong>RSI</strong></li>
+<li>The third argument goes in <strong>RDX</strong></li>
+<li>The forth argument goes in <strong>R10</strong></li>
+<li>The fifth argument goes in <strong>R8</strong></li>
+<li>The sixth argument goes in <strong>R9</strong></li>
+</ol>
+<h2 id="the-assembly-code">The assembly code</h2>
+<p>For our purpose we&rsquo;ll choose the standard output <strong>1</strong> to print the message on the screen. The second argument, will be a pointer to the string &ldquo;<em>Hacking The Planet</em>&rdquo;, and the third argument will be the count for the string, including spaces, which in our case will be <strong>16</strong>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#a6e22e">global</span> <span style="color:#66d9ef">_start</span>
+
+<span style="color:#a6e22e">section</span> <span style="color:#66d9ef">.text</span>
+
+_start:
+<span style="color:#75715e">;
+</span><span style="color:#75715e">; Setting up the registers to print the message
+</span><span style="color:#75715e">; using the &#34;write&#34; syscall
+</span><span style="color:#75715e">;
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">rax</span>, <span style="color:#ae81ff">1</span>
+	<span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">rdi</span>, <span style="color:#ae81ff">1</span>
+	<span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">rsi</span>, <span style="color:#66d9ef">msg</span>
+	<span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">rdx</span>, <span style="color:#66d9ef">length</span>
+	<span style="color:#a6e22e">syscall</span>
+
+<span style="color:#a6e22e">section</span> <span style="color:#66d9ef">.data</span>
+	msg: <span style="color:#a6e22e">db</span> <span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#66d9ef">Hack</span> <span style="color:#66d9ef">The</span> <span style="color:#66d9ef">Planet</span><span style="color:#960050;background-color:#1e0010">&#39;</span>,<span style="color:#ae81ff">0xa</span>
+	length: <span style="color:#a6e22e">equ</span> <span style="color:#66d9ef">$-msg</span>
+</code></pre></div><h2 id="compiling-the-code">Compiling the code</h2>
+<p>Let&rsquo;s compile aqnd link this assembly pseudo code:</p>
+<pre><code>$ nasm -felf64 syscall-001.nasm -o syscall-001.o
+$ ld syscall-001.o -o syscall-001.bin
+</code></pre><p>Once we run our program with <strong>./syscall-001.bin</strong> we can see that our message &ldquo;Hack The Planet&rdquo; is printed out on the screen, but the <em>Segmentation Fault</em> error message appears at the end of execution:</p>
+<p><img src="../pics/write_syscall_2.png" alt=""></p>
+<p>If we want that our program exits nicely, then we have to use <code>exit</code> syscall. Let&rsquo;s take a deeper look at this issue.</p>
+<p>Let&rsquo;s get back to that header file which contains all the syscalls for Linux x64:</p>
+<pre><code>$ cat /usr/include/x86_64-linux-gnu/asm/unistd_64.h | grep exit
+#define __NR_exit 60
+#define __NR_exit_group 231
+#define __NR_exit_group 231
+</code></pre><p>As we can see the <code>exit</code> syscall has the number 60. Let&rsquo;s check the <strong>man page</strong> for better understand this <strong>syscall</strong>.</p>
+<pre><code>$man 2 exit
+</code></pre><p><img src="../pics/exit_syscall_1.png" alt=""></p>
+<p>There is only one argument &ldquo;<strong>int status</strong>&rdquo; to define the exit status, for example, 0 (zero) status for no error:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C" data-lang="C">...<span style="color:#f92672">&lt;</span>snip<span style="color:#f92672">&gt;</span>
+<span style="color:#66d9ef">void</span> _exit(<span style="color:#66d9ef">int</span> status);
+<span style="color:#f92672">&lt;</span>snip<span style="color:#f92672">&gt;</span>...
+</code></pre></div><p>So let&rsquo;s add the exit syscall portion to our program, and set the exit(1) just for testing.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#a6e22e">global</span> <span style="color:#66d9ef">_start</span>
+
+<span style="color:#a6e22e">section</span> <span style="color:#66d9ef">.text</span>
+
+_start:
+<span style="color:#75715e">;
+</span><span style="color:#75715e">; Setting up the registers to print the message
+</span><span style="color:#75715e">; using the &#34;write&#34; syscall
+</span><span style="color:#75715e">;
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">rax</span>, <span style="color:#ae81ff">1</span>
+	<span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">rdi</span>, <span style="color:#ae81ff">1</span>
+	<span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">rsi</span>, <span style="color:#66d9ef">msg</span>
+	<span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">rdx</span>, <span style="color:#66d9ef">length</span>
+	<span style="color:#a6e22e">syscall</span>
+
+<span style="color:#75715e">;
+</span><span style="color:#75715e">; Setting up the registers to call the &#34;exit&#34; syscall
+</span><span style="color:#75715e">; and exit normally with return 1
+</span><span style="color:#75715e">; Note: if we comment this the process will finish with
+</span><span style="color:#75715e">; Segmentation Fault error
+</span><span style="color:#75715e">;
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">rax</span>, <span style="color:#ae81ff">60</span>
+	<span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">rdi</span>, <span style="color:#ae81ff">1</span>
+	<span style="color:#a6e22e">syscall</span>
+
+<span style="color:#a6e22e">section</span> <span style="color:#66d9ef">.data</span>
+	msg: <span style="color:#a6e22e">db</span> <span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#66d9ef">Hack</span> <span style="color:#66d9ef">The</span> <span style="color:#66d9ef">Planet</span><span style="color:#960050;background-color:#1e0010">&#39;</span>,<span style="color:#ae81ff">0xa</span>
+	length: <span style="color:#a6e22e">equ</span> <span style="color:#66d9ef">$-msg</span>
+</code></pre></div><p>Now, we compile the assembly pseudo code:</p>
+<pre><code>$ nasm -felf64 syscall-001.nasm -o syscall-001.o
+$ ld syscall-001.o -o syscall-001.bin
+</code></pre><p>And after we run the <em>./syscall-001.bin</em>, we can check that the exit status is <strong>&ldquo;1&rdquo;</strong> as we designed to be.</p>
+<p><img src="../pics/exit_syscall_2.png" alt=""></p>
+<p>If we use the <code>strace</code> command to analise this elf32 binary we shall see some interesting stuff. For example, we can see that when we run the binary, the shell uses an <strong>execve</strong> with our binary passed as an argument along with other environment variables.</p>
+<p><img src="../pics/exit_syscall_3.png" alt=""></p>
+<p><img src="../pics/execve_1.png" alt=""></p>
+<hr>
+<p><img src="../pics/syscall_execution_1.png" alt=""></p>
+<p><img src="../pics/syscall_execution_2.png" alt=""></p>
+
+  </div>
+  
+
+<div class="navigation navigation-single">
+    
+    <a href="/posts/cheatsheet_gcc_compiling/" class="navigation-prev">
+      <i aria-hidden="true" class="fa fa-chevron-left"></i>
+      <span class="navigation-tittle">Cheat Sheet :: GCC Compiling Cheat Sheet</span>
+    </a>
+    
+    
+    <a href="/posts/howto_install_pyenv/" class="navigation-next">
+      <span class="navigation-tittle">HowTo :: Install PyEnv</span>
+      <i aria-hidden="true" class="fa fa-chevron-right"></i>
+    </a>
+    
+</div>
+
+
+  
+
+  
+    
+
+
+</article>
+
+
+        </div>
+        
+    
+
+<script defer src="https://use.fontawesome.com/releases/v5.11.2/js/all.js" integrity="sha384-b3ua1l97aVGAPEIe48b4TC60WUQbQaGi2jqAWM90y0OZXZeyaTCWtBTKtjW2GXG1" crossorigin="anonymous"></script>
+
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+        
+    <script type="text/javascript">
+        
+        hljs.initHighlightingOnLoad();
+    </script>
+    
+
+
+
+
+
+    
+
+
+
+    </body>
+</html>
