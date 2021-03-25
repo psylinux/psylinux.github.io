@@ -36,19 +36,19 @@
     
     <item>
       <title>Patching binary files in Linux</title>
-      <link>https://psylinux.github.io/posts/patching_binaries_in_linux/</link>
+      <link>https://psylinux.github.io/posts/howto_patching_binaries_in_linux/</link>
       <pubDate>Mon, 14 Jan 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://psylinux.github.io/posts/patching_binaries_in_linux/</guid>
+      <guid>https://psylinux.github.io/posts/howto_patching_binaries_in_linux/</guid>
       <description>Patching binary files in Linux Using xxd Binary to Hex $ xxd prog1.</description>
     </item>
     
     <item>
-      <title>Debugging with strace</title>
-      <link>https://psylinux.github.io/posts/debugging_with_strace/</link>
+      <title>Article :: Debugging with strace</title>
+      <link>https://psylinux.github.io/posts/article_debugging_with_strace/</link>
       <pubDate>Sun, 13 Jan 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://psylinux.github.io/posts/debugging_with_strace/</guid>
+      <guid>https://psylinux.github.io/posts/article_debugging_with_strace/</guid>
       <description>Strace debugging tool Preface Strace is a debugging tool that help us to troubleshoot issues.</description>
     </item>
     
@@ -62,12 +62,21 @@
     </item>
     
     <item>
-      <title>Using the Linux Syscalls in Assembly</title>
-      <link>https://psylinux.github.io/posts/linux_syscalls_in_assembly/</link>
+      <title>Article :: Using the Linux Syscalls in Assembly</title>
+      <link>https://psylinux.github.io/posts/article_linux_syscalls_in_assembly/</link>
       <pubDate>Fri, 28 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://psylinux.github.io/posts/linux_syscalls_in_assembly/</guid>
+      <guid>https://psylinux.github.io/posts/article_linux_syscalls_in_assembly/</guid>
       <description>Using the Linux Syscalls in Assembly Preface In this post we&amp;rsquo;ll see how a process running in the userland can invoke syscalls to run system commands.</description>
+    </item>
+    
+    <item>
+      <title>Article :: Getting Started with GDB</title>
+      <link>https://psylinux.github.io/posts/article_getting_start_with_gdb/</link>
+      <pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://psylinux.github.io/posts/article_getting_start_with_gdb/</guid>
+      <description>Getting Started with GDB Preface  Before start, take a look at GCC Compiling Cheat Sheet.</description>
     </item>
     
     <item>
@@ -77,15 +86,6 @@
       
       <guid>https://psylinux.github.io/posts/cheatsheet_gcc_compiling/</guid>
       <description>Cheat Sheet :: GCC Syntax and Compiling Options Static compiling gcc -static cve_2016_0728.</description>
-    </item>
-    
-    <item>
-      <title>Getting Started with GDB</title>
-      <link>https://psylinux.github.io/posts/getting_start_with_gdb/</link>
-      <pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://psylinux.github.io/posts/getting_start_with_gdb/</guid>
-      <description>Getting Started with GDB Preface  Before start, take a look at GCC Compiling Cheat Sheet.</description>
     </item>
     
     <item>

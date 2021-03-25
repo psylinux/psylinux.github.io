@@ -116,6 +116,15 @@
     </item>
     
     <item>
+      <title>howto</title>
+      <link>https://psylinux.github.io/tags/howto/</link>
+      <pubDate>Mon, 14 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://psylinux.github.io/tags/howto/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>nasm</title>
       <link>https://psylinux.github.io/tags/nasm/</link>
       <pubDate>Mon, 14 Jan 2019 00:00:00 +0000</pubDate>
@@ -130,6 +139,15 @@
       <pubDate>Mon, 14 Jan 2019 00:00:00 +0000</pubDate>
       
       <guid>https://psylinux.github.io/tags/userland/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>article</title>
+      <link>https://psylinux.github.io/tags/article/</link>
+      <pubDate>Sun, 13 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://psylinux.github.io/tags/article/</guid>
       <description></description>
     </item>
     
@@ -157,15 +175,6 @@
       <pubDate>Sun, 13 Jan 2019 00:00:00 +0000</pubDate>
       
       <guid>https://psylinux.github.io/tags/strace/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>howto</title>
-      <link>https://psylinux.github.io/tags/howto/</link>
-      <pubDate>Fri, 04 Jan 2019 00:00:00 +0000</pubDate>
-      
-      <guid>https://psylinux.github.io/tags/howto/</guid>
       <description></description>
     </item>
     

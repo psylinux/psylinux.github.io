@@ -17,19 +17,19 @@
     
     
 
-<title>HowTo :: Install GEF (GDB Plug-in) • My Hack Lab</title>
+<title>Article :: Debugging with strace • My Hack Lab</title>
 
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="HowTo :: Install GEF (GDB Plug-in)"/>
-<meta name="twitter:description" content="HowTo :: Install GEF Cloning Goto GEF Project and clone the repository to /opt"/>
+<meta name="twitter:title" content="Article :: Debugging with strace"/>
+<meta name="twitter:description" content="Strace debugging tool Preface Strace is a debugging tool that help us to troubleshoot issues."/>
 
-<meta property="og:title" content="HowTo :: Install GEF (GDB Plug-in)" />
-<meta property="og:description" content="HowTo :: Install GEF Cloning Goto GEF Project and clone the repository to /opt" />
+<meta property="og:title" content="Article :: Debugging with strace" />
+<meta property="og:description" content="Strace debugging tool Preface Strace is a debugging tool that help us to troubleshoot issues." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://psylinux.github.io/posts/howto_install_gdb_gef/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2018-12-16T00:00:00&#43;00:00" />
-<meta property="article:modified_time" content="2018-12-16T00:00:00&#43;00:00" /><meta property="og:site_name" content="My Hack Lab" />
+<meta property="og:url" content="https://psylinux.github.io/posts/article_debugging_with_strace/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2019-01-13T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2019-01-13T00:00:00&#43;00:00" /><meta property="og:site_name" content="My Hack Lab" />
 
 
 
@@ -176,13 +176,13 @@
     
 <article>
   <header>
-    <h1>HowTo :: Install GEF (GDB Plug-in)</h1>
+    <h1>Article :: Debugging with strace</h1>
     
     
 <div class="post__meta">
     
     
-      <i class="fas fa-calendar-alt"></i> Dec 16, 2018
+      <i class="fas fa-calendar-alt"></i> Jan 13, 2019
     
     
     
@@ -191,13 +191,13 @@
           in
           
           
+              <a class="badge badge-category" href="/categories/article">ARTICLE</a>
+              •
+          
               <a class="badge badge-category" href="/categories/debug">DEBUG</a>
               •
           
               <a class="badge badge-category" href="/categories/development">DEVELOPMENT</a>
-              •
-          
-              <a class="badge badge-category" href="/categories/howto">HOWTO</a>
               •
           
               <a class="badge badge-category" href="/categories/linux">LINUX</a>
@@ -212,16 +212,16 @@
           <br/>
            <i class="fas fa-tags"></i>
           
-          <a class="badge badge-tag" href="/tags/howto">howto</a>
+          <a class="badge badge-tag" href="/tags/article">article</a>
            
       
           <a class="badge badge-tag" href="/tags/linux">linux</a>
            
       
-          <a class="badge badge-tag" href="/tags/gdb">gdb</a>
+          <a class="badge badge-tag" href="/tags/strace">strace</a>
            
       
-          <a class="badge badge-tag" href="/tags/gef">gef</a>
+          <a class="badge badge-tag" href="/tags/debug">debug</a>
            
       
           <a class="badge badge-tag" href="/tags/development">development</a>
@@ -244,16 +244,11 @@
       
           <nav id="TableOfContents">
   <ul>
-    <li><a href="#cloning">Cloning</a></li>
-    <li><a href="#checking">Checking</a>
-      <ul>
-        <li><a href="#to-check-if-the-gdb-was-compiled-with-python-support-run-the-following-command-in-terminal">To check if the GDB was compiled with Python support run the following command in terminal:</a></li>
-        <li><a href="#the-output-should-be-similar-to-this">The output should be similar to this:</a></li>
-      </ul>
-    </li>
-    <li><a href="#installing">Installing</a></li>
-    <li><a href="#configuring">Configuring</a></li>
-    <li><a href="#updating">Updating</a></li>
+    <li><a href="#preface">Preface</a></li>
+    <li><a href="#tracing-an-execution">Tracing an execution</a></li>
+    <li><a href="#using-filters">Using filters</a></li>
+    <li><a href="#attaching-to-a-running-process">Attaching to a running process</a></li>
+    <li><a href="#show-the-program-statistics">Show the program statistics</a></li>
   </ul>
 </nav>
       
@@ -261,44 +256,37 @@
   
   
   <div class="post">
-    <h1 id="howto--install--gef">HowTo :: Install  GEF</h1>
-<h2 id="cloning">Cloning</h2>
-<p>Goto <a href="https://github.com/hugsy/gef">GEF Project</a> and clone the repository to <strong>/opt</strong></p>
-<pre><code>cd /opt
-git clone https://github.com/hugsy/gef.git
-</code></pre><h2 id="checking">Checking</h2>
-<h3 id="to-check-if-the-gdb-was-compiled-with-python-support-run-the-following-command-in-terminal">To check if the GDB was compiled with Python support run the following command in terminal:</h3>
-<pre><code>gdb -nx -ex 'pi print(sys.version)' -ex quit
-</code></pre><h3 id="the-output-should-be-similar-to-this">The output should be similar to this:</h3>
-<pre><code>2.7.3 (default, Mar 18 2014, 06:31:17)
-[GCC 4.6.3]
-</code></pre><h2 id="installing">Installing</h2>
-<p>To install the gef plug-in, just run the shell scripts as following:</p>
-<pre><code>/opt/gef/scripts/gef.sh
-/opt/gef/scripts/gef-extras.sh
-</code></pre><h2 id="configuring">Configuring</h2>
-<ul>
-<li>Use the <em>pyenv</em> to set the correct python version</li>
-<li>Enter the GDB and type: <em>gef missing</em></li>
-<li>Use <em>pip</em> to install the GEF dependences</li>
-</ul>
-<h2 id="updating">Updating</h2>
-<p>To keep the GEF plug-in update, just do:</p>
-<pre><code>python ~/.gdbinit-gef.py --update
+    <h1 id="strace-debugging-tool">Strace debugging tool</h1>
+<h2 id="preface">Preface</h2>
+<p>Strace is a debugging tool that help us to troubleshoot issues. Strace monitors the system calls and signals of a specific program and it is helpful when we do not have the source code and would like to debug the execution of a program. The strace provides us the execution sequence of a binary from start to end including a very nice matrix that we&rsquo;ll look at this article.
+Strace can show us all passed arguments with great filter capabilities.</p>
+<h2 id="tracing-an-execution">Tracing an execution</h2>
+<pre><code>-x write to an output file
+-t shows the timestamp
+-r shows the relative timestamp
+</code></pre>
+<pre><code>$ strace Binary_File
+</code></pre><h2 id="using-filters">Using filters</h2>
+<p>We can call the program with arguments and use the -e option to filter just what we want:</p>
+<pre><code>$ strace -e socket, send, recv nc google.com 80
+</code></pre><h2 id="attaching-to-a-running-process">Attaching to a running process</h2>
+<pre><code>$ strace -p PID
+</code></pre><h2 id="show-the-program-statistics">Show the program statistics</h2>
+<pre><code>$ strace -c binary_file arguments
 </code></pre>
   </div>
   
 
 <div class="navigation navigation-single">
     
-    <a href="/posts/howto_ssh_with_gpg/" class="navigation-prev">
+    <a href="/posts/howto_install_pyenv/" class="navigation-prev">
       <i aria-hidden="true" class="fa fa-chevron-left"></i>
-      <span class="navigation-tittle">HowTo :: SSH access using a GPG key for authentication</span>
+      <span class="navigation-tittle">HowTo :: Install PyEnv</span>
     </a>
     
     
-    <a href="/posts/cheatsheet_gcc_compiling/" class="navigation-next">
-      <span class="navigation-tittle">Cheat Sheet :: GCC Compiling Cheat Sheet</span>
+    <a href="/posts/howto_patching_binaries_in_linux/" class="navigation-next">
+      <span class="navigation-tittle">Patching binary files in Linux</span>
       <i aria-hidden="true" class="fa fa-chevron-right"></i>
     </a>
     

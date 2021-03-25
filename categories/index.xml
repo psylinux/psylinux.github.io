@@ -80,6 +80,24 @@
     </item>
     
     <item>
+      <title>howto</title>
+      <link>https://psylinux.github.io/categories/howto/</link>
+      <pubDate>Mon, 14 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://psylinux.github.io/categories/howto/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>article</title>
+      <link>https://psylinux.github.io/categories/article/</link>
+      <pubDate>Sun, 13 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://psylinux.github.io/categories/article/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>debug</title>
       <link>https://psylinux.github.io/categories/debug/</link>
       <pubDate>Sun, 13 Jan 2019 00:00:00 +0000</pubDate>
@@ -94,15 +112,6 @@
       <pubDate>Sun, 13 Jan 2019 00:00:00 +0000</pubDate>
       
       <guid>https://psylinux.github.io/categories/linux/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>howto</title>
-      <link>https://psylinux.github.io/categories/howto/</link>
-      <pubDate>Fri, 04 Jan 2019 00:00:00 +0000</pubDate>
-      
-      <guid>https://psylinux.github.io/categories/howto/</guid>
       <description></description>
     </item>
     

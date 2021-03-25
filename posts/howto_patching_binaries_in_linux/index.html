@@ -17,19 +17,19 @@
     
     
 
-<title>HowTo :: Install GEF (GDB Plug-in) • My Hack Lab</title>
+<title>Patching binary files in Linux • My Hack Lab</title>
 
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="HowTo :: Install GEF (GDB Plug-in)"/>
-<meta name="twitter:description" content="HowTo :: Install GEF Cloning Goto GEF Project and clone the repository to /opt"/>
+<meta name="twitter:title" content="Patching binary files in Linux"/>
+<meta name="twitter:description" content="Patching binary files in Linux Using xxd Binary to Hex $ xxd prog1."/>
 
-<meta property="og:title" content="HowTo :: Install GEF (GDB Plug-in)" />
-<meta property="og:description" content="HowTo :: Install GEF Cloning Goto GEF Project and clone the repository to /opt" />
+<meta property="og:title" content="Patching binary files in Linux" />
+<meta property="og:description" content="Patching binary files in Linux Using xxd Binary to Hex $ xxd prog1." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://psylinux.github.io/posts/howto_install_gdb_gef/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2018-12-16T00:00:00&#43;00:00" />
-<meta property="article:modified_time" content="2018-12-16T00:00:00&#43;00:00" /><meta property="og:site_name" content="My Hack Lab" />
+<meta property="og:url" content="https://psylinux.github.io/posts/howto_patching_binaries_in_linux/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2019-01-14T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2019-01-14T00:00:00&#43;00:00" /><meta property="og:site_name" content="My Hack Lab" />
 
 
 
@@ -176,13 +176,13 @@
     
 <article>
   <header>
-    <h1>HowTo :: Install GEF (GDB Plug-in)</h1>
+    <h1>Patching binary files in Linux</h1>
     
     
 <div class="post__meta">
     
     
-      <i class="fas fa-calendar-alt"></i> Dec 16, 2018
+      <i class="fas fa-calendar-alt"></i> Jan 14, 2019
     
     
     
@@ -191,16 +191,16 @@
           in
           
           
-              <a class="badge badge-category" href="/categories/debug">DEBUG</a>
+              <a class="badge badge-category" href="/categories/assembly">ASSEMBLY</a>
               •
           
               <a class="badge badge-category" href="/categories/development">DEVELOPMENT</a>
               •
           
-              <a class="badge badge-category" href="/categories/howto">HOWTO</a>
+              <a class="badge badge-category" href="/categories/exploitation">EXPLOITATION</a>
               •
           
-              <a class="badge badge-category" href="/categories/linux">LINUX</a>
+              <a class="badge badge-category" href="/categories/howto">HOWTO</a>
               
           
       
@@ -215,16 +215,25 @@
           <a class="badge badge-tag" href="/tags/howto">howto</a>
            
       
+          <a class="badge badge-tag" href="/tags/assembly">assembly</a>
+           
+      
+          <a class="badge badge-tag" href="/tags/nasm">nasm</a>
+           
+      
+          <a class="badge badge-tag" href="/tags/dev">dev</a>
+           
+      
+          <a class="badge badge-tag" href="/tags/glibc">glibc</a>
+           
+      
           <a class="badge badge-tag" href="/tags/linux">linux</a>
            
       
-          <a class="badge badge-tag" href="/tags/gdb">gdb</a>
+          <a class="badge badge-tag" href="/tags/userland">userland</a>
            
       
-          <a class="badge badge-tag" href="/tags/gef">gef</a>
-           
-      
-          <a class="badge badge-tag" href="/tags/development">development</a>
+          <a class="badge badge-tag" href="/tags/exploitation">exploitation</a>
           
       
     
@@ -244,16 +253,13 @@
       
           <nav id="TableOfContents">
   <ul>
-    <li><a href="#cloning">Cloning</a></li>
-    <li><a href="#checking">Checking</a>
+    <li><a href="#using-xxd">Using xxd</a>
       <ul>
-        <li><a href="#to-check-if-the-gdb-was-compiled-with-python-support-run-the-following-command-in-terminal">To check if the GDB was compiled with Python support run the following command in terminal:</a></li>
-        <li><a href="#the-output-should-be-similar-to-this">The output should be similar to this:</a></li>
+        <li><a href="#binary-to-hex">Binary to Hex</a></li>
+        <li><a href="#hex-to-binary">Hex to Binary</a></li>
       </ul>
     </li>
-    <li><a href="#installing">Installing</a></li>
-    <li><a href="#configuring">Configuring</a></li>
-    <li><a href="#updating">Updating</a></li>
+    <li><a href="#using-bsdiff">Using bsdiff</a></li>
   </ul>
 </nav>
       
@@ -261,44 +267,38 @@
   
   
   <div class="post">
-    <h1 id="howto--install--gef">HowTo :: Install  GEF</h1>
-<h2 id="cloning">Cloning</h2>
-<p>Goto <a href="https://github.com/hugsy/gef">GEF Project</a> and clone the repository to <strong>/opt</strong></p>
-<pre><code>cd /opt
-git clone https://github.com/hugsy/gef.git
-</code></pre><h2 id="checking">Checking</h2>
-<h3 id="to-check-if-the-gdb-was-compiled-with-python-support-run-the-following-command-in-terminal">To check if the GDB was compiled with Python support run the following command in terminal:</h3>
-<pre><code>gdb -nx -ex 'pi print(sys.version)' -ex quit
-</code></pre><h3 id="the-output-should-be-similar-to-this">The output should be similar to this:</h3>
-<pre><code>2.7.3 (default, Mar 18 2014, 06:31:17)
-[GCC 4.6.3]
-</code></pre><h2 id="installing">Installing</h2>
-<p>To install the gef plug-in, just run the shell scripts as following:</p>
-<pre><code>/opt/gef/scripts/gef.sh
-/opt/gef/scripts/gef-extras.sh
-</code></pre><h2 id="configuring">Configuring</h2>
-<ul>
-<li>Use the <em>pyenv</em> to set the correct python version</li>
-<li>Enter the GDB and type: <em>gef missing</em></li>
-<li>Use <em>pip</em> to install the GEF dependences</li>
+    <h1 id="patching-binary-files-in-linux">Patching binary files in Linux</h1>
+<h2 id="using-xxd">Using xxd</h2>
+<h3 id="binary-to-hex">Binary to Hex</h3>
+<pre><code>$ xxd prog1.bin &gt; b1.hex
+$ xxd prog1.bin &gt; b2.hex
+</code></pre><h3 id="hex-to-binary">Hex to Binary</h3>
+<pre><code>$ xxd -r -p b1.hex new_prog1.bin
+</code></pre><ul>
+<li>Then we can generate the diff like this:</li>
 </ul>
-<h2 id="updating">Updating</h2>
-<p>To keep the GEF plug-in update, just do:</p>
-<pre><code>python ~/.gdbinit-gef.py --update
+<pre><code>diff b1.hex b2.hex
+</code></pre><p>or</p>
+<pre><code>vimdiff b1.hex b2.hex
+</code></pre><h2 id="using-bsdiff">Using bsdiff</h2>
+<pre><code>$ apt-get install bsdiff
+
+$ bsdiff old_prog.bin new_prog.bin patch.bin
+$ bspatch old_prog.bin output.bin patch.bin
 </code></pre>
   </div>
   
 
 <div class="navigation navigation-single">
     
-    <a href="/posts/howto_ssh_with_gpg/" class="navigation-prev">
+    <a href="/posts/article_debugging_with_strace/" class="navigation-prev">
       <i aria-hidden="true" class="fa fa-chevron-left"></i>
-      <span class="navigation-tittle">HowTo :: SSH access using a GPG key for authentication</span>
+      <span class="navigation-tittle">Article :: Debugging with strace</span>
     </a>
     
     
-    <a href="/posts/cheatsheet_gcc_compiling/" class="navigation-next">
-      <span class="navigation-tittle">Cheat Sheet :: GCC Compiling Cheat Sheet</span>
+    <a href="/posts/cheatsheet_privilege_escalation/" class="navigation-next">
+      <span class="navigation-tittle">Cheat Sheet :: Privilege Escalation</span>
       <i aria-hidden="true" class="fa fa-chevron-right"></i>
     </a>
     

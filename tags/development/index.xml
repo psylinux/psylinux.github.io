@@ -8,11 +8,11 @@
     <language>en-US</language>
     <lastBuildDate>Sun, 13 Jan 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://psylinux.github.io/tags/development/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Debugging with strace</title>
-      <link>https://psylinux.github.io/posts/debugging_with_strace/</link>
+      <title>Article :: Debugging with strace</title>
+      <link>https://psylinux.github.io/posts/article_debugging_with_strace/</link>
       <pubDate>Sun, 13 Jan 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://psylinux.github.io/posts/debugging_with_strace/</guid>
+      <guid>https://psylinux.github.io/posts/article_debugging_with_strace/</guid>
       <description>Strace debugging tool Preface Strace is a debugging tool that help us to troubleshoot issues.</description>
     </item>
     
@@ -26,21 +26,21 @@
     </item>
     
     <item>
+      <title>Article :: Getting Started with GDB</title>
+      <link>https://psylinux.github.io/posts/article_getting_start_with_gdb/</link>
+      <pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://psylinux.github.io/posts/article_getting_start_with_gdb/</guid>
+      <description>Getting Started with GDB Preface  Before start, take a look at GCC Compiling Cheat Sheet.</description>
+    </item>
+    
+    <item>
       <title>Cheat Sheet :: GCC Compiling Cheat Sheet</title>
       <link>https://psylinux.github.io/posts/cheatsheet_gcc_compiling/</link>
       <pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>https://psylinux.github.io/posts/cheatsheet_gcc_compiling/</guid>
       <description>Cheat Sheet :: GCC Syntax and Compiling Options Static compiling gcc -static cve_2016_0728.</description>
-    </item>
-    
-    <item>
-      <title>Getting Started with GDB</title>
-      <link>https://psylinux.github.io/posts/getting_start_with_gdb/</link>
-      <pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://psylinux.github.io/posts/getting_start_with_gdb/</guid>
-      <description>Getting Started with GDB Preface  Before start, take a look at GCC Compiling Cheat Sheet.</description>
     </item>
     
     <item>

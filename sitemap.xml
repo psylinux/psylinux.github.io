@@ -11,22 +11,22 @@
     <loc>https://psylinux.github.io/posts/cheatsheet_privilege_escalation/</loc>
     <lastmod>2020-06-16T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://psylinux.github.io/posts/patching_binaries_in_linux/</loc>
+    <loc>https://psylinux.github.io/posts/howto_patching_binaries_in_linux/</loc>
     <lastmod>2019-01-14T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://psylinux.github.io/posts/debugging_with_strace/</loc>
+    <loc>https://psylinux.github.io/posts/article_debugging_with_strace/</loc>
     <lastmod>2019-01-13T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://psylinux.github.io/posts/howto_install_pyenv/</loc>
     <lastmod>2019-01-04T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://psylinux.github.io/posts/linux_syscalls_in_assembly/</loc>
+    <loc>https://psylinux.github.io/posts/article_linux_syscalls_in_assembly/</loc>
     <lastmod>2018-12-28T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://psylinux.github.io/posts/cheatsheet_gcc_compiling/</loc>
+    <loc>https://psylinux.github.io/posts/article_getting_start_with_gdb/</loc>
     <lastmod>2018-12-16T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://psylinux.github.io/posts/getting_start_with_gdb/</loc>
+    <loc>https://psylinux.github.io/posts/cheatsheet_gcc_compiling/</loc>
     <lastmod>2018-12-16T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://psylinux.github.io/posts/howto_install_gdb_gef/</loc>
@@ -107,11 +107,23 @@
     <loc>https://psylinux.github.io/tags/glibc/</loc>
     <lastmod>2019-01-14T00:00:00+00:00</lastmod>
   </url><url>
+    <loc>https://psylinux.github.io/tags/howto/</loc>
+    <lastmod>2019-01-14T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://psylinux.github.io/categories/howto/</loc>
+    <lastmod>2019-01-14T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://psylinux.github.io/tags/nasm/</loc>
     <lastmod>2019-01-14T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://psylinux.github.io/tags/userland/</loc>
     <lastmod>2019-01-14T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://psylinux.github.io/tags/article/</loc>
+    <lastmod>2019-01-13T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://psylinux.github.io/categories/article/</loc>
+    <lastmod>2019-01-13T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://psylinux.github.io/tags/debug/</loc>
     <lastmod>2019-01-13T00:00:00+00:00</lastmod>
@@ -127,12 +139,6 @@
   </url><url>
     <loc>https://psylinux.github.io/tags/strace/</loc>
     <lastmod>2019-01-13T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://psylinux.github.io/tags/howto/</loc>
-    <lastmod>2019-01-04T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://psylinux.github.io/categories/howto/</loc>
-    <lastmod>2019-01-04T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://psylinux.github.io/categories/pyenv/</loc>
     <lastmod>2019-01-04T00:00:00+00:00</lastmod>

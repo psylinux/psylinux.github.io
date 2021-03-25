@@ -8,11 +8,11 @@
     <language>en-US</language>
     <lastBuildDate>Sun, 13 Jan 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://psylinux.github.io/categories/linux/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Debugging with strace</title>
-      <link>https://psylinux.github.io/posts/debugging_with_strace/</link>
+      <title>Article :: Debugging with strace</title>
+      <link>https://psylinux.github.io/posts/article_debugging_with_strace/</link>
       <pubDate>Sun, 13 Jan 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://psylinux.github.io/posts/debugging_with_strace/</guid>
+      <guid>https://psylinux.github.io/posts/article_debugging_with_strace/</guid>
       <description>Strace debugging tool Preface Strace is a debugging tool that help us to troubleshoot issues.</description>
     </item>
     
@@ -26,11 +26,11 @@
     </item>
     
     <item>
-      <title>Getting Started with GDB</title>
-      <link>https://psylinux.github.io/posts/getting_start_with_gdb/</link>
+      <title>Article :: Getting Started with GDB</title>
+      <link>https://psylinux.github.io/posts/article_getting_start_with_gdb/</link>
       <pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://psylinux.github.io/posts/getting_start_with_gdb/</guid>
+      <guid>https://psylinux.github.io/posts/article_getting_start_with_gdb/</guid>
       <description>Getting Started with GDB Preface  Before start, take a look at GCC Compiling Cheat Sheet.</description>
     </item>
     
