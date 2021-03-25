@@ -22,10 +22,10 @@
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="HowTo :: SSH access using a GPG key for authentication"/>
-<meta name="twitter:description" content="Many of us are familiar with Secure Shell (SSH), which allows us to connect to other systems using a key instead of a password."/>
+<meta name="twitter:description" content="Preface Many of us are familiar with Secure Shell (SSH), which allows us to connect to other systems using a key instead of a password."/>
 
 <meta property="og:title" content="HowTo :: SSH access using a GPG key for authentication" />
-<meta property="og:description" content="Many of us are familiar with Secure Shell (SSH), which allows us to connect to other systems using a key instead of a password." />
+<meta property="og:description" content="Preface Many of us are familiar with Secure Shell (SSH), which allows us to connect to other systems using a key instead of a password." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://psylinux.github.io/posts/howto_ssh_with_gpg/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2018-10-02T17:38:15-03:00" />
@@ -235,6 +235,7 @@
       
           <nav id="TableOfContents">
   <ul>
+    <li><a href="#preface">Preface</a></li>
     <li><a href="#what-is-a-gpg-subkey">What is a GPG subkey?</a></li>
     <li><a href="#create-an-authentication-subkey">Create an authentication subkey</a></li>
     <li><a href="#enable-the-gpg-subkey">Enable the GPG subkey</a></li>
@@ -247,7 +248,8 @@
   
   
   <div class="post">
-    <p>Many of us are familiar with Secure Shell (SSH), which allows us to connect to other systems using a key instead of a password. This guide will explain how to eliminate SSH keys and use a GNU Privacy Guard (GPG) subkey instead. Using GPG does not make your SSH connections more secure. SSH is a secure protocol, and SSH keys are secure. Instead, it makes certain forms of key distribution and backup management easier. It also will not change your workflow for using SSH. All commands will continue to work as you expect, except that you will no longer have SSH private keys and you will unlock your GPG key instead.</p>
+    <h2 id="preface">Preface</h2>
+<p>Many of us are familiar with Secure Shell (SSH), which allows us to connect to other systems using a key instead of a password. This guide will explain how to eliminate SSH keys and use a GNU Privacy Guard (GPG) subkey instead. Using GPG does not make your SSH connections more secure. SSH is a secure protocol, and SSH keys are secure. Instead, it makes certain forms of key distribution and backup management easier. It also will not change your workflow for using SSH. All commands will continue to work as you expect, except that you will no longer have SSH private keys and you will unlock your GPG key instead.</p>
 <p>By having SSH authenticated by your GPG key, you will reduce the number of key files you need to secure and back up. This means that your key management hygiene still has to be good, which means choosing good passphrases and using appropriate key preservation strategies. Remember, you shouldn&rsquo;t back your private key up to the cloud!</p>
 <p>Additionally, today SSH keys are distributed by hand and oftentimes directly. If you want to grant me access to a machine, you have to ask me for my SSH key. You may get lucky and find one posted on my website. However, you still have to decide if you trust my website. If I use a GPG key for SSH, you can select a known, good key for me using the GPG web of trust from a public keyserver. This is what <a href="https://monkeysphere.info/">The Monkeysphere Project</a> is working on. Otherwise, nothing you do here affects the web of trust used for GPG encryption and signing.</p>
 <h2 id="what-is-a-gpg-subkey">What is a GPG subkey?</h2>
@@ -256,7 +258,7 @@ The important thing to realize is that a GPG key contains multiple keys. For bac
 <p>This exercise will use a subkey that has been created for authentication to complete SSH connections. This authentication subkey will completely replace the keypair you may have generated in the past with <strong>ssh key-gen</strong>. You can create as many of these as you want if you need multiple SSH keys.</p>
 <h2 id="create-an-authentication-subkey">Create an authentication subkey</h2>
 <p>You should already have a GPG key. If you don&rsquo;t, read one of the many <a href="https://docs.fedoraproject.org/en-US/quick-docs/create-gpg-keys/">fine tutorials</a> available on this topic. You will create the subkey by editing your existing key. You need to edit your key in expert mode to get access to the appropriate options.
-The workflow adds a new key where you can choose its capabilitie &ndash; specifically, you want to toggle its capabilities to just have authentication. SSH typically uses a 2048-bit RSA key that does not expire (type 8 in the options below).
+The workflow adds a new key where you can choose its capabilities &ndash; specifically, you want to toggle its capabilities to just have authentication. SSH typically uses a 2048-bit RSA key that does not expire (type 8 in the options below).
 Below is an edited version of the workflow. This and all other commands were tested on Fedora 29.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ gpg2 --expert --edit-key &lt;KEY ID&gt;
 

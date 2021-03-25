@@ -8,7 +8,7 @@
     <language>en-US</language>
     <lastBuildDate>Mon, 14 Jan 2019 17:38:15 -0300</lastBuildDate><atom:link href="https://psylinux.github.io/tags/howto/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Patching binary files in Linux</title>
+      <title>HowTo :: Patching binary files in Linux</title>
       <link>https://psylinux.github.io/posts/howto_patching_binaries_in_linux/</link>
       <pubDate>Mon, 14 Jan 2019 17:38:15 -0300</pubDate>
       
@@ -31,7 +31,7 @@
       <pubDate>Sun, 16 Dec 2018 17:38:15 -0300</pubDate>
       
       <guid>https://psylinux.github.io/posts/howto_install_gdb_gef/</guid>
-      <description>HowTo :: Install GEF Cloning Goto GEF Project and clone the repository to /opt</description>
+      <description>Cloning Goto GEF Project and clone the repository to /opt</description>
     </item>
     
     <item>
@@ -40,7 +40,7 @@
       <pubDate>Tue, 02 Oct 2018 17:38:15 -0300</pubDate>
       
       <guid>https://psylinux.github.io/posts/howto_ssh_with_gpg/</guid>
-      <description>Many of us are familiar with Secure Shell (SSH), which allows us to connect to other systems using a key instead of a password.</description>
+      <description>Preface Many of us are familiar with Secure Shell (SSH), which allows us to connect to other systems using a key instead of a password.</description>
     </item>
     
   </channel>
