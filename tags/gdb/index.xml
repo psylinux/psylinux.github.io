@@ -6,11 +6,11 @@
     <description>Recent content in gdb on My Hack Lab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Sun, 16 Dec 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://psylinux.github.io/tags/gdb/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 16 Dec 2018 17:38:15 -0300</lastBuildDate><atom:link href="https://psylinux.github.io/tags/gdb/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Article :: Getting Started with GDB</title>
       <link>https://psylinux.github.io/posts/article_getting_start_with_gdb/</link>
-      <pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 16 Dec 2018 17:38:15 -0300</pubDate>
       
       <guid>https://psylinux.github.io/posts/article_getting_start_with_gdb/</guid>
       <description>Getting Started with GDB Preface  Before start, take a look at GCC Compiling Cheat Sheet.</description>
@@ -19,7 +19,7 @@
     <item>
       <title>HowTo :: Install GEF (GDB Plug-in)</title>
       <link>https://psylinux.github.io/posts/howto_install_gdb_gef/</link>
-      <pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 16 Dec 2018 17:38:15 -0300</pubDate>
       
       <guid>https://psylinux.github.io/posts/howto_install_gdb_gef/</guid>
       <description>HowTo :: Install GEF Cloning Goto GEF Project and clone the repository to /opt</description>

@@ -6,11 +6,11 @@
     <description>Recent content in development on My Hack Lab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Sun, 13 Jan 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://psylinux.github.io/tags/development/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 13 Jan 2019 17:38:15 -0300</lastBuildDate><atom:link href="https://psylinux.github.io/tags/development/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Article :: Debugging with strace</title>
       <link>https://psylinux.github.io/posts/article_debugging_with_strace/</link>
-      <pubDate>Sun, 13 Jan 2019 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 13 Jan 2019 17:38:15 -0300</pubDate>
       
       <guid>https://psylinux.github.io/posts/article_debugging_with_strace/</guid>
       <description>Strace debugging tool Preface Strace is a debugging tool that help us to troubleshoot issues.</description>
@@ -19,7 +19,7 @@
     <item>
       <title>HowTo :: Install PyEnv</title>
       <link>https://psylinux.github.io/posts/howto_install_pyenv/</link>
-      <pubDate>Fri, 04 Jan 2019 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 04 Jan 2019 17:38:15 -0300</pubDate>
       
       <guid>https://psylinux.github.io/posts/howto_install_pyenv/</guid>
       <description>HowTo :: Install PyEnv Installing Dependencies sudo apt install -y make build-essential libssl-dev \ zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev \ wget curl llvm libncurses5-dev libncursesw5-dev \ xz-utils tk-dev libffi-dev liblzma-dev python-openssl Installing PyEnv curl -L https://github.</description>
@@ -28,7 +28,7 @@
     <item>
       <title>Article :: Getting Started with GDB</title>
       <link>https://psylinux.github.io/posts/article_getting_start_with_gdb/</link>
-      <pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 16 Dec 2018 17:38:15 -0300</pubDate>
       
       <guid>https://psylinux.github.io/posts/article_getting_start_with_gdb/</guid>
       <description>Getting Started with GDB Preface  Before start, take a look at GCC Compiling Cheat Sheet.</description>
@@ -37,7 +37,7 @@
     <item>
       <title>Cheat Sheet :: GCC Compiling Cheat Sheet</title>
       <link>https://psylinux.github.io/posts/cheatsheet_gcc_compiling/</link>
-      <pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 16 Dec 2018 17:38:15 -0300</pubDate>
       
       <guid>https://psylinux.github.io/posts/cheatsheet_gcc_compiling/</guid>
       <description>Cheat Sheet :: GCC Syntax and Compiling Options Static compiling gcc -static cve_2016_0728.</description>
@@ -46,7 +46,7 @@
     <item>
       <title>HowTo :: Install GEF (GDB Plug-in)</title>
       <link>https://psylinux.github.io/posts/howto_install_gdb_gef/</link>
-      <pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 16 Dec 2018 17:38:15 -0300</pubDate>
       
       <guid>https://psylinux.github.io/posts/howto_install_gdb_gef/</guid>
       <description>HowTo :: Install GEF Cloning Goto GEF Project and clone the repository to /opt</description>

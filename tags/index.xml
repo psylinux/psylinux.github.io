@@ -53,9 +53,18 @@
     </item>
     
     <item>
+      <title>#include&lt;stdio.h&gt;</title>
+      <link>https://psylinux.github.io/tags/#includestdio.h/</link>
+      <pubDate>Tue, 16 Jun 2020 17:38:15 -0300</pubDate>
+      
+      <guid>https://psylinux.github.io/tags/#includestdio.h/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>bash</title>
       <link>https://psylinux.github.io/tags/bash/</link>
-      <pubDate>Tue, 16 Jun 2020 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 16 Jun 2020 17:38:15 -0300</pubDate>
       
       <guid>https://psylinux.github.io/tags/bash/</guid>
       <description></description>
@@ -64,7 +73,7 @@
     <item>
       <title>exploitation-techniques</title>
       <link>https://psylinux.github.io/tags/exploitation-techniques/</link>
-      <pubDate>Tue, 16 Jun 2020 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 16 Jun 2020 17:38:15 -0300</pubDate>
       
       <guid>https://psylinux.github.io/tags/exploitation-techniques/</guid>
       <description></description>
@@ -73,7 +82,7 @@
     <item>
       <title>priv-escalation</title>
       <link>https://psylinux.github.io/tags/priv-escalation/</link>
-      <pubDate>Tue, 16 Jun 2020 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 16 Jun 2020 17:38:15 -0300</pubDate>
       
       <guid>https://psylinux.github.io/tags/priv-escalation/</guid>
       <description></description>
@@ -82,7 +91,7 @@
     <item>
       <title>assembly</title>
       <link>https://psylinux.github.io/tags/assembly/</link>
-      <pubDate>Mon, 14 Jan 2019 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 14 Jan 2019 17:38:15 -0300</pubDate>
       
       <guid>https://psylinux.github.io/tags/assembly/</guid>
       <description></description>
@@ -91,7 +100,7 @@
     <item>
       <title>dev</title>
       <link>https://psylinux.github.io/tags/dev/</link>
-      <pubDate>Mon, 14 Jan 2019 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 14 Jan 2019 17:38:15 -0300</pubDate>
       
       <guid>https://psylinux.github.io/tags/dev/</guid>
       <description></description>
@@ -100,7 +109,7 @@
     <item>
       <title>exploitation</title>
       <link>https://psylinux.github.io/tags/exploitation/</link>
-      <pubDate>Mon, 14 Jan 2019 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 14 Jan 2019 17:38:15 -0300</pubDate>
       
       <guid>https://psylinux.github.io/tags/exploitation/</guid>
       <description></description>
@@ -109,7 +118,7 @@
     <item>
       <title>glibc</title>
       <link>https://psylinux.github.io/tags/glibc/</link>
-      <pubDate>Mon, 14 Jan 2019 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 14 Jan 2019 17:38:15 -0300</pubDate>
       
       <guid>https://psylinux.github.io/tags/glibc/</guid>
       <description></description>
@@ -118,7 +127,7 @@
     <item>
       <title>howto</title>
       <link>https://psylinux.github.io/tags/howto/</link>
-      <pubDate>Mon, 14 Jan 2019 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 14 Jan 2019 17:38:15 -0300</pubDate>
       
       <guid>https://psylinux.github.io/tags/howto/</guid>
       <description></description>
@@ -127,7 +136,7 @@
     <item>
       <title>nasm</title>
       <link>https://psylinux.github.io/tags/nasm/</link>
-      <pubDate>Mon, 14 Jan 2019 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 14 Jan 2019 17:38:15 -0300</pubDate>
       
       <guid>https://psylinux.github.io/tags/nasm/</guid>
       <description></description>
@@ -136,7 +145,7 @@
     <item>
       <title>userland</title>
       <link>https://psylinux.github.io/tags/userland/</link>
-      <pubDate>Mon, 14 Jan 2019 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 14 Jan 2019 17:38:15 -0300</pubDate>
       
       <guid>https://psylinux.github.io/tags/userland/</guid>
       <description></description>
@@ -145,7 +154,7 @@
     <item>
       <title>article</title>
       <link>https://psylinux.github.io/tags/article/</link>
-      <pubDate>Sun, 13 Jan 2019 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 13 Jan 2019 17:38:15 -0300</pubDate>
       
       <guid>https://psylinux.github.io/tags/article/</guid>
       <description></description>
@@ -154,7 +163,7 @@
     <item>
       <title>debug</title>
       <link>https://psylinux.github.io/tags/debug/</link>
-      <pubDate>Sun, 13 Jan 2019 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 13 Jan 2019 17:38:15 -0300</pubDate>
       
       <guid>https://psylinux.github.io/tags/debug/</guid>
       <description></description>
@@ -163,7 +172,7 @@
     <item>
       <title>development</title>
       <link>https://psylinux.github.io/tags/development/</link>
-      <pubDate>Sun, 13 Jan 2019 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 13 Jan 2019 17:38:15 -0300</pubDate>
       
       <guid>https://psylinux.github.io/tags/development/</guid>
       <description></description>
@@ -172,7 +181,7 @@
     <item>
       <title>strace</title>
       <link>https://psylinux.github.io/tags/strace/</link>
-      <pubDate>Sun, 13 Jan 2019 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 13 Jan 2019 17:38:15 -0300</pubDate>
       
       <guid>https://psylinux.github.io/tags/strace/</guid>
       <description></description>
@@ -181,7 +190,7 @@
     <item>
       <title>pyenv</title>
       <link>https://psylinux.github.io/tags/pyenv/</link>
-      <pubDate>Fri, 04 Jan 2019 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 04 Jan 2019 17:38:15 -0300</pubDate>
       
       <guid>https://psylinux.github.io/tags/pyenv/</guid>
       <description></description>
@@ -190,16 +199,34 @@
     <item>
       <title>python</title>
       <link>https://psylinux.github.io/tags/python/</link>
-      <pubDate>Fri, 04 Jan 2019 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 04 Jan 2019 17:38:15 -0300</pubDate>
       
       <guid>https://psylinux.github.io/tags/python/</guid>
       <description></description>
     </item>
     
     <item>
+      <title>#define</title>
+      <link>https://psylinux.github.io/tags/#define/</link>
+      <pubDate>Fri, 28 Dec 2018 17:38:15 -0300</pubDate>
+      
+      <guid>https://psylinux.github.io/tags/#define/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>#include</title>
+      <link>https://psylinux.github.io/tags/#include/</link>
+      <pubDate>Sun, 16 Dec 2018 17:38:15 -0300</pubDate>
+      
+      <guid>https://psylinux.github.io/tags/#include/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>compiling</title>
       <link>https://psylinux.github.io/tags/compiling/</link>
-      <pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 16 Dec 2018 17:38:15 -0300</pubDate>
       
       <guid>https://psylinux.github.io/tags/compiling/</guid>
       <description></description>
@@ -208,7 +235,7 @@
     <item>
       <title>cross-compiling</title>
       <link>https://psylinux.github.io/tags/cross-compiling/</link>
-      <pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 16 Dec 2018 17:38:15 -0300</pubDate>
       
       <guid>https://psylinux.github.io/tags/cross-compiling/</guid>
       <description></description>
@@ -217,7 +244,7 @@
     <item>
       <title>gcc</title>
       <link>https://psylinux.github.io/tags/gcc/</link>
-      <pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 16 Dec 2018 17:38:15 -0300</pubDate>
       
       <guid>https://psylinux.github.io/tags/gcc/</guid>
       <description></description>
@@ -226,7 +253,7 @@
     <item>
       <title>gdb</title>
       <link>https://psylinux.github.io/tags/gdb/</link>
-      <pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 16 Dec 2018 17:38:15 -0300</pubDate>
       
       <guid>https://psylinux.github.io/tags/gdb/</guid>
       <description></description>
@@ -235,7 +262,7 @@
     <item>
       <title>gef</title>
       <link>https://psylinux.github.io/tags/gef/</link>
-      <pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 16 Dec 2018 17:38:15 -0300</pubDate>
       
       <guid>https://psylinux.github.io/tags/gef/</guid>
       <description></description>
@@ -244,7 +271,7 @@
     <item>
       <title>windows</title>
       <link>https://psylinux.github.io/tags/windows/</link>
-      <pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 16 Dec 2018 17:38:15 -0300</pubDate>
       
       <guid>https://psylinux.github.io/tags/windows/</guid>
       <description></description>
@@ -253,7 +280,7 @@
     <item>
       <title>GPG</title>
       <link>https://psylinux.github.io/tags/gpg/</link>
-      <pubDate>Tue, 02 Oct 2018 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 02 Oct 2018 17:38:15 -0300</pubDate>
       
       <guid>https://psylinux.github.io/tags/gpg/</guid>
       <description></description>
@@ -262,7 +289,7 @@
     <item>
       <title>ssh</title>
       <link>https://psylinux.github.io/tags/ssh/</link>
-      <pubDate>Tue, 02 Oct 2018 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 02 Oct 2018 17:38:15 -0300</pubDate>
       
       <guid>https://psylinux.github.io/tags/ssh/</guid>
       <description></description>

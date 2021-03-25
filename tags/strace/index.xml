@@ -6,11 +6,11 @@
     <description>Recent content in strace on My Hack Lab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Sun, 13 Jan 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://psylinux.github.io/tags/strace/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 13 Jan 2019 17:38:15 -0300</lastBuildDate><atom:link href="https://psylinux.github.io/tags/strace/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Article :: Debugging with strace</title>
       <link>https://psylinux.github.io/posts/article_debugging_with_strace/</link>
-      <pubDate>Sun, 13 Jan 2019 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 13 Jan 2019 17:38:15 -0300</pubDate>
       
       <guid>https://psylinux.github.io/posts/article_debugging_with_strace/</guid>
       <description>Strace debugging tool Preface Strace is a debugging tool that help us to troubleshoot issues.</description>

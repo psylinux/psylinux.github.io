@@ -6,11 +6,11 @@
     <description>Recent content in howto on My Hack Lab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Mon, 14 Jan 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://psylinux.github.io/tags/howto/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 14 Jan 2019 17:38:15 -0300</lastBuildDate><atom:link href="https://psylinux.github.io/tags/howto/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Patching binary files in Linux</title>
       <link>https://psylinux.github.io/posts/howto_patching_binaries_in_linux/</link>
-      <pubDate>Mon, 14 Jan 2019 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 14 Jan 2019 17:38:15 -0300</pubDate>
       
       <guid>https://psylinux.github.io/posts/howto_patching_binaries_in_linux/</guid>
       <description>Patching binary files in Linux Using xxd Binary to Hex $ xxd prog1.</description>
@@ -19,7 +19,7 @@
     <item>
       <title>HowTo :: Install PyEnv</title>
       <link>https://psylinux.github.io/posts/howto_install_pyenv/</link>
-      <pubDate>Fri, 04 Jan 2019 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 04 Jan 2019 17:38:15 -0300</pubDate>
       
       <guid>https://psylinux.github.io/posts/howto_install_pyenv/</guid>
       <description>HowTo :: Install PyEnv Installing Dependencies sudo apt install -y make build-essential libssl-dev \ zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev \ wget curl llvm libncurses5-dev libncursesw5-dev \ xz-utils tk-dev libffi-dev liblzma-dev python-openssl Installing PyEnv curl -L https://github.</description>
@@ -28,7 +28,7 @@
     <item>
       <title>HowTo :: Install GEF (GDB Plug-in)</title>
       <link>https://psylinux.github.io/posts/howto_install_gdb_gef/</link>
-      <pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 16 Dec 2018 17:38:15 -0300</pubDate>
       
       <guid>https://psylinux.github.io/posts/howto_install_gdb_gef/</guid>
       <description>HowTo :: Install GEF Cloning Goto GEF Project and clone the repository to /opt</description>
@@ -37,7 +37,7 @@
     <item>
       <title>HowTo :: SSH access using a GPG key for authentication</title>
       <link>https://psylinux.github.io/posts/howto_ssh_with_gpg/</link>
-      <pubDate>Tue, 02 Oct 2018 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 02 Oct 2018 17:38:15 -0300</pubDate>
       
       <guid>https://psylinux.github.io/posts/howto_ssh_with_gpg/</guid>
       <description>HowTo :: SSH access using a GPG key for authentication Many of us are familiar with Secure Shell (SSH), which allows us to connect to other systems using a key instead of a password.</description>

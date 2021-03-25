@@ -6,11 +6,11 @@
     <description>Recent content in priv-escalation on My Hack Lab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Tue, 16 Jun 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://psylinux.github.io/tags/priv-escalation/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 16 Jun 2020 17:38:15 -0300</lastBuildDate><atom:link href="https://psylinux.github.io/tags/priv-escalation/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Cheat Sheet :: Privilege Escalation</title>
       <link>https://psylinux.github.io/posts/cheatsheet_privilege_escalation/</link>
-      <pubDate>Tue, 16 Jun 2020 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 16 Jun 2020 17:38:15 -0300</pubDate>
       
       <guid>https://psylinux.github.io/posts/cheatsheet_privilege_escalation/</guid>
       <description>Cheat Sheet :: Privilege Escalation Using scripts to enum the machine   https://github.</description>

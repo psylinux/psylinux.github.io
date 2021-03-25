@@ -6,11 +6,11 @@
     <description>Recent content in gcc on My Hack Lab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Sun, 16 Dec 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://psylinux.github.io/tags/gcc/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 16 Dec 2018 17:38:15 -0300</lastBuildDate><atom:link href="https://psylinux.github.io/tags/gcc/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Cheat Sheet :: GCC Compiling Cheat Sheet</title>
       <link>https://psylinux.github.io/posts/cheatsheet_gcc_compiling/</link>
-      <pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 16 Dec 2018 17:38:15 -0300</pubDate>
       
       <guid>https://psylinux.github.io/posts/cheatsheet_gcc_compiling/</guid>
       <description>Cheat Sheet :: GCC Syntax and Compiling Options Static compiling gcc -static cve_2016_0728.</description>
