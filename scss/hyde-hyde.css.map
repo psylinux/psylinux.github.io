@@ -1,7 +1,7 @@
 {
 	"version": 3,
 	"file": "hyde-hyde.css",
-	"sourceRoot": "/Users/psylinux/Dropbox/Repos/blog/dev-blog-myhacklab",
+	"sourceRoot": "/Users/psylinux/Dropbox/T_Repos/blog/dev-blog-myhacklab",
 	"sources": [
 		"themes/hyde-hyde/assets/scss/hyde-hyde.scss",
 		"themes/hyde-hyde/assets/scss/hyde-hyde/_variables.scss",
