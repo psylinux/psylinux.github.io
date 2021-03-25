@@ -259,57 +259,57 @@ The important thing to realize is that a GPG key contains multiple keys. For bac
 <p>You should already have a GPG key. If you don&rsquo;t, read one of the many <a href="https://docs.fedoraproject.org/en-US/quick-docs/create-gpg-keys/">fine tutorials</a> available on this topic. You will create the subkey by editing your existing key. You need to edit your key in expert mode to get access to the appropriate options.
 The workflow adds a new key where you can choose its capabilitie &ndash; specifically, you want to toggle its capabilities to just have authentication. SSH typically uses a 2048-bit RSA key that does not expire (type 8 in the options below).
 Below is an edited version of the workflow. This and all other commands were tested on Fedora 29.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Bash" data-lang="Bash">$ gpg2 --expert --edit-key &lt;KEY ID&gt;
+<pre><code>$ gpg2 --expert --edit-key &lt;KEY ID&gt;
 
 gpg&gt; addkey
 
-Please <span style="color:#66d9ef">select</span> what kind of key you want:
-<span style="color:#f92672">(</span>3<span style="color:#f92672">)</span> DSA <span style="color:#f92672">(</span>sign only<span style="color:#f92672">)</span>
-<span style="color:#f92672">(</span>4<span style="color:#f92672">)</span> RSA <span style="color:#f92672">(</span>sign only<span style="color:#f92672">)</span>
-<span style="color:#f92672">(</span>5<span style="color:#f92672">)</span> Elgamal <span style="color:#f92672">(</span>encrypt only<span style="color:#f92672">)</span>
-<span style="color:#f92672">(</span>6<span style="color:#f92672">)</span> RSA <span style="color:#f92672">(</span>encrypt only<span style="color:#f92672">)</span>
-<span style="color:#f92672">(</span>7<span style="color:#f92672">)</span> DSA <span style="color:#f92672">(</span>set your own capabilities<span style="color:#f92672">)</span>
-<span style="color:#f92672">(</span>8<span style="color:#f92672">)</span> RSA <span style="color:#f92672">(</span>set your own capabilities<span style="color:#f92672">)</span>
-<span style="color:#f92672">(</span>10<span style="color:#f92672">)</span> ECC <span style="color:#f92672">(</span>sign only<span style="color:#f92672">)</span>
-<span style="color:#f92672">(</span>11<span style="color:#f92672">)</span> ECC <span style="color:#f92672">(</span>set your own capabilities<span style="color:#f92672">)</span>
-<span style="color:#f92672">(</span>12<span style="color:#f92672">)</span> ECC <span style="color:#f92672">(</span>encrypt only<span style="color:#f92672">)</span>
-<span style="color:#f92672">(</span>13<span style="color:#f92672">)</span> Existing key
-Your selection? <span style="color:#ae81ff">8</span>
+Please select what kind of key you want:
+(3) DSA (sign only)
+(4) RSA (sign only)
+(5) Elgamal (encrypt only)
+(6) RSA (encrypt only)
+(7) DSA (set your own capabilities)
+(8) RSA (set your own capabilities)
+(10) ECC (sign only)
+(11) ECC (set your own capabilities)
+(12) ECC (encrypt only)
+(13) Existing key
+Your selection? 8
 
-Possible actions <span style="color:#66d9ef">for</span> a RSA key: Sign Encrypt Authenticate
+Possible actions for a RSA key: Sign Encrypt Authenticate
 Current allowed actions: Sign Encrypt
 
-<span style="color:#f92672">(</span>S<span style="color:#f92672">)</span> Toggle the sign capability
-<span style="color:#f92672">(</span>E<span style="color:#f92672">)</span> Toggle the encrypt capability
-<span style="color:#f92672">(</span>A<span style="color:#f92672">)</span> Toggle the authenticate capability
-<span style="color:#f92672">(</span>Q<span style="color:#f92672">)</span> Finished
+(S) Toggle the sign capability
+(E) Toggle the encrypt capability
+(A) Toggle the authenticate capability
+(Q) Finished
 Your selection? s
 Your selection? e
 Your selection? a
 
-Possible actions <span style="color:#66d9ef">for</span> a RSA key: Sign Encrypt Authenticate
+Possible actions for a RSA key: Sign Encrypt Authenticate
 Current allowed actions: Authenticate
 
-<span style="color:#f92672">(</span>S<span style="color:#f92672">)</span> Toggle the sign capability
-<span style="color:#f92672">(</span>E<span style="color:#f92672">)</span> Toggle the encrypt capability
-<span style="color:#f92672">(</span>A<span style="color:#f92672">)</span> Toggle the authenticate capability
-<span style="color:#f92672">(</span>Q<span style="color:#f92672">)</span> Finished
+(S) Toggle the sign capability
+(E) Toggle the encrypt capability
+(A) Toggle the authenticate capability
+(Q) Finished
 Your selection? q
 
-RSA keys may be between <span style="color:#ae81ff">1024</span> and <span style="color:#ae81ff">4096</span> bits long.
-What keysize <span style="color:#66d9ef">do</span> you want? <span style="color:#f92672">(</span>2048<span style="color:#f92672">)</span>
-Requested keysize is <span style="color:#ae81ff">2048</span> bits
+RSA keys may be between 1024 and 4096 bits long.
+What keysize do you want? (2048)
+Requested keysize is 2048 bits
 
 Please specify how long the key should be valid.
-0 <span style="color:#f92672">=</span> key does not expire
-&lt;n&gt; <span style="color:#f92672">=</span> key expires in n days
-&lt;n&gt;w <span style="color:#f92672">=</span> key expires in n weeks
-&lt;n&gt;m <span style="color:#f92672">=</span> key expires in n months
-&lt;n&gt;y <span style="color:#f92672">=</span> key expires in n years
-Key is valid <span style="color:#66d9ef">for</span>? <span style="color:#f92672">(</span>0<span style="color:#f92672">)</span>
+0 = key does not expire
+&lt;n&gt; = key expires in n days
+&lt;n&gt;w = key expires in n weeks
+&lt;n&gt;m = key expires in n months
+&lt;n&gt;y = key expires in n years
+Key is valid for? (0)
 Key does not expire at all
-Is this correct? <span style="color:#f92672">(</span>y/N<span style="color:#f92672">)</span> y
-Really create? <span style="color:#f92672">(</span>y/N<span style="color:#f92672">)</span> y
+Is this correct? (y/N) y
+Really create? (y/N) y
  
 
 sec rsa4096/5B6C9AA9718B1298
@@ -322,11 +322,11 @@ created: 2019-03-21 expires: 2021-03-20 usage: E
 ssb rsa4096/136F0B4E3D42CF31
 created: 2019-03-21 expires: never usage: A
 
-<span style="color:#f92672">[</span>ultimate<span style="color:#f92672">]</span> <span style="color:#f92672">(</span>1<span style="color:#f92672">)</span>. Marcos Azevedo <span style="color:#f92672">(</span>psylinux<span style="color:#f92672">)</span>
+[ultimate] (1). Marcos Azevedo (psylinux)
 
 gpg&gt; quit
-Save changes? <span style="color:#f92672">(</span>y/N<span style="color:#f92672">)</span> y
-</code></pre></div><h2 id="enable-the-gpg-subkey">Enable the GPG subkey</h2>
+Save changes? (y/N) y
+</code></pre><h2 id="enable-the-gpg-subkey">Enable the GPG subkey</h2>
 <p>When you use SSH, a program called <strong>ssh-agent</strong> is used to manage the keys. To use a GPG key, you&rsquo;ll use a similar program, <strong>gpg-agent</strong>, that manages GPG keys. To get <strong>gpg-agent</strong> to handle requests from SSH, you need to enable support by adding the line <strong>enable-ssh-support</strong> to the <strong>~/.gnupg/gpg-agent.conf</strong>.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Bash" data-lang="Bash">$ cat .gnupg/gpg-agent.conf
 enable-ssh-support
