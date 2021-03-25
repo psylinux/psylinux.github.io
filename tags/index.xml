@@ -6,22 +6,58 @@
     <description>Recent content in Tags on My Hack Lab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Tue, 16 Jun 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://psylinux.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 25 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://psylinux.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>cheatsheet</title>
+      <link>https://psylinux.github.io/tags/cheatsheet/</link>
+      <pubDate>Thu, 25 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://psylinux.github.io/tags/cheatsheet/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>linux</title>
+      <link>https://psylinux.github.io/tags/linux/</link>
+      <pubDate>Thu, 25 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://psylinux.github.io/tags/linux/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>shell</title>
+      <link>https://psylinux.github.io/tags/shell/</link>
+      <pubDate>Thu, 25 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://psylinux.github.io/tags/shell/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>sysadmin</title>
+      <link>https://psylinux.github.io/tags/sysadmin/</link>
+      <pubDate>Thu, 25 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://psylinux.github.io/tags/sysadmin/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>tmux</title>
+      <link>https://psylinux.github.io/tags/tmux/</link>
+      <pubDate>Thu, 25 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://psylinux.github.io/tags/tmux/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>bash</title>
       <link>https://psylinux.github.io/tags/bash/</link>
       <pubDate>Tue, 16 Jun 2020 00:00:00 +0000</pubDate>
       
       <guid>https://psylinux.github.io/tags/bash/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>cheatsheet</title>
-      <link>https://psylinux.github.io/tags/cheatsheet/</link>
-      <pubDate>Tue, 16 Jun 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://psylinux.github.io/tags/cheatsheet/</guid>
       <description></description>
     </item>
     
@@ -35,29 +71,11 @@
     </item>
     
     <item>
-      <title>linux</title>
-      <link>https://psylinux.github.io/tags/linux/</link>
-      <pubDate>Tue, 16 Jun 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://psylinux.github.io/tags/linux/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>priv-escalation</title>
       <link>https://psylinux.github.io/tags/priv-escalation/</link>
       <pubDate>Tue, 16 Jun 2020 00:00:00 +0000</pubDate>
       
       <guid>https://psylinux.github.io/tags/priv-escalation/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>shell</title>
-      <link>https://psylinux.github.io/tags/shell/</link>
-      <pubDate>Tue, 16 Jun 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://psylinux.github.io/tags/shell/</guid>
       <description></description>
     </item>
     

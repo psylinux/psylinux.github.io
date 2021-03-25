@@ -2,6 +2,9 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://psylinux.github.io/posts/cheatsheet_tmux/</loc>
+    <lastmod>2021-03-25T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://psylinux.github.io/posts/cheatsheet-linux-shell-tricks/</loc>
     <lastmod>2020-06-16T00:00:00+00:00</lastmod>
   </url><url>
@@ -32,16 +35,43 @@
     <loc>https://psylinux.github.io/posts/ssh-with-gpg/</loc>
     <lastmod>2018-10-02T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://psylinux.github.io/tags/bash/</loc>
-    <lastmod>2020-06-16T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://psylinux.github.io/categories/</loc>
-    <lastmod>2020-06-16T00:00:00+00:00</lastmod>
+    <lastmod>2021-03-25T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://psylinux.github.io/tags/cheatsheet/</loc>
-    <lastmod>2020-06-16T00:00:00+00:00</lastmod>
+    <lastmod>2021-03-25T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://psylinux.github.io/categories/cheatsheet/</loc>
+    <lastmod>2021-03-25T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://psylinux.github.io/tags/linux/</loc>
+    <lastmod>2021-03-25T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://psylinux.github.io/</loc>
+    <lastmod>2021-03-25T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://psylinux.github.io/posts/</loc>
+    <lastmod>2021-03-25T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://psylinux.github.io/tags/shell/</loc>
+    <lastmod>2021-03-25T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://psylinux.github.io/categories/shell/</loc>
+    <lastmod>2021-03-25T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://psylinux.github.io/tags/sysadmin/</loc>
+    <lastmod>2021-03-25T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://psylinux.github.io/categories/sysadmin/</loc>
+    <lastmod>2021-03-25T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://psylinux.github.io/tags/</loc>
+    <lastmod>2021-03-25T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://psylinux.github.io/tags/tmux/</loc>
+    <lastmod>2021-03-25T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://psylinux.github.io/tags/bash/</loc>
     <lastmod>2020-06-16T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://psylinux.github.io/tags/exploitation-techniques/</loc>
@@ -50,25 +80,10 @@
     <loc>https://psylinux.github.io/categories/exploitation-techniques/</loc>
     <lastmod>2020-06-16T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://psylinux.github.io/tags/linux/</loc>
-    <lastmod>2020-06-16T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://psylinux.github.io/</loc>
-    <lastmod>2020-06-16T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://psylinux.github.io/posts/</loc>
-    <lastmod>2020-06-16T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://psylinux.github.io/tags/priv-escalation/</loc>
     <lastmod>2020-06-16T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://psylinux.github.io/categories/priv-escalation/</loc>
-    <lastmod>2020-06-16T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://psylinux.github.io/tags/shell/</loc>
-    <lastmod>2020-06-16T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://psylinux.github.io/tags/</loc>
     <lastmod>2020-06-16T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://psylinux.github.io/tags/assembly/</loc>
