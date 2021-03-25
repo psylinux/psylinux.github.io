@@ -275,16 +275,16 @@
   <div class="post">
     <h1 id="cheat-sheet--gcc-syntax-and-compiling-options">Cheat Sheet :: GCC Syntax and Compiling Options</h1>
 <h2 id="static-compiling">Static compiling</h2>
-<pre><code>gcc -static cve_2016_0728.c -o cve_2016_0728 -lkeyutils -Wall
-</code></pre><h2 id="cross-compiling-a-c-code-from-linux-to-windows">Cross compiling a C code from Linux to Windows</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">gcc -static cve_2016_0728.c -o cve_2016_0728 -lkeyutils -Wall
+</code></pre></div><h2 id="cross-compiling-a-c-code-from-linux-to-windows">Cross compiling a C code from Linux to Windows</h2>
 <h3 id="install-mingw-w64-cross-compiler">Install mingw-w64 cross-compiler:</h3>
-<pre><code>apt-get install mingw-w64
-</code></pre><h3 id="to-compile-a-windows-pe-executable-32bit">To compile a Windows PE Executable 32bit:</h3>
-<pre><code>i686-w64-mingw32-gcc 271.c -o 271
-x86_64-w64-mingw32-gcc-win32 271.c -o 271
-</code></pre><h3 id="run-the-binary-file-with-wine">Run the binary file with <strong>wine</strong>:</h3>
-<pre><code>wine file.exe
-</code></pre><h2 id="compiling-with-debug-symbols">Compiling with debug symbols</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">apt-get install mingw-w64
+</code></pre></div><h3 id="to-compile-a-windows-pe-executable-32bit">To compile a Windows PE Executable 32bit:</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">i686-w64-mingw32-gcc 271.c -o <span style="color:#ae81ff">271</span>
+x86_64-w64-mingw32-gcc-win32 271.c -o <span style="color:#ae81ff">271</span>
+</code></pre></div><h3 id="run-the-binary-file-with-wine">Run the binary file with <strong>wine</strong>:</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wine file.exe
+</code></pre></div><h2 id="compiling-with-debug-symbols">Compiling with debug symbols</h2>
 <p>Debug Symbol File Types:</p>
 <ol>
 <li>DWARF 2</li>
@@ -293,12 +293,12 @@ x86_64-w64-mingw32-gcc-win32 271.c -o 271
 <li>STABS</li>
 </ol>
 <h3 id="gcc-use-the--g-option-to-define-the-type">GCC use the -g option to define the type:</h3>
-<pre><code>gcc -ggdb source.c -o prog_with_symbols
-</code></pre><h3 id="stripping-symbols-off-the-binary">Stripping symbols off the binary</h3>
-<pre><code>objcopy --strip-debug --strip-unneeded prog_not_stripped prog_stripped
-</code></pre><h3 id="ripping-symbols-off-the-binary">Ripping Symbols off the binary</h3>
-<pre><code>objcopy --only-keep-debug rip_from_binary debug_file
-</code></pre><h2 id="having-fun-with-c-pointers">Having fun with C Pointers</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">gcc -ggdb source.c -o prog_with_symbols
+</code></pre></div><h3 id="stripping-symbols-off-the-binary">Stripping symbols off the binary</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">objcopy --strip-debug --strip-unneeded prog_not_stripped prog_stripped
+</code></pre></div><h3 id="ripping-symbols-off-the-binary">Ripping Symbols off the binary</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">objcopy --only-keep-debug rip_from_binary debug_file
+</code></pre></div><h2 id="having-fun-with-c-pointers">Having fun with C Pointers</h2>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C" data-lang="C"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
 </span><span style="color:#75715e"></span>
 <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">void</span>){

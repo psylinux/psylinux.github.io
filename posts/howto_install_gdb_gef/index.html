@@ -264,19 +264,19 @@
     <h1 id="howto--install--gef">HowTo :: Install  GEF</h1>
 <h2 id="cloning">Cloning</h2>
 <p>Goto <a href="https://github.com/hugsy/gef">GEF Project</a> and clone the repository to <strong>/opt</strong></p>
-<pre><code>cd /opt
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cd /opt
 git clone https://github.com/hugsy/gef.git
-</code></pre><h2 id="checking">Checking</h2>
+</code></pre></div><h2 id="checking">Checking</h2>
 <h3 id="to-check-if-the-gdb-was-compiled-with-python-support-run-the-following-command-in-terminal">To check if the GDB was compiled with Python support run the following command in terminal:</h3>
-<pre><code>gdb -nx -ex 'pi print(sys.version)' -ex quit
-</code></pre><h3 id="the-output-should-be-similar-to-this">The output should be similar to this:</h3>
-<pre><code>2.7.3 (default, Mar 18 2014, 06:31:17)
-[GCC 4.6.3]
-</code></pre><h2 id="installing">Installing</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">gdb -nx -ex <span style="color:#e6db74">&#39;pi print(sys.version)&#39;</span> -ex quit
+</code></pre></div><h3 id="the-output-should-be-similar-to-this">The output should be similar to this:</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">2.7.3 <span style="color:#f92672">(</span>default, Mar <span style="color:#ae81ff">18</span> 2014, 06:31:17<span style="color:#f92672">)</span>
+<span style="color:#f92672">[</span>GCC 4.6.3<span style="color:#f92672">]</span>
+</code></pre></div><h2 id="installing">Installing</h2>
 <p>To install the gef plug-in, just run the shell scripts as following:</p>
-<pre><code>/opt/gef/scripts/gef.sh
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">/opt/gef/scripts/gef.sh
 /opt/gef/scripts/gef-extras.sh
-</code></pre><h2 id="configuring">Configuring</h2>
+</code></pre></div><h2 id="configuring">Configuring</h2>
 <ul>
 <li>Use the <em>pyenv</em> to set the correct python version</li>
 <li>Enter the GDB and type: <em>gef missing</em></li>
@@ -284,8 +284,8 @@ git clone https://github.com/hugsy/gef.git
 </ul>
 <h2 id="updating">Updating</h2>
 <p>To keep the GEF plug-in update, just do:</p>
-<pre><code>python ~/.gdbinit-gef.py --update
-</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">python ~/.gdbinit-gef.py --update
+</code></pre></div>
   </div>
   
 

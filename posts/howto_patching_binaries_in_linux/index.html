@@ -270,22 +270,24 @@
     <h1 id="patching-binary-files-in-linux">Patching binary files in Linux</h1>
 <h2 id="using-xxd">Using xxd</h2>
 <h3 id="binary-to-hex">Binary to Hex</h3>
-<pre><code>$ xxd prog1.bin &gt; b1.hex
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ xxd prog1.bin &gt; b1.hex
 $ xxd prog1.bin &gt; b2.hex
-</code></pre><h3 id="hex-to-binary">Hex to Binary</h3>
-<pre><code>$ xxd -r -p b1.hex new_prog1.bin
-</code></pre><ul>
+</code></pre></div><h3 id="hex-to-binary">Hex to Binary</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ xxd -r -p b1.hex new_prog1.bin
+</code></pre></div><ul>
 <li>Then we can generate the diff like this:</li>
 </ul>
-<pre><code>diff b1.hex b2.hex
-</code></pre><p>or</p>
-<pre><code>vimdiff b1.hex b2.hex
-</code></pre><h2 id="using-bsdiff">Using bsdiff</h2>
-<pre><code>$ apt-get install bsdiff
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">diff b1.hex b2.hex
+</code></pre></div><ul>
+<li>Or</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vimdiff b1.hex b2.hex
+</code></pre></div><h2 id="using-bsdiff">Using bsdiff</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ apt-get install bsdiff
 
 $ bsdiff old_prog.bin new_prog.bin patch.bin
 $ bspatch old_prog.bin output.bin patch.bin
-</code></pre>
+</code></pre></div>
   </div>
   
 

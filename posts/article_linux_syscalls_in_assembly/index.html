@@ -280,16 +280,16 @@
 <h2 id="writing-the-program">Writing the program</h2>
 <p>For this task we&rsquo;ll take a look at the <code>write</code> syscall that allow us to print a message on the screen.
 In Linux x64, we can use the file <strong>.h</strong> (header) bellow to find more information about the <code>write</code> syscall:</p>
-<pre><code>$ cat /usr/include/x86_64-linux-gnu/asm/unistd_64.h | grep write
-#define __NR_write 1
-#define __NR_pwrite64 18
-#define __NR_writev 20
-#define __NR_pwritev 296
-#define __NR_process_vm_writev 311
-#define __NR_pwritev2 328
-</code></pre><p>Now that we know that must use the number <strong>1</strong> to call the write syscall, let&rsquo;s check the developer&rsquo;s manual to learn more about this syscall.</p>
-<pre><code>$ man 2 write
-</code></pre><p><img src="../pics/write_syscall_1.png" alt=""></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ cat /usr/include/x86_64-linux-gnu/asm/unistd_64.h | grep write
+<span style="color:#75715e">#define __NR_write 1</span>
+<span style="color:#75715e">#define __NR_pwrite64 18</span>
+<span style="color:#75715e">#define __NR_writev 20</span>
+<span style="color:#75715e">#define __NR_pwritev 296</span>
+<span style="color:#75715e">#define __NR_process_vm_writev 311</span>
+<span style="color:#75715e">#define __NR_pwritev2 328</span>
+</code></pre></div><p>Now that we know that must use the number <strong>1</strong> to call the write syscall, let&rsquo;s check the developer&rsquo;s manual to learn more about this syscall.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ man <span style="color:#ae81ff">2</span> write
+</code></pre></div><p><img src="../pics/write_syscall_1.png" alt=""></p>
 <p>As we can see, in this snipped code, the <code>write</code> syscall has three arguments:</p>
 <p><strong>ssize_t write(int fd, const void *buf, size_t count);</strong></p>
 <p>The first argument is the file descriptor, which has three modes:</p>
@@ -330,19 +330,19 @@ _start:
 	length: <span style="color:#a6e22e">equ</span> <span style="color:#66d9ef">$-msg</span>
 </code></pre></div><h2 id="compiling-the-code">Compiling the code</h2>
 <p>Let&rsquo;s compile aqnd link this assembly pseudo code:</p>
-<pre><code>$ nasm -felf64 syscall-001.nasm -o syscall-001.o
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ nasm -felf64 syscall-001.nasm -o syscall-001.o
 $ ld syscall-001.o -o syscall-001.bin
-</code></pre><p>Once we run our program with <strong>./syscall-001.bin</strong> we can see that our message &ldquo;Hack The Planet&rdquo; is printed out on the screen, but the <em>Segmentation Fault</em> error message appears at the end of execution:</p>
+</code></pre></div><p>Once we run our program with <strong>./syscall-001.bin</strong> we can see that our message &ldquo;Hack The Planet&rdquo; is printed out on the screen, but the <em>Segmentation Fault</em> error message appears at the end of execution:</p>
 <p><img src="../pics/write_syscall_2.png" alt=""></p>
 <p>If we want that our program exits nicely, then we have to use <code>exit</code> syscall. Let&rsquo;s take a deeper look at this issue.</p>
 <p>Let&rsquo;s get back to that header file which contains all the syscalls for Linux x64:</p>
-<pre><code>$ cat /usr/include/x86_64-linux-gnu/asm/unistd_64.h | grep exit
-#define __NR_exit 60
-#define __NR_exit_group 231
-#define __NR_exit_group 231
-</code></pre><p>As we can see the <code>exit</code> syscall has the number 60. Let&rsquo;s check the <strong>man page</strong> for better understand this <strong>syscall</strong>.</p>
-<pre><code>$man 2 exit
-</code></pre><p><img src="../pics/exit_syscall_1.png" alt=""></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ cat /usr/include/x86_64-linux-gnu/asm/unistd_64.h | grep exit
+<span style="color:#75715e">#define __NR_exit 60</span>
+<span style="color:#75715e">#define __NR_exit_group 231</span>
+<span style="color:#75715e">#define __NR_exit_group 231</span>
+</code></pre></div><p>As we can see the <code>exit</code> syscall has the number 60. Let&rsquo;s check the <strong>man page</strong> for better understand this <strong>syscall</strong>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$man <span style="color:#ae81ff">2</span> exit
+</code></pre></div><p><img src="../pics/exit_syscall_1.png" alt=""></p>
 <p>There is only one argument &ldquo;<strong>int status</strong>&rdquo; to define the exit status, for example, 0 (zero) status for no error:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C" data-lang="C">...<span style="color:#f92672">&lt;</span>snip<span style="color:#f92672">&gt;</span>
 <span style="color:#66d9ef">void</span> _exit(<span style="color:#66d9ef">int</span> status);
@@ -377,9 +377,9 @@ _start:
 	msg: <span style="color:#a6e22e">db</span> <span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#66d9ef">Hack</span> <span style="color:#66d9ef">The</span> <span style="color:#66d9ef">Planet</span><span style="color:#960050;background-color:#1e0010">&#39;</span>,<span style="color:#ae81ff">0xa</span>
 	length: <span style="color:#a6e22e">equ</span> <span style="color:#66d9ef">$-msg</span>
 </code></pre></div><p>Now, we compile the assembly pseudo code:</p>
-<pre><code>$ nasm -felf64 syscall-001.nasm -o syscall-001.o
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ nasm -felf64 syscall-001.nasm -o syscall-001.o
 $ ld syscall-001.o -o syscall-001.bin
-</code></pre><p>And after we run the <em>./syscall-001.bin</em>, we can check that the exit status is <strong>&ldquo;1&rdquo;</strong> as we designed to be.</p>
+</code></pre></div><p>And after we run the <em>./syscall-001.bin</em>, we can check that the exit status is <strong>&ldquo;1&rdquo;</strong> as we designed to be.</p>
 <p><img src="../pics/exit_syscall_2.png" alt=""></p>
 <p>If we use the <code>strace</code> command to analise this elf32 binary we shall see some interesting stuff. For example, we can see that when we run the binary, the shell uses an <strong>execve</strong> with our binary passed as an argument along with other environment variables.</p>
 <p><img src="../pics/exit_syscall_3.png" alt=""></p>

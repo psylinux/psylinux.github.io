@@ -328,10 +328,10 @@ gpg&gt; quit
 Save changes? <span style="color:#f92672">(</span>y/N<span style="color:#f92672">)</span> y
 </code></pre></div><h2 id="enable-the-gpg-subkey">Enable the GPG subkey</h2>
 <p>When you use SSH, a program called <strong>ssh-agent</strong> is used to manage the keys. To use a GPG key, you&rsquo;ll use a similar program, <strong>gpg-agent</strong>, that manages GPG keys. To get <strong>gpg-agent</strong> to handle requests from SSH, you need to enable support by adding the line <strong>enable-ssh-support</strong> to the <strong>~/.gnupg/gpg-agent.conf</strong>.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Bash" data-lang="Bash">$ cat .gnupg/gpg-agent.conf
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ cat .gnupg/gpg-agent.conf
 enable-ssh-support
 </code></pre></div><p>Optionally, you may want to pre-specify the keys to be used for SSH so you won&rsquo;t have to use <strong>ssh-add</strong> to load the keys. To do this, specify the keys in the <strong>~/.gnupg/sshcontrol</strong> file. The entries in this file are _keygrips &ndash; internal identifiers <strong>gpg-agent</strong> uses to refer to keys. Unlike a key hash, a keygrip refers to both the public and private key. To find the keygrip, use <strong>gpg2 -K &ndash;with-keygrip</strong>, as shown below. Then add that line to the <strong>sshcontrol</strong> file.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Bash" data-lang="Bash">$ gpg2 -K --with-keygrip
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ gpg2 -K --with-keygrip
 /home/psylinux/.gnupg/pubring.kbx
 ------------------------------
 sec rsa2048 2019-03-21 <span style="color:#f92672">[</span>SC<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>expires: 2021-03-20<span style="color:#f92672">]</span>
@@ -346,9 +346,9 @@ Keygrip <span style="color:#f92672">=</span> 59A032B3BE1574BA0960DEDFB28FC264893
 ssb rsa2048 2019-03-21 <span style="color:#f92672">[</span>A<span style="color:#f92672">]</span>
 Keygrip <span style="color:#f92672">=</span> 2BE91C3C443AA29C3703D004587AD6DA9D7E40FC
 </code></pre></div><p>Then write your corresponding <strong>keygrip</strong> into <strong>sshcontrol</strong> file</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Bash" data-lang="Bash">$ echo 2BE91C3C443AA29C3703D004587AD6DA9D7E40FC &gt;&gt; ~/.gnupg/sshcontrol
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ echo 2BE91C3C443AA29C3703D004587AD6DA9D7E40FC &gt;&gt; ~/.gnupg/sshcontrol
 </code></pre></div><p>Last, you need to tell SSH how to access the <strong>gpg-agent</strong>. This is done by changing the value of the <strong>SSH_AUTH_SOCK</strong> environment variable. The following two lines, when added to your <strong>~/.bashrc</strong>, will ensure the variable is set correctly and that the agent is launched and ready for use.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Bash" data-lang="Bash">$ cat ~/.bashrc
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ cat ~/.bashrc
 
 export SSH_AUTH_SOCK<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>gpgconf --list-dirs agent-ssh-socket<span style="color:#66d9ef">)</span>
 gpgconf --launch gpg-agent

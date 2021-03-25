@@ -22,10 +22,10 @@
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Cheat Sheet :: Linux Shell Tricks"/>
-<meta name="twitter:description" content="Cheat Sheet :: Linux Shell Tricks To find the corresponding hex code echo -n &quot;&amp;&quot; | hexdump -C How to redirect standard error in bash nixCraft Article"/>
+<meta name="twitter:description" content="Cheat Sheet :: Linux Shell Tricks To find the corresponding hex code echo -n &#34;&amp;&#34; | hexdump -C How to redirect standard error in bash nixCraft Article"/>
 
 <meta property="og:title" content="Cheat Sheet :: Linux Shell Tricks" />
-<meta property="og:description" content="Cheat Sheet :: Linux Shell Tricks To find the corresponding hex code echo -n &quot;&amp;&quot; | hexdump -C How to redirect standard error in bash nixCraft Article" />
+<meta property="og:description" content="Cheat Sheet :: Linux Shell Tricks To find the corresponding hex code echo -n &#34;&amp;&#34; | hexdump -C How to redirect standard error in bash nixCraft Article" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://psylinux.github.io/posts/cheatsheet_linux_shell_tricks/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2020-06-16T17:38:15-03:00" />
@@ -264,8 +264,8 @@
   <div class="post">
     <h1 id="cheat-sheet--linux-shell-tricks">Cheat Sheet :: Linux Shell Tricks</h1>
 <h2 id="to-find-the-corresponding-hex-code">To find the corresponding hex code</h2>
-<pre><code>echo -n &quot;&amp;&quot; | hexdump -C
-</code></pre><h2 id="how-to-redirect-standard-error-in-bash">How to redirect standard error in bash</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">echo -n <span style="color:#e6db74">&#34;&amp;&#34;</span> | hexdump -C
+</code></pre></div><h2 id="how-to-redirect-standard-error-in-bash">How to redirect standard error in bash</h2>
 <p><a href="https://www.cyberciti.biz/faq/how-to-redirect-standard-error-in-bash/">nixCraft Article</a></p>
 <table>
 <thead>
@@ -323,35 +323,35 @@
 </li>
 </ul>
 <h3 id="using-sed">Using sed</h3>
-<pre><code>sed -e &quot;s/^M//&quot; file-orig.sh &gt; file-mod.sh
-</code></pre><h3 id="using-dos2unix">Using Dos2Unix</h3>
-<pre><code>dos2unix input
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sed -e <span style="color:#e6db74">&#34;s/^M//&#34;</span> file-orig.sh &gt; file-mod.sh
+</code></pre></div><h3 id="using-dos2unix">Using Dos2Unix</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">dos2unix input
 dos2unix -b input
-</code></pre><h3 id="using-tr">Using tr</h3>
+</code></pre></div><h3 id="using-tr">Using tr</h3>
 <p>To delete a CRLF:</p>
-<pre><code>tr -d '\r' &lt; input &gt; output
-</code></pre><h3 id="using-egrep">Using egrep</h3>
-<pre><code>egrep -v &quot;^#|^$&quot; squid.original &gt; squid.conf
-</code></pre><h3 id="using-grep">Using grep</h3>
-<pre><code>grep -v ^[&quot;#&quot;] squid.original &gt; squid.conf
-</code></pre><hr>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">tr -d <span style="color:#e6db74">&#39;\r&#39;</span> &lt; input &gt; output
+</code></pre></div><h3 id="using-egrep">Using egrep</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">egrep -v <span style="color:#e6db74">&#34;^#|^</span>$<span style="color:#e6db74">&#34;</span> squid.original &gt; squid.conf
+</code></pre></div><h3 id="using-grep">Using grep</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">grep -v ^<span style="color:#f92672">[</span><span style="color:#e6db74">&#34;#&#34;</span><span style="color:#f92672">]</span> squid.original &gt; squid.conf
+</code></pre></div><hr>
 <h2 id="interactive-shell">Interactive shell</h2>
 <h3 id="using-rlwrap">Using rlwrap</h3>
-<pre><code>rlwrap nc -nlv 443
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">rlwrap nc -nlv <span style="color:#ae81ff">443</span>
 rlwrap ./exploit.sh
-</code></pre><h3 id="using-python">Using python</h3>
+</code></pre></div><h3 id="using-python">Using python</h3>
 <ul>
 <li>Once you have a shell on the victim:</li>
 </ul>
-<pre><code>python -c 'import pty;pty.spawn(&quot;/bin/bash&quot;)'
-</code></pre><p>Or</p>
-<pre><code>/usr/bin/python3 -c 'import pty;pty.spawn(&quot;/bin/bash&quot;)'
-</code></pre><ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">python -c <span style="color:#e6db74">&#39;import pty;pty.spawn(&#34;/bin/bash&#34;)&#39;</span>
+</code></pre></div><p>Or</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">/usr/bin/python3 -c <span style="color:#e6db74">&#39;import pty;pty.spawn(&#34;/bin/bash&#34;)&#39;</span>
+</code></pre></div><ul>
 <li>Press CTRL+Z</li>
 <li>On attacker&rsquo;s machine:</li>
 </ul>
-<pre><code>stty raw -echo
-</code></pre><ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">stty raw -echo
+</code></pre></div><ul>
 <li>Now press <code>fg</code> to get the shell back</li>
 </ul>
 <hr>
@@ -359,26 +359,26 @@ rlwrap ./exploit.sh
 <ul>
 <li>To create the permission file</li>
 </ul>
-<pre><code>getfacl -Rp /home/psylinux/Desktop &gt; /home/psylinux/permissoes_desktop.txt
-</code></pre><ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">getfacl -Rp /home/psylinux/Desktop &gt; /home/psylinux/permissoes_desktop.txt
+</code></pre></div><ul>
 <li>To restore the permissions from file</li>
 </ul>
-<pre><code>setfacl --restore=/home/psylinux/permissoes_desktop.txt -R
-</code></pre><hr>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">setfacl --restore<span style="color:#f92672">=</span>/home/psylinux/permissoes_desktop.txt -R
+</code></pre></div><hr>
 <h2 id="smart-management-of-soft-links-with-_stow_">Smart management of soft links with <em>stow</em></h2>
 <ul>
 <li>Installation</li>
 </ul>
-<pre><code>apt install stow
-</code></pre><ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">apt install stow
+</code></pre></div><ul>
 <li>Managing soft links</li>
 </ul>
-<pre><code>stow -v -t Target Folder1 Folder2 Folder3
-</code></pre><pre><code>stow -v -D -t Target Folder1 Folder2 Folder3
-</code></pre><pre><code>stow -v -R -t Target Folder1 Folder2 Folder3 Folder4
-</code></pre><pre><code>stow -v -R -t Target Folder1 --ignore='SubFolder1' --ignore='SubFolder2'
-</code></pre><pre><code>stow -v -R -t Target Folder1 --ignore='(?:\..*|[^+]*\+[^+]*)'
-</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">stow -v -t Target Folder1 Folder2 Folder3
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">stow -v -D -t Target Folder1 Folder2 Folder3
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">stow -v -R -t Target Folder1 Folder2 Folder3 Folder4
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">stow -v -R -t Target Folder1 --ignore<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;SubFolder1&#39;</span> --ignore<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;SubFolder2&#39;</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">stow -v -R -t Target Folder1 --ignore<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;(?:\..*|[^+]*\+[^+]*)&#39;</span>
+</code></pre></div>
   </div>
   
 

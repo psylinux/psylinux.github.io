@@ -295,39 +295,39 @@
     <h1 id="cheat-sheet--tmux">Cheat Sheet :: TMUX</h1>
 <h2 id="working-with-sessions">Working with Sessions</h2>
 <h3 id="start-a-new-session">Start a New Session</h3>
-<pre><code>$ tmux new-session
-</code></pre><ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ tmux new-session
+</code></pre></div><ul>
 <li>Or you can type</li>
 </ul>
-<pre><code>$ tmux
-</code></pre><ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ tmux
+</code></pre></div><ul>
 <li><strong>Or you can use the shorthand</strong></li>
 </ul>
-<pre><code>tmux new
-</code></pre><ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">tmux new
+</code></pre></div><ul>
 <li><strong>If you&rsquo;re already inside the <code>tmux</code></strong></li>
 </ul>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vim" data-lang="vim">: <span style="color:#a6e22e">new</span><span style="color:#960050;background-color:#1e0010">
 </span></code></pre></div><h3 id="start-a-new-session-with-the-name-mysession">Start a New Session with the name <strong>mysession</strong></h3>
-<pre><code>$ tmux new -s mysession : new -s mysession
-</code></pre><h3 id="killdelete-sessions">Kill/Delete Sessions</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ tmux new -s mysession : new -s mysession
+</code></pre></div><h3 id="killdelete-sessions">Kill/Delete Sessions</h3>
 <ul>
 <li>Kill/Delete <strong>mysession</strong></li>
 </ul>
-<pre><code>$ tmux kill-session -t mysession
-</code></pre><ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ tmux kill-session -t mysession
+</code></pre></div><ul>
 <li><strong>Or you can use the shorthand</strong></li>
 </ul>
-<pre><code>$ tmux kill-ses -t mysession
-</code></pre><ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ tmux kill-ses -t mysession
+</code></pre></div><ul>
 <li>Kill/Delete all sessions <em>but</em> <strong>mysession</strong></li>
 </ul>
-<pre><code>$ tmux kill-session -a -t mysession
-</code></pre><ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ tmux kill-session -a -t mysession
+</code></pre></div><ul>
 <li>Kill/Delete all sessions <em>but</em> the <strong>current</strong> session</li>
 </ul>
-<pre><code>$ tmux kill-session -a
-</code></pre><h3 id="rename-session">Rename session</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ tmux kill-session -a
+</code></pre></div><h3 id="rename-session">Rename session</h3>
 <ul>
 <li><strong>If you&rsquo;re already inside the <code>tmux</code></strong></li>
 </ul>
@@ -347,46 +347,46 @@
 </ul>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vim" data-lang="vim"><span style="color:#a6e22e">Ctrl</span> + <span style="color:#a6e22e">b</span> + )<span style="color:#960050;background-color:#1e0010">
 </span></code></pre></div><h3 id="attach-to-the-last-session">Attach to the last session</h3>
-<pre><code>$ tmux attach-session
-</code></pre><ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ tmux attach-session
+</code></pre></div><ul>
 <li>Or</li>
 </ul>
-<pre><code>$ tmux attach
-</code></pre><ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ tmux attach
+</code></pre></div><ul>
 <li>Or</li>
 </ul>
-<pre><code>$ tmux at
-</code></pre><ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ tmux at
+</code></pre></div><ul>
 <li><strong>Or you can use the shorthand</strong></li>
 </ul>
-<pre><code>$ tmux a
-</code></pre><h3 id="attach-to-a-session-using-a-name">Attach to a session using a name</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ tmux a
+</code></pre></div><h3 id="attach-to-a-session-using-a-name">Attach to a session using a name</h3>
 <ul>
 <li>Attach to a session with the name <strong>mysession</strong></li>
 </ul>
-<pre><code>$ tmux attach-session -t mysession
-</code></pre><ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ tmux attach-session -t mysession
+</code></pre></div><ul>
 <li>Or</li>
 </ul>
-<pre><code>$ tmux attach -t mysession
-</code></pre><ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ tmux attach -t mysession
+</code></pre></div><ul>
 <li>Or</li>
 </ul>
-<pre><code>$ tmux at -t mysession
-</code></pre><ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ tmux at -t mysession
+</code></pre></div><ul>
 <li><strong>Or you can use the shorthand</strong></li>
 </ul>
-<pre><code>$ tmux a -t mysession
-</code></pre><h3 id="show-all-sessions">Show all sessions</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ tmux a -t mysession
+</code></pre></div><h3 id="show-all-sessions">Show all sessions</h3>
 <ul>
 <li>Listing all sessions</li>
 </ul>
-<pre><code>$ tmux list-sessions
-</code></pre><ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ tmux list-sessions
+</code></pre></div><ul>
 <li><strong>Or you can use the shorthand</strong></li>
 </ul>
-<pre><code>$ tmux ls
-</code></pre><ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ tmux ls
+</code></pre></div><ul>
 <li><strong>If you&rsquo;re already inside the <code>tmux</code></strong></li>
 </ul>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vim" data-lang="vim"><span style="color:#a6e22e">Ctrl</span> + <span style="color:#a6e22e">b</span> + <span style="color:#a6e22e">s</span><span style="color:#960050;background-color:#1e0010">
@@ -395,8 +395,8 @@
 <ul>
 <li>Start a new session with the name <strong>mysession</strong> and window name <strong>mywindow</strong></li>
 </ul>
-<pre><code>$ tmux new -s mysession -n mywindow
-</code></pre><ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ tmux new -s mysession -n mywindow
+</code></pre></div><ul>
 <li>Create a new Window // <strong>If you&rsquo;re already inside the <code>tmux</code></strong></li>
 </ul>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vim" data-lang="vim"><span style="color:#a6e22e">Ctrl</span> + <span style="color:#a6e22e">b</span> + <span style="color:#a6e22e">c</span><span style="color:#960050;background-color:#1e0010">
@@ -642,13 +642,13 @@
 </span></code></pre></div><ul>
 <li>Start a New Session with a Defined Buffer Size (history)</li>
 </ul>
-<pre><code>tmux set-option -g history-limit 50000; new-session
-</code></pre><h2 id="help">Help</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">tmux set-option -g history-limit 50000; new-session
+</code></pre></div><h2 id="help">Help</h2>
 <ul>
 <li>Show Every Session, Window, Pane, etc&hellip;</li>
 </ul>
-<pre><code>$ tmux info
-</code></pre><ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ tmux info
+</code></pre></div><ul>
 <li>Show Shortcuts</li>
 </ul>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vim" data-lang="vim"><span style="color:#a6e22e">Ctrl</span> + <span style="color:#a6e22e">b</span> + ?<span style="color:#960050;background-color:#1e0010">

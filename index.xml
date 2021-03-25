@@ -22,7 +22,7 @@
       <pubDate>Tue, 16 Jun 2020 17:38:15 -0300</pubDate>
       
       <guid>https://psylinux.github.io/posts/cheatsheet_linux_shell_tricks/</guid>
-      <description>Cheat Sheet :: Linux Shell Tricks To find the corresponding hex code echo -n &amp;quot;&amp;amp;&amp;quot; | hexdump -C How to redirect standard error in bash nixCraft Article</description>
+      <description>Cheat Sheet :: Linux Shell Tricks To find the corresponding hex code echo -n &amp;#34;&amp;amp;&amp;#34; | hexdump -C How to redirect standard error in bash nixCraft Article</description>
     </item>
     
     <item>
