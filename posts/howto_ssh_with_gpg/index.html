@@ -259,7 +259,7 @@ The important thing to realize is that a GPG key contains multiple keys. For bac
 <p>You should already have a GPG key. If you don&rsquo;t, read one of the many <a href="https://docs.fedoraproject.org/en-US/quick-docs/create-gpg-keys/">fine tutorials</a> available on this topic. You will create the subkey by editing your existing key. You need to edit your key in expert mode to get access to the appropriate options.
 The workflow adds a new key where you can choose its capabilitie &ndash; specifically, you want to toggle its capabilities to just have authentication. SSH typically uses a 2048-bit RSA key that does not expire (type 8 in the options below).
 Below is an edited version of the workflow. This and all other commands were tested on Fedora 29.</p>
-<pre><code>$ gpg2 --expert --edit-key &lt;KEY ID&gt;
+<pre><code class="language-shell-session" data-lang="shell-session">$ gpg2 --expert --edit-key &lt;KEY ID&gt;
 
 gpg&gt; addkey
 
