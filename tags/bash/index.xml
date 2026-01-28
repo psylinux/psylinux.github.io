@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Bash on Marcos Azevedo (aka psylinux)</title><link>https://psylinux.github.io/tags/bash/</link><description>Recent content in Bash on Marcos Azevedo (aka psylinux)</description><generator>Hugo</generator><language>en-us</language><copyright>2025 Marcos Azevedo</copyright><lastBuildDate>Tue, 16 Jun 2020 17:38:15 -0300</lastBuildDate><atom:link href="https://psylinux.github.io/tags/bash/index.xml" rel="self" type="application/rss+xml"/><item><title>Cheat Sheet :: Linux Shell Tricks</title><link>https://psylinux.github.io/cheatsheet/cheatsheet_linux_shell_tricks/</link><pubDate>Tue, 16 Jun 2020 17:38:15 -0300</pubDate><guid>https://psylinux.github.io/cheatsheet/cheatsheet_linux_shell_tricks/</guid><description>&lt;h2 id="to-find-the-corresponding-hex-code">To find the corresponding hex code&lt;/h2>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>echo -n &lt;span style="color:#e6db74">&amp;#34;&amp;amp;&amp;#34;&lt;/span> | hexdump -C
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="how-to-redirect-standard-error-in-bash">How to redirect standard error in bash&lt;/h2>
+&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th style="text-align: left">Command&lt;/th>
+ &lt;th style="text-align: left">Description/Purpose&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td style="text-align: left">command 2&amp;gt;filename&lt;/td>
+ &lt;td style="text-align: left">Redirect stderr to filename&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">command &amp;gt;output 2&amp;gt;filename&lt;/td>
+ &lt;td style="text-align: left">Redirect stderr to file named filename and stdout to file named output&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">command &amp;amp;&amp;gt; filename&lt;/td>
+ &lt;td style="text-align: left">Redirect stderr and stdout to filename&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">command 2&amp;gt;&amp;amp;-&lt;/td>
+ &lt;td style="text-align: left">Just suppress error messages. No file created. No error message displayed on screen&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">command 2&amp;gt;/dev/null&lt;/td>
+ &lt;td style="text-align: left">Just suppress error messages.&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">command 2&amp;gt;&amp;amp;1&lt;/td>
+ &lt;td style="text-align: left">Redirect error messages to standard output. Useful in shell script when you need to forcefully display error messages on screen&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;h2 id="removing-blank-spaces-and-special-chars">Removing blank spaces and special chars&lt;/h2>
+&lt;p>&lt;strong>Note that we cannot just type the accent ^, instead we must use CTRL+V and then type CTRL+M.&lt;/strong>&lt;/p></description></item></channel></rss>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Howto on Marcos Azevedo (aka psylinux)</title><link>https://psylinux.github.io/pt/categories/howto/</link><description>Recent content in Howto on Marcos Azevedo (aka psylinux)</description><generator>Hugo</generator><language>pt-br</language><copyright>2025 Marcos Azevedo</copyright><lastBuildDate>Mon, 14 Jan 2019 17:38:15 -0300</lastBuildDate><atom:link href="https://psylinux.github.io/pt/categories/howto/index.xml" rel="self" type="application/rss+xml"/><item><title>HowTo :: Patch em binários no Linux</title><link>https://psylinux.github.io/pt/howto/howto_patching_binaries_in_linux/</link><pubDate>Mon, 14 Jan 2019 17:38:15 -0300</pubDate><guid>https://psylinux.github.io/pt/howto/howto_patching_binaries_in_linux/</guid><description>&lt;h2 id="introdução">Introdução&lt;/h2>
+&lt;p>Aprenda a aplicar patches em arquivos binários diretamente sem código-fonte usando edição hexadecimal e ferramentas de diff binário; essencial para corrigir bugs, aplicar patches de segurança ou modificar executáveis.&lt;/p>
+&lt;h2 id="o-que-é-patching-de-binários">O Que é Patching de Binários?&lt;/h2>
+&lt;p>Patching de binários é o processo de modificar arquivos executáveis compilados sem acesso ao seu código-fonte. Esta técnica é útil para:&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>Corrigir bugs&lt;/strong> em binários de produção quando recompilação não é possível&lt;/li>
+&lt;li>&lt;strong>Aplicar patches de segurança&lt;/strong> em sistemas legados&lt;/li>
+&lt;li>&lt;strong>Engenharia reversa&lt;/strong> e compreensão de como programas funcionam&lt;/li>
+&lt;li>&lt;strong>Desafios de CTF&lt;/strong> e pesquisa de vulnerabilidades&lt;/li>
+&lt;li>&lt;strong>Modificar comportamento&lt;/strong> de aplicações closed-source&lt;/li>
+&lt;li>&lt;strong>Criar diffs binários&lt;/strong> para distribuir patches&lt;/li>
+&lt;/ul>
+&lt;p>Em vez de editar código-fonte de alto nível e recompilar, você modifica diretamente os bytes de código de máquina no arquivo executável. Isso requer compreensão de representação hexadecimal e formatos de arquivo executável.&lt;/p></description></item><item><title>HowTo :: Instalar PyEnv (Gerenciamento Simples de Versões Python)</title><link>https://psylinux.github.io/pt/howto/howto_install_pyenv/</link><pubDate>Fri, 04 Jan 2019 17:38:15 -0300</pubDate><guid>https://psylinux.github.io/pt/howto/howto_install_pyenv/</guid><description>&lt;h2 id="introdução">Introdução&lt;/h2>
+&lt;p>Gerenciar múltiplas versões do Python em uma única máquina pode ser um pesadelo. Ferramentas do sistema frequentemente dependem de uma versão específica do Python, e atualizá-la pode quebrar seu sistema operacional. &lt;strong>PyEnv&lt;/strong> resolve isso permitindo que você instale e alterne facilmente entre múltiplas versões isoladas do Python.&lt;/p>
+&lt;p>Neste guia, você aprenderá como:&lt;/p>
+&lt;ol>
+&lt;li>Instalar o PyEnv e suas dependências de build&lt;/li>
+&lt;li>Configurar seu shell para usar o PyEnv&lt;/li>
+&lt;li>Instalar diferentes versões do Python&lt;/li>
+&lt;li>Gerenciar ambientes virtuais facilmente&lt;/li>
+&lt;/ol>
+&lt;h2 id="1-estabelecendo-o-ambiente-de-build">1. Estabelecendo o Ambiente de Build&lt;/h2>
+&lt;p>O PyEnv compila o Python a partir do código-fonte. Para fazer isso, você precisa de um conjunto de dependências de build instaladas no seu sistema.&lt;/p></description></item><item><title>HowTo :: Instalar GEF (plug-in do GDB)</title><link>https://psylinux.github.io/pt/howto/howto_install_gdb_gef/</link><pubDate>Sun, 16 Dec 2018 17:38:15 -0300</pubDate><guid>https://psylinux.github.io/pt/howto/howto_install_gdb_gef/</guid><description>&lt;h2 id="introdução">Introdução&lt;/h2>
+&lt;p>Instale o GEF para turbinar sua experiência de depuração com GDB, adicionando syntax highlighting, exibição automática de contexto e dezenas de comandos poderosos.&lt;/p>
+&lt;h2 id="o-que-é-gef">O que é GEF?&lt;/h2>
+&lt;p>GEF (GDB Enhanced Features) é um plugin poderoso que transforma o GDB de um depurador básico de linha de comando em uma ferramenta moderna e amigável de depuração. Ele adiciona:&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>Exibição automática de contexto&lt;/strong> mostrando registradores, pilha, código e threads após cada passo&lt;/li>
+&lt;li>&lt;strong>Syntax highlighting&lt;/strong> para assembly e código-fonte&lt;/li>
+&lt;li>&lt;strong>Ferramentas de inspeção de memória&lt;/strong> com formatação visual&lt;/li>
+&lt;li>&lt;strong>Breakpoints aprimorados&lt;/strong> com melhor visualização&lt;/li>
+&lt;li>&lt;strong>Auxiliares para desenvolvimento de exploits&lt;/strong> para pesquisa de segurança&lt;/li>
+&lt;li>&lt;strong>Extensibilidade baseada em Python&lt;/strong> para adicionar seus próprios comandos&lt;/li>
+&lt;/ul>
+&lt;p>Se você já usou o GDB e achou difícil acompanhar o que está acontecendo, o GEF resolve esse problema mostrando tudo que você precisa em uma interface organizada e colorida.&lt;/p></description></item><item><title>HowTo :: Acesso SSH usando chave GPG para autenticação</title><link>https://psylinux.github.io/pt/howto/howto_ssh_with_gpg/</link><pubDate>Tue, 02 Oct 2018 17:38:15 -0300</pubDate><guid>https://psylinux.github.io/pt/howto/howto_ssh_with_gpg/</guid><description>&lt;h2 id="prefácio">Prefácio&lt;/h2>
+&lt;p>Muitos de nós já conhecemos o Secure Shell (SSH), que permite conectar a outros sistemas usando uma chave em vez de senha. Este guia explica como eliminar chaves SSH e usar uma subchave do GNU Privacy Guard (GPG) no lugar. Usar GPG não torna suas conexões SSH mais seguras. SSH é um protocolo seguro, e chaves SSH são seguras. Em vez disso, isso torna mais fácil certos aspectos de distribuição de chaves e gestão de backups. Também não muda seu workflow de uso do SSH. Todos os comandos continuarão funcionando como você espera, exceto que você não terá mais chaves privadas SSH, você vai desbloquear sua chave GPG.&lt;/p></description></item></channel></rss>

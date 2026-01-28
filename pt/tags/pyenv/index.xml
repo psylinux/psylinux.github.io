@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Pyenv on Marcos Azevedo (aka psylinux)</title><link>https://psylinux.github.io/pt/tags/pyenv/</link><description>Recent content in Pyenv on Marcos Azevedo (aka psylinux)</description><generator>Hugo</generator><language>pt-br</language><copyright>2025 Marcos Azevedo</copyright><lastBuildDate>Fri, 04 Jan 2019 17:38:15 -0300</lastBuildDate><atom:link href="https://psylinux.github.io/pt/tags/pyenv/index.xml" rel="self" type="application/rss+xml"/><item><title>HowTo :: Instalar PyEnv (Gerenciamento Simples de Versões Python)</title><link>https://psylinux.github.io/pt/howto/howto_install_pyenv/</link><pubDate>Fri, 04 Jan 2019 17:38:15 -0300</pubDate><guid>https://psylinux.github.io/pt/howto/howto_install_pyenv/</guid><description>&lt;h2 id="introdução">Introdução&lt;/h2>
+&lt;p>Gerenciar múltiplas versões do Python em uma única máquina pode ser um pesadelo. Ferramentas do sistema frequentemente dependem de uma versão específica do Python, e atualizá-la pode quebrar seu sistema operacional. &lt;strong>PyEnv&lt;/strong> resolve isso permitindo que você instale e alterne facilmente entre múltiplas versões isoladas do Python.&lt;/p>
+&lt;p>Neste guia, você aprenderá como:&lt;/p>
+&lt;ol>
+&lt;li>Instalar o PyEnv e suas dependências de build&lt;/li>
+&lt;li>Configurar seu shell para usar o PyEnv&lt;/li>
+&lt;li>Instalar diferentes versões do Python&lt;/li>
+&lt;li>Gerenciar ambientes virtuais facilmente&lt;/li>
+&lt;/ol>
+&lt;h2 id="1-estabelecendo-o-ambiente-de-build">1. Estabelecendo o Ambiente de Build&lt;/h2>
+&lt;p>O PyEnv compila o Python a partir do código-fonte. Para fazer isso, você precisa de um conjunto de dependências de build instaladas no seu sistema.&lt;/p></description></item></channel></rss>

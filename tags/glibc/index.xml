@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Glibc on Marcos Azevedo (aka psylinux)</title><link>https://psylinux.github.io/tags/glibc/</link><description>Recent content in Glibc on Marcos Azevedo (aka psylinux)</description><generator>Hugo</generator><language>en-us</language><copyright>2025 Marcos Azevedo</copyright><lastBuildDate>Mon, 14 Jan 2019 17:38:15 -0300</lastBuildDate><atom:link href="https://psylinux.github.io/tags/glibc/index.xml" rel="self" type="application/rss+xml"/><item><title>HowTo :: Patching binary files in Linux</title><link>https://psylinux.github.io/howto/howto_patching_binaries_in_linux/</link><pubDate>Mon, 14 Jan 2019 17:38:15 -0300</pubDate><guid>https://psylinux.github.io/howto/howto_patching_binaries_in_linux/</guid><description>&lt;h2 id="introduction">Introduction&lt;/h2>
+&lt;p>Learn to patch binary files directly without source code using hex editing and binary diff tools; essential for fixing bugs, applying security patches, or modifying executables.&lt;/p>
+&lt;h2 id="what-is-binary-patching">What is Binary Patching?&lt;/h2>
+&lt;p>Binary patching is the process of modifying compiled executable files without access to their source code. This technique is useful for:&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>Fixing bugs&lt;/strong> in production binaries when recompilation isn&amp;rsquo;t possible&lt;/li>
+&lt;li>&lt;strong>Applying security patches&lt;/strong> to legacy systems&lt;/li>
+&lt;li>&lt;strong>Reverse engineering&lt;/strong> and understanding how programs work&lt;/li>
+&lt;li>&lt;strong>CTF challenges&lt;/strong> and vulnerability research&lt;/li>
+&lt;li>&lt;strong>Modifying behavior&lt;/strong> of closed-source applications&lt;/li>
+&lt;li>&lt;strong>Creating binary diffs&lt;/strong> for distributing patches&lt;/li>
+&lt;/ul>
+&lt;p>Instead of editing high-level source code and recompiling, you directly modify the machine code bytes in the executable file. This requires understanding hexadecimal representation and executable file formats.&lt;/p></description></item><item><title>Article :: Using the Linux Syscalls in Assembly</title><link>https://psylinux.github.io/articles/article_linux_syscalls_in_assembly/</link><pubDate>Fri, 28 Dec 2018 17:38:15 -0300</pubDate><guid>https://psylinux.github.io/articles/article_linux_syscalls_in_assembly/</guid><description>&lt;h2 id="introduction">Introduction&lt;/h2>
+&lt;p>This hands-on tutorial teaches you how to write assembly programs that invoke Linux system calls directly, bypassing the C library and interacting with the kernel at the lowest level.&lt;/p>
+&lt;h2 id="overview">Overview&lt;/h2>
+&lt;p>When a program needs to interact with the operating system; to write to a file, allocate memory, or exit gracefully; it makes a &lt;strong>system call&lt;/strong> (syscall). Most programmers use these indirectly through C library wrappers, but understanding how to invoke syscalls directly from assembly gives you deep insight into how programs actually work.&lt;/p></description></item></channel></rss>

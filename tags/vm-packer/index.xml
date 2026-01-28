@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Vm-Packer on Marcos Azevedo (aka psylinux)</title><link>https://psylinux.github.io/tags/vm-packer/</link><description>Recent content in Vm-Packer on Marcos Azevedo (aka psylinux)</description><generator>Hugo</generator><language>en-us</language><copyright>2025 Marcos Azevedo</copyright><lastBuildDate>Sun, 16 Dec 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://psylinux.github.io/tags/vm-packer/index.xml" rel="self" type="application/rss+xml"/><item><title>Packer VM Templates</title><link>https://psylinux.github.io/portfolio/packer-vm-templates/</link><pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate><guid>https://psylinux.github.io/portfolio/packer-vm-templates/</guid><description>&lt;p>&lt;a href="https://github.com/psylinux/packer-vm-templates">&lt;em>Packer VM Templates&lt;/em>&lt;/a> :: is a collection of Packer.io templates used to automate the creation of Virtual Machine images.&lt;/p>
+&lt;p>Contain:&lt;/p>
+&lt;ul>
+&lt;li>Kali Linux Template: A specific configuration (packer-kali-template) for building Kali Linux images.&lt;/li>
+&lt;li>Generic/Base Templates: Other general templates (packer-template).
+It is open-source (BSD 3-Clause License) and allows for reproducible builds of these VM environments as code.&lt;/li>
+&lt;/ul></description></item></channel></rss>

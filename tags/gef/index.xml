@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Gef on Marcos Azevedo (aka psylinux)</title><link>https://psylinux.github.io/tags/gef/</link><description>Recent content in Gef on Marcos Azevedo (aka psylinux)</description><generator>Hugo</generator><language>en-us</language><copyright>2025 Marcos Azevedo</copyright><lastBuildDate>Sun, 16 Dec 2018 17:38:15 -0300</lastBuildDate><atom:link href="https://psylinux.github.io/tags/gef/index.xml" rel="self" type="application/rss+xml"/><item><title>Article :: Getting Started with GDB</title><link>https://psylinux.github.io/articles/article_getting_start_with_gdb/</link><pubDate>Sun, 16 Dec 2018 17:38:15 -0300</pubDate><guid>https://psylinux.github.io/articles/article_getting_start_with_gdb/</guid><description>&lt;h2 id="introduction">Introduction&lt;/h2>
+&lt;p>This comprehensive guide covers everything you need to start debugging C programs with GDB, from compiling with debug symbols to inspecting memory and controlling program execution.&lt;/p>
+&lt;h2 id="overview">Overview&lt;/h2>
+&lt;p>GDB (GNU Debugger) is the standard debugger for programs compiled with GCC. Unlike tools like strace that show system calls, GDB lets you step through your source code line by line, inspect variables, set conditional breakpoints, and even modify program behavior during execution.&lt;/p></description></item><item><title>HowTo :: Install GEF (GDB Plug-in)</title><link>https://psylinux.github.io/howto/howto_install_gdb_gef/</link><pubDate>Sun, 16 Dec 2018 17:38:15 -0300</pubDate><guid>https://psylinux.github.io/howto/howto_install_gdb_gef/</guid><description>&lt;h2 id="introduction">Introduction&lt;/h2>
+&lt;p>Install GEF to supercharge your GDB debugging experience with syntax highlighting, automatic context display, and dozens of powerful commands.&lt;/p>
+&lt;h2 id="what-is-gef">What is GEF?&lt;/h2>
+&lt;p>GEF (GDB Enhanced Features) is a powerful plugin that transforms GDB from a basic command-line debugger into a modern, user-friendly debugging powerhouse. It adds:&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>Automatic context display&lt;/strong> showing registers, stack, code, and threads after every step&lt;/li>
+&lt;li>&lt;strong>Syntax highlighting&lt;/strong> for assembly and source code&lt;/li>
+&lt;li>&lt;strong>Memory inspection tools&lt;/strong> with visual formatting&lt;/li>
+&lt;li>&lt;strong>Enhanced breakpoints&lt;/strong> with better visualization&lt;/li>
+&lt;li>&lt;strong>Exploit development helpers&lt;/strong> for security research&lt;/li>
+&lt;li>&lt;strong>Python-based extensibility&lt;/strong> to add your own commands&lt;/li>
+&lt;/ul>
+&lt;p>If you&amp;rsquo;ve used GDB and found it difficult to follow what&amp;rsquo;s happening, GEF solves that problem by showing you everything you need in an organized, colorful interface.&lt;/p></description></item></channel></rss>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Bash on Marcos Azevedo (aka psylinux)</title><link>https://psylinux.github.io/pt/tags/bash/</link><description>Recent content in Bash on Marcos Azevedo (aka psylinux)</description><generator>Hugo</generator><language>pt-br</language><copyright>2025 Marcos Azevedo</copyright><lastBuildDate>Tue, 16 Jun 2020 17:38:15 -0300</lastBuildDate><atom:link href="https://psylinux.github.io/pt/tags/bash/index.xml" rel="self" type="application/rss+xml"/><item><title>Cheat Sheet :: Truques de Shell Linux</title><link>https://psylinux.github.io/pt/cheatsheet/cheatsheet_linux_shell_tricks/</link><pubDate>Tue, 16 Jun 2020 17:38:15 -0300</pubDate><guid>https://psylinux.github.io/pt/cheatsheet/cheatsheet_linux_shell_tricks/</guid><description>&lt;h2 id="para-encontrar-o-código-hex-correspondente">Para encontrar o código hex correspondente&lt;/h2>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>echo -n &lt;span style="color:#e6db74">&amp;#34;&amp;amp;&amp;#34;&lt;/span> | hexdump -C
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="como-redirecionar-stderr-no-bash">Como redirecionar stderr no bash&lt;/h2>
+&lt;p>&lt;a href="https://www.cyberciti.biz/faq/how-to-redirect-standard-error-in-bash/">Artigo da nixCraft&lt;/a>&lt;/p>
+&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th style="text-align: left">Comando&lt;/th>
+ &lt;th style="text-align: left">Descrição/Propósito&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td style="text-align: left">command 2&amp;gt;filename&lt;/td>
+ &lt;td style="text-align: left">Redireciona stderr para filename&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">command &amp;gt;output 2&amp;gt;filename&lt;/td>
+ &lt;td style="text-align: left">Redireciona stderr para o arquivo filename e stdout para o arquivo output&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">command &amp;amp;&amp;gt; filename&lt;/td>
+ &lt;td style="text-align: left">Redireciona stderr e stdout para filename&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">command 2&amp;gt;&amp;amp;-&lt;/td>
+ &lt;td style="text-align: left">Apenas suprime mensagens de erro. Nenhum arquivo criado. Nenhuma mensagem exibida na tela&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">command 2&amp;gt;/dev/null&lt;/td>
+ &lt;td style="text-align: left">Apenas suprime mensagens de erro.&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">command 2&amp;gt;&amp;amp;1&lt;/td>
+ &lt;td style="text-align: left">Redireciona mensagens de erro para a saída padrão. Útil em scripts quando você precisa exibir erros na tela&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;h2 id="removendo-espaços-em-branco-e-caracteres-especiais">Removendo espaços em branco e caracteres especiais&lt;/h2>
+&lt;p>&lt;strong>Note que não podemos apenas digitar o acento ^; em vez disso devemos usar CTRL+V e depois CTRL+M.&lt;/strong>&lt;/p></description></item></channel></rss>
