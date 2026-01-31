@@ -1,0 +1,555 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Experimenting with RISC-V on Marcos Azevedo (aka psylinux)</title><link>https://psylinux.github.io/series/experimenting-with-risc-v/</link><description>Recent content in Experimenting with RISC-V on Marcos Azevedo (aka psylinux)</description><generator>Hugo</generator><language>en-us</language><copyright>2025 Marcos Azevedo</copyright><lastBuildDate>Tue, 27 Jan 2026 07:43:49 +0000</lastBuildDate><atom:link href="https://psylinux.github.io/series/experimenting-with-risc-v/index.xml" rel="self" type="application/rss+xml"/><item><title>Preface</title><link>https://psylinux.github.io/series/experimenting-with-risc-v/01-preface/</link><pubDate>Tue, 20 Jan 2026 06:31:23 +0000</pubDate><guid>https://psylinux.github.io/series/experimenting-with-risc-v/01-preface/</guid><description>&lt;h2 id="1-purpose-and-scope">1. Purpose and scope&lt;/h2>
+&lt;p>This book is a hands-on, bare-metal introduction to RISC-V assembly programming. You will build and run small RV32 programs under &lt;strong>QEMU system-mode&lt;/strong> using the &lt;strong>&lt;code>riscv64-unknown-elf-gcc&lt;/code>&lt;/strong> cross-toolchain. There is &lt;strong>no real hardware&lt;/strong> assumed, and there is &lt;strong>no libc&lt;/strong> available, so every example stays freestanding and prints through the QEMU &lt;code>virt&lt;/code> UART.&lt;/p>
+&lt;h2 id="2-who-this-is-for">2. Who this is for&lt;/h2>
+&lt;ul>
+&lt;li>Readers with basic programming experience who want to understand assembly and bare-metal workflows.&lt;/li>
+&lt;li>Engineers who want a repeatable, emulator-first workflow for learning and debugging RISC-V.&lt;/li>
+&lt;/ul>
+&lt;h2 id="3-how-to-use-this-book">3. How to use this book&lt;/h2>
+&lt;ul>
+&lt;li>Every code block that names a file lives in &lt;a href="https://github.com/psylinux/riscv-experiments">GitHub RISC-V Experiments Repository&lt;/a>.&lt;/li>
+&lt;li>Each chapter ends with exercises and a short summary.&lt;/li>
+&lt;li>All build commands use &lt;code>riscv64-unknown-elf-gcc&lt;/code> and run under &lt;code>qemu-system-riscv32&lt;/code>, check the chapter &lt;a href="https://psylinux.github.io/series/experimenting-with-risc-v/04-setup-toolchain/">Setting Up the Toolchain&lt;/a> for details.&lt;/li>
+&lt;/ul>
+&lt;h2 id="4-contact">4. Contact&lt;/h2>
+&lt;p>Feedback and questions are welcome. Make a comment, open an issue or a pull request on the repository and include the chapter name and section so it is easy to reproduce.&lt;/p></description></item><item><title>Introduction</title><link>https://psylinux.github.io/series/experimenting-with-risc-v/02-introduction/</link><pubDate>Tue, 20 Jan 2026 06:31:23 +0000</pubDate><guid>https://psylinux.github.io/series/experimenting-with-risc-v/02-introduction/</guid><description>&lt;h2 id="1-what-is-risc-v">1. What is RISC-V?&lt;/h2>
+&lt;p>RISC-V is an open instruction set architecture (ISA). It is small, cleanly specified, and designed to be extended. That makes it ideal for learning how CPUs execute instructions and how software starts without an operating system.&lt;/p>
+&lt;h2 id="2-why-bare-metal">2. Why bare-metal?&lt;/h2>
+&lt;p>Bare-metal programming gives you direct control over the processor, memory map, and peripherals. It also forces you to understand what the compiler, linker, and startup code are doing, which makes debugging and reverse engineering much easier later.&lt;/p></description></item><item><title>RISC-V Architecture Overview</title><link>https://psylinux.github.io/series/experimenting-with-risc-v/03-architecture-overview/</link><pubDate>Tue, 20 Jan 2026 06:31:23 +0000</pubDate><guid>https://psylinux.github.io/series/experimenting-with-risc-v/03-architecture-overview/</guid><description>&lt;h2 id="1-core-ideas">1. Core ideas&lt;/h2>
+&lt;p>RV32I is the 32-bit base integer ISA. It uses 32 general-purpose registers (&lt;code>x0&lt;/code>..&lt;code>x31&lt;/code>) and a load/store model. Only loads and stores touch memory; arithmetic stays in registers.&lt;/p>
+&lt;h2 id="2-registers-at-a-glance">2. Registers at a glance&lt;/h2>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-text" data-lang="text">&lt;span style="display:flex;">&lt;span>x0 = zero (always 0)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>x1 = ra (return address)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>x2 = sp (stack pointer)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>x3 = gp (global pointer)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>x4 = tp (thread pointer)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>x5..x7 = temporaries (t0..t2)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>x8..x9 = saved (s0/fp, s1)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>x10..x17 = args/return (a0..a7)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>x18..x27 = saved (s2..s11)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>x28..x31 = temporaries (t3..t6)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="3-instruction-formats">3. Instruction formats&lt;/h2>
+&lt;pre tabindex="0">&lt;code class="language-mermaid" data-lang="mermaid">flowchart LR
+ I[&amp;#34;Immediate&amp;#34;] --&amp;gt;|addi/lw/jalr| I1[&amp;#34;imm[11:0] rs1 funct3 rd opcode&amp;#34;]
+ R[&amp;#34;Register&amp;#34;] --&amp;gt;|add/sub| R1[&amp;#34;funct7 rs2 rs1 funct3 rd opcode&amp;#34;]
+ S[&amp;#34;Store&amp;#34;] --&amp;gt;|sw/sb| S1[&amp;#34;imm[11:5] rs2 rs1 funct3 imm[4:0] opcode&amp;#34;]
+ B[&amp;#34;Branch&amp;#34;] --&amp;gt;|beq/bne| B1[&amp;#34;imm rs2 rs1 funct3 imm opcode&amp;#34;]
+&lt;/code>&lt;/pre>&lt;h2 id="4-additional-resources">4. Additional resources&lt;/h2>
+&lt;ul>
+&lt;li>For more details, see the &lt;a href="https://github.com/riscv/riscv-isa-manual/releases">RISC-V spec&lt;/a>.&lt;/li>
+&lt;li>Another useful and concise resource is &lt;a href="https://github.com/psylinux/riscv-experiments/blob/main/docs/riscv-card.pdf">RISC-V Card&lt;/a>.&lt;/li>
+&lt;/ul>
+&lt;h2 id="5-memory-map-in-qemu-virt">5. Memory map in QEMU virt&lt;/h2>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>0x8000_0000 RAM &lt;span style="color:#f92672">(&lt;/span>we place code + data here&lt;span style="color:#f92672">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>0x1000_0000 UART0 &lt;span style="color:#f92672">(&lt;/span>MMIO&lt;span style="color:#f92672">)&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="6-exercises">6. Exercises&lt;/h2>
+&lt;ol>
+&lt;li>Identify which registers are caller-saved vs callee-saved.&lt;/li>
+&lt;li>Look up one instruction format in the &lt;a href="https://github.com/psylinux/riscv-experiments/blob/main/docs/riscv-card.pdf">RISC-V Card&lt;/a> spec and map each field by name.&lt;/li>
+&lt;/ol>
+&lt;h2 id="7-summary">7. Summary&lt;/h2>
+&lt;ul>
+&lt;li>RV32I provides a small, clean base ISA.&lt;/li>
+&lt;li>The register file is fixed and conventions give registers roles.&lt;/li>
+&lt;li>QEMU &lt;code>virt&lt;/code> exposes a simple RAM + UART memory map.&lt;/li>
+&lt;/ul></description></item><item><title>Setting Up the Toolchain and QEMU</title><link>https://psylinux.github.io/series/experimenting-with-risc-v/04-setup-toolchain/</link><pubDate>Tue, 20 Jan 2026 06:31:23 +0000</pubDate><guid>https://psylinux.github.io/series/experimenting-with-risc-v/04-setup-toolchain/</guid><description>&lt;h2 id="1-tldr">1. TL;DR&lt;/h2>
+&lt;ul>
+&lt;li>Use &lt;strong>&lt;code>riscv64-unknown-elf-gcc&lt;/code>&lt;/strong> for all builds.&lt;/li>
+&lt;li>Run programs with &lt;strong>&lt;code>qemu-system-riscv32&lt;/code>&lt;/strong> in system-mode.&lt;/li>
+&lt;li>No libc is used; all output goes through the QEMU &lt;code>virt&lt;/code> UART.&lt;/li>
+&lt;/ul>
+&lt;hr>
+&lt;h2 id="2-before-we-start">2. Before we start&lt;/h2>
+&lt;p>All the source files are available in &lt;a href="https://github.com/psylinux/riscv-experiments">GitHub RISC-V Experiments Repository&lt;/a>.&lt;/p>
+&lt;h2 id="3-required-tools">3. Required tools&lt;/h2>
+&lt;p>We need the RISC-V GCC cross-compiler, QEMU, GDB, and some standard build tools.
+On Ubuntu 24.04 (or similar Debian-based systems), install them with:&lt;/p>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo apt update
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo apt install build-essential &lt;span style="color:#ae81ff">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> gcc-riscv64-unknown-elf &lt;span style="color:#ae81ff">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> gdb-multiarch &lt;span style="color:#ae81ff">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> qemu-system-riscv32 &lt;span style="color:#ae81ff">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> binutils-riscv64-unknown-elf
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>&lt;strong>&lt;code>gcc-riscv64-unknown-elf&lt;/code>&lt;/strong>: The cross-compiler for bare-metal software.&lt;/li>
+&lt;li>&lt;strong>&lt;code>qemu-system-riscv32&lt;/code>&lt;/strong>: Emulates a 32-bit RISC-V computer.&lt;/li>
+&lt;li>&lt;strong>&lt;code>gdb-multiarch&lt;/code>&lt;/strong>: Debugger that can talk to different architectures (like our RISC-V target).&lt;/li>
+&lt;li>&lt;strong>&lt;code>binutils-riscv64-unknown-elf&lt;/code>&lt;/strong>: Provides &lt;code>readelf&lt;/code>, &lt;code>objdump&lt;/code>, &lt;code>objcopy&lt;/code>, etc.&lt;/li>
+&lt;/ul>
+&lt;h3 id="31-install-pwndbg">3.1. Install Pwndbg&lt;/h3>
+&lt;p>Pwndbg is a powerful GDB plug-in that provides a better interface for reverse engineering and debugging. It will be useful for inspecting registers and memory in later chapters.&lt;/p></description></item><item><title>Basic RISC-V Assembly Instructions</title><link>https://psylinux.github.io/series/experimenting-with-risc-v/05-basic-assembly/</link><pubDate>Tue, 20 Jan 2026 06:31:23 +0000</pubDate><guid>https://psylinux.github.io/series/experimenting-with-risc-v/05-basic-assembly/</guid><description>&lt;h2 id="1-goal">1. Goal&lt;/h2>
+&lt;p>Learn the core RV32I instruction families and practice with a tiny hand-written program.&lt;/p>
+&lt;h2 id="2-instruction-families">2. Instruction families&lt;/h2>
+&lt;ul>
+&lt;li>&lt;strong>Arithmetic&lt;/strong>: &lt;code>add&lt;/code>, &lt;code>addi&lt;/code>, &lt;code>sub&lt;/code>&lt;/li>
+&lt;li>&lt;strong>Loads/stores&lt;/strong>: &lt;code>lw&lt;/code>, &lt;code>sw&lt;/code>, &lt;code>lb&lt;/code>, &lt;code>sb&lt;/code>&lt;/li>
+&lt;li>&lt;strong>Branches&lt;/strong>: &lt;code>beq&lt;/code>, &lt;code>bne&lt;/code>, &lt;code>blt&lt;/code>, &lt;code>bge&lt;/code>&lt;/li>
+&lt;li>&lt;strong>Jumps&lt;/strong>: &lt;code>jal&lt;/code>, &lt;code>jalr&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;h2 id="3-example-add-two-numbers-and-store-the-result">3. Example: add two numbers and store the result&lt;/h2>
+&lt;p>File: &lt;code>src/basic_add.s&lt;/code>&lt;/p>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>.section .text
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>.globl _start
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>_start:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> li t0, &lt;span style="color:#ae81ff">40&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> li t1, &lt;span style="color:#ae81ff">2&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> add t2, t0, t1
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> la t3, g_result
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> sw t2, 0&lt;span style="color:#f92672">(&lt;/span>t3&lt;span style="color:#f92672">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>1:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> j 1b
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>.section .bss
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>.align &lt;span style="color:#ae81ff">4&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>g_result:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> .word &lt;span style="color:#ae81ff">0&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="4-minimal-linker-script-and-why-it-matters">4. Minimal linker script (and why it matters)&lt;/h2>
+&lt;p>When you run bare-metal assembly, there is no operating system or C runtime to decide where your code and data live in memory. The &lt;strong>C Runtime (CRT)&lt;/strong> is the code that runs before your &lt;code>main()&lt;/code> function and after it finishes.
+It prepares the execution environment of a C program: stack, arguments, global variables, libraries, and only then calls &lt;code>main()&lt;/code>.&lt;/p></description></item><item><title>ELF Internals and Binutils: Seeing What the Compiler Produced</title><link>https://psylinux.github.io/series/experimenting-with-risc-v/06-elf-and-binutils/</link><pubDate>Tue, 20 Jan 2026 06:31:23 +0000</pubDate><guid>https://psylinux.github.io/series/experimenting-with-risc-v/06-elf-and-binutils/</guid><description>&lt;h2 id="1-tldr">1. TL;DR&lt;/h2>
+&lt;ul>
+&lt;li>You’ll learn how an &lt;strong>ELF (Executable and Linkable Format)&lt;/strong> file is structured and how that structure maps to &lt;strong>runtime memory&lt;/strong>.&lt;/li>
+&lt;li>You’ll practice using &lt;code>readelf&lt;/code>, &lt;code>objdump&lt;/code>, &lt;code>nm&lt;/code>, &lt;code>objcopy&lt;/code>, &lt;code>xxd&lt;/code>, and &lt;code>hexdump&lt;/code> to answer practical questions:
+&lt;ul>
+&lt;li>“What is the entry point?”&lt;/li>
+&lt;li>“Where is this function?”&lt;/li>
+&lt;li>“Which bytes correspond to that instruction?”&lt;/li>
+&lt;li>“Why does this address exist in disassembly but not in the file?”&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>You’ll build a mental model of &lt;strong>sections vs segments&lt;/strong>, &lt;strong>symbols&lt;/strong>, and &lt;strong>relocations&lt;/strong>.&lt;/li>
+&lt;/ul>
+&lt;p>If you can read ELF structure confidently, reverse engineering and debugging become dramatically easier. You stop guessing!&lt;/p></description></item><item><title>Memory, Paging, and The Hardware Illusion</title><link>https://psylinux.github.io/series/experimenting-with-risc-v/07-memory-and-paging/</link><pubDate>Sat, 24 Jan 2026 06:20:00 +0000</pubDate><guid>https://psylinux.github.io/series/experimenting-with-risc-v/07-memory-and-paging/</guid><description>&lt;p>In the previous chapter, we saw something curious in the &lt;code>readelf -l&lt;/code> output:&lt;/p>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-text" data-lang="text">&lt;span style="display:flex;">&lt;span>LOAD ... RWE 0x1000
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>And your linker script had this instruction:&lt;/p>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-text" data-lang="text">&lt;span style="display:flex;">&lt;span>. = 0x80000000;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Why &lt;code>0x1000&lt;/code>? Why does the hardware care? And does your code &lt;em>really&lt;/em> live at &lt;code>0x80000000&lt;/code> inside the physical chip?
+Let&amp;rsquo;s pull back the curtain on one of the most important illusions in computer science: &lt;strong>Memory Management&lt;/strong>.&lt;/p></description></item><item><title>RV32 ABI and C Data Types: Sizes, Alignment, and Layout</title><link>https://psylinux.github.io/series/experimenting-with-risc-v/08-rv32-abi-c-types/</link><pubDate>Tue, 20 Jan 2026 06:31:23 +0000</pubDate><guid>https://psylinux.github.io/series/experimenting-with-risc-v/08-rv32-abi-c-types/</guid><description>&lt;h2 id="tldr">TL;DR&lt;/h2>
+&lt;ul>
+&lt;li>You’ll learn the &lt;strong>RV32 ILP32 ABI (Application Binary Interface)&lt;/strong> rules that make C code and assembly “agree” about:
+&lt;ul>
+&lt;li>register usage,&lt;/li>
+&lt;li>parameter passing,&lt;/li>
+&lt;li>return values,&lt;/li>
+&lt;li>stack alignment,&lt;/li>
+&lt;li>and data layout.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>You’ll measure and verify &lt;strong>type sizes&lt;/strong>, &lt;strong>struct padding&lt;/strong>, and &lt;strong>endianness&lt;/strong> on RV32.&lt;/li>
+&lt;li>You’ll produce small experiments you can inspect in both C and assembly.&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>The ABI is the contract. If you violate it (even accidentally), you get “weird bugs” that look like stack corruption, bad pointers, or random crashes.&lt;/strong>&lt;/p></description></item><item><title>C → Assembly: Optimizations, Volatile, and What the Compiler Is Allowed to Do</title><link>https://psylinux.github.io/series/experimenting-with-risc-v/09-c-to-asm-optimizations-volatile/</link><pubDate>Tue, 20 Jan 2026 06:31:23 +0000</pubDate><guid>https://psylinux.github.io/series/experimenting-with-risc-v/09-c-to-asm-optimizations-volatile/</guid><description>&lt;h2 id="tldr">TL;DR&lt;/h2>
+&lt;ul>
+&lt;li>You’ll learn how the compiler transforms C into assembly and why the same C code can look wildly different under &lt;code>-O0&lt;/code> vs &lt;code>-O2&lt;/code>.&lt;/li>
+&lt;li>You’ll build a practical mental model for:
+&lt;ul>
+&lt;li>dead-code elimination,&lt;/li>
+&lt;li>common subexpression elimination,&lt;/li>
+&lt;li>inlining,&lt;/li>
+&lt;li>register allocation,&lt;/li>
+&lt;li>and how &lt;code>volatile&lt;/code> constrains these optimizations.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>You’ll run experiments and verify results with &lt;code>objdump&lt;/code> and GDB.&lt;/li>
+&lt;/ul>
+&lt;hr>
+&lt;h2 id="1-the-compiler-pipeline-why-there-are-multiple-translations">1. The compiler pipeline (why there are multiple “translations”)&lt;/h2>
+&lt;pre tabindex="0">&lt;code class="language-mermaid" data-lang="mermaid">flowchart TD
+ A[&amp;#34;C source (.c)&amp;#34;] --&amp;gt; B[&amp;#34;Frontend to IR (Intermediate Representation)&amp;#34;]
+ B --&amp;gt; C[&amp;#34;Optimizer (depends on -O level)&amp;#34;]
+ C --&amp;gt; D[&amp;#34;Backend to assembly (.s)&amp;#34;]
+ D --&amp;gt; E[&amp;#34;Assembler to object (.o)&amp;#34;]
+ E --&amp;gt; F[&amp;#34;Linker to ELF (.elf)&amp;#34;]
+&lt;/code>&lt;/pre>&lt;p>.&lt;/p></description></item><item><title>Control Flow and Data Access in RV32 Assembly</title><link>https://psylinux.github.io/series/experimenting-with-risc-v/10-control-flow-data-access/</link><pubDate>Tue, 20 Jan 2026 06:31:23 +0000</pubDate><guid>https://psylinux.github.io/series/experimenting-with-risc-v/10-control-flow-data-access/</guid><description>&lt;h2 id="tldr">TL;DR&lt;/h2>
+&lt;ul>
+&lt;li>You’ll learn how C control flow (if/else, loops, switch) becomes RV32 branch and jump patterns.&lt;/li>
+&lt;li>You’ll understand how RV32 loads and stores address memory (base + offset), and how the compiler represents arrays, pointers, and structs.&lt;/li>
+&lt;li>You’ll practice a repeatable approach to “reading” disassembly: identify inputs, identify memory references, reconstruct high-level structure.&lt;/li>
+&lt;/ul>
+&lt;div class="alert alert-danger my-4" role="alert">&lt;div class="fw-bold mb-2">Important&lt;/div>A huge part of reverse engineering is simply recognizing patterns: loop shapes, bounds checks, switch jump tables, and common library idioms.&lt;/div>
+
+&lt;hr>
+&lt;h2 id="1-rv32-data-access-the-only-addressing-mode-you-see-most-of-the-time">1. RV32 data access: the only addressing mode you see most of the time&lt;/h2>
+&lt;p>RV32 load/store instructions typically use:&lt;/p></description></item><item><title>Functions, Calling Convention, and Stack Frames</title><link>https://psylinux.github.io/series/experimenting-with-risc-v/11-functions-stack-calling-convention/</link><pubDate>Tue, 20 Jan 2026 06:31:23 +0000</pubDate><guid>https://psylinux.github.io/series/experimenting-with-risc-v/11-functions-stack-calling-convention/</guid><description>&lt;h2 id="tldr">TL;DR&lt;/h2>
+&lt;ul>
+&lt;li>You’ll learn how function calls are implemented on RV32 using the ABI (Application Binary Interface): &lt;code>jal&lt;/code>, &lt;code>jalr&lt;/code>, the &lt;code>ra&lt;/code> (Return Address) register, and the &lt;code>sp&lt;/code> (Stack Pointer).&lt;/li>
+&lt;li>You’ll learn to recognize function &lt;strong>prologues/epilogues&lt;/strong>, understand why registers are saved/restored, and map stack offsets to C locals/arguments.&lt;/li>
+&lt;li>You’ll practice debugging the stack with GDB: inspecting frames, backtraces, and memory around &lt;code>sp&lt;/code>.&lt;/li>
+&lt;/ul>
+&lt;div class="alert alert-danger my-4" role="alert">&lt;div class="fw-bold mb-2">Important&lt;/div>Most real-world “mystery crashes” in firmware or low-level code reduce to: &lt;em>calling convention violated&lt;/em>, &lt;em>stack corrupted&lt;/em>, or &lt;em>bad pointer arithmetic&lt;/em>.&lt;/div>
+
+&lt;hr>
+&lt;h2 id="1-the-two-instructions-that-define-calls">1. The two instructions that define calls&lt;/h2>
+&lt;h3 id="jal-jump-and-link">jal (Jump And Link)&lt;/h3>
+&lt;ul>
+&lt;li>Saves &lt;code>pc+4&lt;/code> into &lt;code>ra&lt;/code> (x1)&lt;/li>
+&lt;li>Jumps to a target&lt;/li>
+&lt;/ul>
+&lt;h3 id="jalr-jump-and-link-register">jalr (Jump And Link Register)&lt;/h3>
+&lt;ul>
+&lt;li>Used for indirect calls and returns&lt;/li>
+&lt;li>A return is commonly:&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-asm" data-lang="asm">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">jalr&lt;/span> &lt;span style="color:#66d9ef">x0&lt;/span>, &lt;span style="color:#66d9ef">x1&lt;/span>, &lt;span style="color:#ae81ff">0&lt;/span> &lt;span style="color:#75715e"># jump to ra; discard link
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Pseudo-instruction form:&lt;/p></description></item><item><title>Linker Scripts, Sections, and Memory Maps</title><link>https://psylinux.github.io/series/experimenting-with-risc-v/12-linker-scripts-memory-map/</link><pubDate>Tue, 20 Jan 2026 06:31:23 +0000</pubDate><guid>https://psylinux.github.io/series/experimenting-with-risc-v/12-linker-scripts-memory-map/</guid><description>&lt;h2 id="tldr">TL;DR&lt;/h2>
+&lt;ul>
+&lt;li>You’ll learn what the linker really does: it places code/data into addresses according to rules and produces an ELF where &lt;strong>virtual addresses&lt;/strong> match the target memory map.&lt;/li>
+&lt;li>You’ll learn how &lt;code>.text&lt;/code>, &lt;code>.rodata&lt;/code>, &lt;code>.data&lt;/code>, &lt;code>.bss&lt;/code>, and startup code relate to &lt;strong>VMA (Virtual Memory Address)&lt;/strong> and &lt;strong>LMA (Load Memory Address)&lt;/strong>.&lt;/li>
+&lt;li>You’ll write a linker script for a small bare-metal RV32 program, generate a link map (&lt;code>.map&lt;/code>), and convert the ELF into a raw &lt;code>.bin&lt;/code>.&lt;/li>
+&lt;/ul>
+&lt;div class="alert alert-danger my-4" role="alert">&lt;div class="fw-bold mb-2">Important&lt;/div>Firmware work is linker-script work. If you can’t reason about sections and placement, you can’t reliably reason about “where in memory” something lives.&lt;/div>
+
+&lt;hr>
+&lt;h2 id="1-the-linkers-job-a-practical-definition">1. The linker’s job (a practical definition)&lt;/h2>
+&lt;p>Given:&lt;/p></description></item><item><title>Floating Point, Endianness, and Bit-Packing (Verifying with Python)</title><link>https://psylinux.github.io/series/experimenting-with-risc-v/13-floats-endianness-bitpacking/</link><pubDate>Tue, 20 Jan 2026 06:31:23 +0000</pubDate><guid>https://psylinux.github.io/series/experimenting-with-risc-v/13-floats-endianness-bitpacking/</guid><description>&lt;h2 id="tldr">TL;DR&lt;/h2>
+&lt;ul>
+&lt;li>You’ll learn how &lt;code>float&lt;/code> and &lt;code>double&lt;/code> are represented (IEEE-754 (Institute of Electrical and Electronics Engineers 754)) and how those bit patterns appear in assembly and in a hexdump.&lt;/li>
+&lt;li>You’ll understand why compilers sometimes emit a &lt;code>double&lt;/code> constant as two 32-bit &lt;code>.word&lt;/code> values on RV32.&lt;/li>
+&lt;li>You’ll learn a reliable verification method: use Python’s &lt;code>struct&lt;/code> to pack/unpack and compare against what you see in disassembly.&lt;/li>
+&lt;/ul>
+&lt;div class="alert alert-danger my-4" role="alert">&lt;div class="fw-bold mb-2">Important&lt;/div>“Numbers in assembly” are just bytes. If you can convert between bytes ↔ bits ↔ numeric meaning, you can verify constants, tables, and protocols with confidence.&lt;/div>
+
+&lt;hr>
+&lt;h2 id="1-ieee-754-basics-you-actually-need">1. IEEE-754 basics you actually need&lt;/h2>
+&lt;h3 id="float-32-bit">float (32-bit)&lt;/h3>
+&lt;ul>
+&lt;li>1 sign bit&lt;/li>
+&lt;li>8 exponent bits&lt;/li>
+&lt;li>23 fraction bits&lt;/li>
+&lt;/ul>
+&lt;h3 id="double-64-bit">double (64-bit)&lt;/h3>
+&lt;ul>
+&lt;li>1 sign bit&lt;/li>
+&lt;li>11 exponent bits&lt;/li>
+&lt;li>52 fraction bits&lt;/li>
+&lt;/ul>
+&lt;p>The important practical facts:&lt;/p></description></item><item><title>Firmware Triage and Reverse Engineering Workflow</title><link>https://psylinux.github.io/series/experimenting-with-risc-v/14-firmware-triage-reverse-workflow/</link><pubDate>Tue, 20 Jan 2026 06:31:23 +0000</pubDate><guid>https://psylinux.github.io/series/experimenting-with-risc-v/14-firmware-triage-reverse-workflow/</guid><description>&lt;h2 id="tldr">TL;DR&lt;/h2>
+&lt;ul>
+&lt;li>You’ll learn a practical workflow to go from an unknown firmware file (&lt;code>.bin&lt;/code>, &lt;code>.img&lt;/code>, &lt;code>.fw&lt;/code>, sometimes &lt;code>.elf&lt;/code>) to a structured understanding:
+&lt;ul>
+&lt;li>identify file type and architecture,&lt;/li>
+&lt;li>locate code/data boundaries,&lt;/li>
+&lt;li>recover load addresses and entry points,&lt;/li>
+&lt;li>and choose the right next tools (disassembly, decompilation, emulation, or QEMU tracing).&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>You’ll practice &lt;strong>repeatable triage&lt;/strong> steps that work well for embedded targets (including RISC-V).&lt;/li>
+&lt;/ul>
+&lt;div class="alert alert-danger my-4" role="alert">&lt;div class="fw-bold mb-2">Important&lt;/div>Reverse engineering firmware is most successful when you treat it like an investigation with checkpoints, not a “click around in a disassembler” activity.&lt;/div>
+
+&lt;hr>
+&lt;h2 id="1-firmware-file-types-what-you-might-get">1. Firmware file types: what you might get&lt;/h2>
+&lt;h3 id="common-formats">Common formats&lt;/h3>
+&lt;ul>
+&lt;li>&lt;strong>ELF&lt;/strong>: best case (symbols, sections, entry point may exist)&lt;/li>
+&lt;li>&lt;strong>Raw binary (&lt;code>.bin&lt;/code>)&lt;/strong>: flat bytes, no addresses&lt;/li>
+&lt;li>&lt;strong>Container images&lt;/strong>: may embed file systems or multiple partitions (e.g., update bundles)&lt;/li>
+&lt;li>&lt;strong>Compressed blobs&lt;/strong>: LZMA, gzip, etc.&lt;/li>
+&lt;/ul>
+&lt;h3 id="a-core-reality">A core reality&lt;/h3>
+&lt;p>A raw binary does &lt;strong>not&lt;/strong> tell you:&lt;/p></description></item><item><title>Dynamic Analysis with QEMU Tracing</title><link>https://psylinux.github.io/series/experimenting-with-risc-v/15-dynamic-analysis-frida/</link><pubDate>Tue, 20 Jan 2026 06:31:23 +0000</pubDate><guid>https://psylinux.github.io/series/experimenting-with-risc-v/15-dynamic-analysis-frida/</guid><description>&lt;h2 id="tldr">TL;DR&lt;/h2>
+&lt;ul>
+&lt;li>Use QEMU&amp;rsquo;s built-in tracing (&lt;code>-d&lt;/code>) to record instruction flow.&lt;/li>
+&lt;li>Combine trace logs with &lt;code>objdump&lt;/code> for fast correlation.&lt;/li>
+&lt;li>No real hardware is required; QEMU gives deterministic output.&lt;/li>
+&lt;/ul>
+&lt;hr>
+&lt;h2 id="1-build-a-trace-target">1. Build a trace target&lt;/h2>
+&lt;p>Create:&lt;/p>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-c" data-lang="c">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// src/trace_target.c
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#75715e">#include&lt;/span> &lt;span style="color:#75715e">&amp;#34;types.h&amp;#34;&lt;/span>&lt;span style="color:#75715e">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">#include&lt;/span> &lt;span style="color:#75715e">&amp;#34;uart.h&amp;#34;&lt;/span>&lt;span style="color:#75715e">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">volatile&lt;/span> u32 g_state &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">0u&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">static&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">step&lt;/span>(u32 x) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> g_state &lt;span style="color:#f92672">^=&lt;/span> (x &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#ae81ff">0x1234u&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">int&lt;/span> &lt;span style="color:#a6e22e">main&lt;/span>(&lt;span style="color:#66d9ef">void&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">for&lt;/span> (u32 i &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">0u&lt;/span>; i &lt;span style="color:#f92672">&amp;lt;&lt;/span> &lt;span style="color:#ae81ff">5u&lt;/span>; i&lt;span style="color:#f92672">++&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">step&lt;/span>(i);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">uart_puts&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;state=&amp;#34;&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">uart_puthex32&lt;/span>(g_state);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">uart_putc&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;\n&amp;#39;&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Build it:&lt;/p></description></item><item><title>Interfaces in QEMU: UART and MMIO Concepts</title><link>https://psylinux.github.io/series/experimenting-with-risc-v/16-hardware-interfaces-uart-jtag-spi-i2c/</link><pubDate>Tue, 20 Jan 2026 06:31:23 +0000</pubDate><guid>https://psylinux.github.io/series/experimenting-with-risc-v/16-hardware-interfaces-uart-jtag-spi-i2c/</guid><description>&lt;h2 id="tldr">TL;DR&lt;/h2>
+&lt;ul>
+&lt;li>We use &lt;strong>QEMU &lt;code>virt&lt;/code> UART&lt;/strong> for all output.&lt;/li>
+&lt;li>UART is a simple MMIO device and ideal for bare-metal learning.&lt;/li>
+&lt;li>JTAG, SPI, and I2C are introduced conceptually, but we do not require real hardware.&lt;/li>
+&lt;/ul>
+&lt;hr>
+&lt;h2 id="1-uart-on-qemu-virt">1. UART on QEMU virt&lt;/h2>
+&lt;p>The &lt;code>virt&lt;/code> machine exposes a UART at a fixed MMIO address:&lt;/p>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-text" data-lang="text">&lt;span style="display:flex;">&lt;span>UART0 base: 0x10000000
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Writing a byte to that address prints a character.&lt;/p>
+&lt;h3 id="minimal-uart-write">Minimal UART write&lt;/h3>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-c" data-lang="c">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// src/uart.c (see full file in src/)
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#75715e">#define UART0_BASE 0x10000000u
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">static&lt;/span> &lt;span style="color:#66d9ef">volatile&lt;/span> u8 &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#66d9ef">const&lt;/span> uart0 &lt;span style="color:#f92672">=&lt;/span> (&lt;span style="color:#66d9ef">volatile&lt;/span> u8 &lt;span style="color:#f92672">*&lt;/span>)UART0_BASE;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">uart_putc&lt;/span>(&lt;span style="color:#66d9ef">char&lt;/span> c) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">*&lt;/span>uart0 &lt;span style="color:#f92672">=&lt;/span> (u8)c;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;hr>
+&lt;h2 id="2-a-runnable-uart-example">2. A runnable UART example&lt;/h2>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-c" data-lang="c">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// src/hello_uart.c
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#75715e">#include&lt;/span> &lt;span style="color:#75715e">&amp;#34;types.h&amp;#34;&lt;/span>&lt;span style="color:#75715e">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">#include&lt;/span> &lt;span style="color:#75715e">&amp;#34;uart.h&amp;#34;&lt;/span>&lt;span style="color:#75715e">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">int&lt;/span> &lt;span style="color:#a6e22e">main&lt;/span>(&lt;span style="color:#66d9ef">void&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">uart_puts&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;UART is alive!&lt;/span>&lt;span style="color:#ae81ff">\n&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Build and run:&lt;/p></description></item><item><title>Capstones and Next Steps</title><link>https://psylinux.github.io/series/experimenting-with-risc-v/17-capstones-next-steps/</link><pubDate>Tue, 20 Jan 2026 06:31:23 +0000</pubDate><guid>https://psylinux.github.io/series/experimenting-with-risc-v/17-capstones-next-steps/</guid><description>&lt;h2 id="tldr">TL;DR&lt;/h2>
+&lt;ul>
+&lt;li>You’ll get hands-on capstone projects that combine the series skills: compiling RV32 C, inspecting ELF internals, understanding stack frames, debugging under QEMU, triaging firmware, and validating with hardware interfaces.&lt;/li>
+&lt;li>Each capstone includes a suggested deliverable, test plan, and “stretch goals”.&lt;/li>
+&lt;li>You’ll also get a study plan for teaching this material to others: how to run labs, evaluate exercises, and keep students moving.&lt;/li>
+&lt;/ul>
+&lt;div class="alert alert-danger my-4" role="alert">&lt;div class="fw-bold mb-2">Important&lt;/div>If you’re teaching this to others, prioritize &lt;strong>reproducibility&lt;/strong>: a student should be able to follow your steps on a clean machine and get the same results.&lt;/div>
+
+&lt;hr>
+&lt;h2 id="capstone-1-rv32-binaryisc---a-tiny-firmware-monitor-in-qemu">Capstone 1: RV32 “binaryISC” - a tiny firmware monitor in QEMU&lt;/h2>
+&lt;h3 id="goal">Goal&lt;/h3>
+&lt;p>Build a minimal bare-metal RV32 program that:&lt;/p></description></item><item><title>Series Summary</title><link>https://psylinux.github.io/series/experimenting-with-risc-v/18-summary/</link><pubDate>Tue, 20 Jan 2026 06:31:23 +0000</pubDate><guid>https://psylinux.github.io/series/experimenting-with-risc-v/18-summary/</guid><description>&lt;h2 id="key-points">Key points&lt;/h2>
+&lt;ul>
+&lt;li>&lt;strong>Toolchain&lt;/strong>: always use &lt;code>riscv64-unknown-elf-gcc&lt;/code> for RV32 bare-metal builds.&lt;/li>
+&lt;li>&lt;strong>Runtime&lt;/strong>: &lt;code>_start&lt;/code> sets up the stack and clears &lt;code>.bss&lt;/code>; no libc is assumed.&lt;/li>
+&lt;li>&lt;strong>QEMU&lt;/strong>: run everything on &lt;code>qemu-system-riscv32&lt;/code> with &lt;code>-bios none&lt;/code> and &lt;code>-kernel&lt;/code>.&lt;/li>
+&lt;li>&lt;strong>Debugging&lt;/strong>: GDB + QEMU provides breakpoints, watchpoints, and instruction stepping.&lt;/li>
+&lt;li>&lt;strong>MMIO&lt;/strong>: UART output at &lt;code>0x10000000&lt;/code> is the simplest reliable output path.&lt;/li>
+&lt;/ul>
+&lt;h2 id="exercises">Exercises&lt;/h2>
+&lt;ol>
+&lt;li>Choose one program and add a new function, then verify the call frame in GDB.&lt;/li>
+&lt;li>Modify &lt;code>src/uart.c&lt;/code> to add a &lt;code>uart_puthex8&lt;/code> helper and use it in a chapter example.&lt;/li>
+&lt;li>Replace one C example with a pure assembly version.&lt;/li>
+&lt;/ol>
+&lt;h2 id="summary">Summary&lt;/h2>
+&lt;p>You now have a complete bare-metal RV32 workflow that runs entirely under QEMU. You can build, run, trace, and debug without any physical hardware.&lt;/p></description></item><item><title>Troubleshooting</title><link>https://psylinux.github.io/series/experimenting-with-risc-v/19-troubleshooting/</link><pubDate>Tue, 20 Jan 2026 06:31:23 +0000</pubDate><guid>https://psylinux.github.io/series/experimenting-with-risc-v/19-troubleshooting/</guid><description>&lt;h2 id="qemu-shows-no-output">QEMU shows no output&lt;/h2>
+&lt;ul>
+&lt;li>Confirm you used &lt;code>-nographic&lt;/code> and &lt;code>-bios none&lt;/code>.&lt;/li>
+&lt;li>Ensure the program writes to UART at &lt;code>0x10000000&lt;/code>.&lt;/li>
+&lt;li>Verify the ELF is RV32 (&lt;code>readelf -h&lt;/code> shows &lt;code>ELF32&lt;/code> + &lt;code>RISC-V&lt;/code>).&lt;/li>
+&lt;/ul>
+&lt;h2 id="gdb-connects-but-breakpoints-do-not-hit">GDB connects but breakpoints do not hit&lt;/h2>
+&lt;ul>
+&lt;li>Start QEMU with &lt;code>-S&lt;/code> so the CPU is halted.&lt;/li>
+&lt;li>Make sure your ELF has symbols (&lt;code>-g&lt;/code>).&lt;/li>
+&lt;li>Set &lt;code>set arch riscv:rv32&lt;/code> in GDB.&lt;/li>
+&lt;/ul>
+&lt;h2 id="linker-errors-missing-_start">Linker errors: missing _start&lt;/h2>
+&lt;ul>
+&lt;li>Confirm &lt;code>src/start.s&lt;/code> is included on the command line.&lt;/li>
+&lt;li>Check &lt;code>src/link.ld&lt;/code> uses &lt;code>ENTRY(_start)&lt;/code>.&lt;/li>
+&lt;/ul>
+&lt;h2 id="qemu-exits-immediately">QEMU exits immediately&lt;/h2>
+&lt;ul>
+&lt;li>If &lt;code>main&lt;/code> returns, &lt;code>_start&lt;/code> should loop or execute &lt;code>wfi&lt;/code>.&lt;/li>
+&lt;li>Check that your &lt;code>_start&lt;/code> function is present and not optimized away.&lt;/li>
+&lt;/ul>
+&lt;h2 id="exercises">Exercises&lt;/h2>
+&lt;ol>
+&lt;li>Intentionally remove &lt;code>-T src/link.ld&lt;/code> and observe the error.&lt;/li>
+&lt;li>Remove &lt;code>src/start.s&lt;/code> and identify the missing symbol.&lt;/li>
+&lt;li>Change &lt;code>-march&lt;/code> to &lt;code>rv32i&lt;/code> and see if any examples break.&lt;/li>
+&lt;/ol>
+&lt;h2 id="summary">Summary&lt;/h2>
+&lt;p>Most issues are caused by missing the startup file, using the wrong ELF, or forgetting QEMU flags. The fixes are deterministic and easy to confirm with &lt;code>readelf&lt;/code> and GDB.&lt;/p></description></item><item><title>Glossary</title><link>https://psylinux.github.io/series/experimenting-with-risc-v/20-glossary/</link><pubDate>Tue, 20 Jan 2026 06:31:23 +0000</pubDate><guid>https://psylinux.github.io/series/experimenting-with-risc-v/20-glossary/</guid><description>&lt;p>&lt;strong>ABI&lt;/strong>: Application Binary Interface; the rules for calling conventions, register use, and data layout.&lt;/p>
+&lt;p>&lt;strong>Bare-metal&lt;/strong>: Code running directly on hardware (or an emulator) without an operating system.&lt;/p>
+&lt;p>&lt;strong>BSS&lt;/strong>: Block Started by Symbol; the uninitialized data segment, zeroed at startup.&lt;/p>
+&lt;p>&lt;strong>CSR&lt;/strong>: Control and Status Register; special RISC-V registers for privileged control and state.&lt;/p>
+&lt;p>&lt;strong>ELF&lt;/strong>: Executable and Linkable Format; the standard file format for compiled binaries.&lt;/p>
+&lt;p>&lt;strong>Entry point (_start)&lt;/strong>: The first instruction executed; the linker symbol where execution begins.&lt;/p></description></item><item><title>Appendix: Resources</title><link>https://psylinux.github.io/series/experimenting-with-risc-v/21-appendix/</link><pubDate>Tue, 20 Jan 2026 06:31:23 +0000</pubDate><guid>https://psylinux.github.io/series/experimenting-with-risc-v/21-appendix/</guid><description>&lt;h2 id="references-and-further-reading">References and further reading&lt;/h2>
+&lt;ul>
+&lt;li>RISC-V ISA Manual (Volume I: Unprivileged): &lt;a href="https://github.com/riscv/riscv-isa-manual/releases">https://github.com/riscv/riscv-isa-manual/releases&lt;/a>&lt;/li>
+&lt;li>RISC-V ELF psABI: &lt;a href="https://github.com/riscv-non-isa/riscv-elf-psabi-doc">https://github.com/riscv-non-isa/riscv-elf-psabi-doc&lt;/a>&lt;/li>
+&lt;li>QEMU RISC-V system emulation: &lt;a href="https://www.qemu.org/docs/master/system/target-riscv.html">https://www.qemu.org/docs/master/system/target-riscv.html&lt;/a>&lt;/li>
+&lt;li>GCC RISC-V options: &lt;a href="https://gcc.gnu.org/onlinedocs/gcc/RISC-V-Options.html">https://gcc.gnu.org/onlinedocs/gcc/RISC-V-Options.html&lt;/a>&lt;/li>
+&lt;li>GDB manual: &lt;a href="https://sourceware.org/gdb/current/onlinedocs/gdb/">https://sourceware.org/gdb/current/onlinedocs/gdb/&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;h2 id="additional-resources">Additional resources&lt;/h2>
+&lt;ul>
+&lt;li>RISC-V Assembly Programmer&amp;rsquo;s Manual: &lt;a href="https://github.com/riscv-non-isa/riscv-asm-manual">https://github.com/riscv-non-isa/riscv-asm-manual&lt;/a>&lt;/li>
+&lt;li>GNU binutils manuals (&lt;code>objdump&lt;/code>, &lt;code>readelf&lt;/code>, &lt;code>objcopy&lt;/code>): &lt;a href="https://sourceware.org/binutils/docs/">https://sourceware.org/binutils/docs/&lt;/a>&lt;/li>
+&lt;li>QEMU &lt;code>virt&lt;/code> machine documentation: &lt;a href="https://www.qemu.org/docs/master/system/riscv/virt.html">https://www.qemu.org/docs/master/system/riscv/virt.html&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;h2 id="exercises">Exercises&lt;/h2>
+&lt;ol>
+&lt;li>Open the RISC-V ISA manual and find the encoding for &lt;code>add&lt;/code>.\n2. Locate the QEMU &lt;code>virt&lt;/code> memory map and list the UART base address.&lt;/li>
+&lt;/ol>
+&lt;h2 id="summary">Summary&lt;/h2>
+&lt;p>These references are the authoritative sources for instruction behavior, ABI rules, and emulator options. Use them when you need exact specifications or edge-case details.&lt;/p></description></item><item><title>Index</title><link>https://psylinux.github.io/series/experimenting-with-risc-v/22-index/</link><pubDate>Tue, 20 Jan 2026 06:31:23 +0000</pubDate><guid>https://psylinux.github.io/series/experimenting-with-risc-v/22-index/</guid><description>&lt;ul>
+&lt;li>&lt;strong>ABI&lt;/strong>: RV32 ABI + C types&lt;/li>
+&lt;li>&lt;strong>Assembly basics&lt;/strong>: Basic RISC-V Assembly Instructions&lt;/li>
+&lt;li>&lt;strong>Debugging&lt;/strong>: Debugging RV32 with QEMU + GDB&lt;/li>
+&lt;li>&lt;strong>ELF&lt;/strong>: ELF Internals and Binutils&lt;/li>
+&lt;li>&lt;strong>Linker script&lt;/strong>: Linker Scripts and Memory Maps&lt;/li>
+&lt;li>&lt;strong>MMIO/UART&lt;/strong>: Interfaces in QEMU: UART and MMIO Concepts&lt;/li>
+&lt;li>&lt;strong>Optimization&lt;/strong>: C to ASM: Optimizations and Volatile&lt;/li>
+&lt;li>&lt;strong>QEMU run&lt;/strong>: Setting Up the Toolchain and QEMU&lt;/li>
+&lt;li>&lt;strong>Tracing&lt;/strong>: Dynamic Analysis with QEMU Tracing&lt;/li>
+&lt;/ul>
+&lt;h2 id="exercises">Exercises&lt;/h2>
+&lt;ol>
+&lt;li>Use the index to jump to the debugging chapter and locate the first GDB command list.\n2. Find the chapter that explains linker scripts.&lt;/li>
+&lt;/ol>
+&lt;h2 id="summary">Summary&lt;/h2>
+&lt;p>Use this index as a quick map to jump to the chapter that matches your immediate question.&lt;/p></description></item><item><title>Contact</title><link>https://psylinux.github.io/series/experimenting-with-risc-v/23-contact/</link><pubDate>Tue, 20 Jan 2026 06:31:23 +0000</pubDate><guid>https://psylinux.github.io/series/experimenting-with-risc-v/23-contact/</guid><description>&lt;p>Questions or feedback?&lt;/p>
+&lt;ul>
+&lt;li>Open an issue on the repository.&lt;/li>
+&lt;li>Include the chapter name and section so it is easy to reproduce.&lt;/li>
+&lt;li>If you propose fixes, include the exact commands you ran.&lt;/li>
+&lt;/ul>
+&lt;h2 id="exercises">Exercises&lt;/h2>
+&lt;ol>
+&lt;li>Draft a short issue report template you could reuse for future bugs.&lt;/li>
+&lt;/ol>
+&lt;h2 id="summary">Summary&lt;/h2>
+&lt;p>Feedback helps improve the series and keep the examples correct.&lt;/p></description></item></channel></rss>

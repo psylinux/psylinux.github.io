@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Dev on Marcos Azevedo (aka psylinux)</title><link>https://psylinux.github.io/pt/tags/dev/</link><description>Recent content in Dev on Marcos Azevedo (aka psylinux)</description><generator>Hugo</generator><language>pt-br</language><copyright>2025 Marcos Azevedo</copyright><lastBuildDate>Mon, 14 Jan 2019 17:38:15 -0300</lastBuildDate><atom:link href="https://psylinux.github.io/pt/tags/dev/index.xml" rel="self" type="application/rss+xml"/><item><title>HowTo :: Patch em binários no Linux</title><link>https://psylinux.github.io/pt/howto/howto_patching_binaries_in_linux/</link><pubDate>Mon, 14 Jan 2019 17:38:15 -0300</pubDate><guid>https://psylinux.github.io/pt/howto/howto_patching_binaries_in_linux/</guid><description>&lt;h2 id="introdução">Introdução&lt;/h2>
+&lt;p>Aprenda a aplicar patches em arquivos binários diretamente sem código-fonte usando edição hexadecimal e ferramentas de diff binário; essencial para corrigir bugs, aplicar patches de segurança ou modificar executáveis.&lt;/p>
+&lt;h2 id="o-que-é-patching-de-binários">O Que é Patching de Binários?&lt;/h2>
+&lt;p>Patching de binários é o processo de modificar arquivos executáveis compilados sem acesso ao seu código-fonte. Esta técnica é útil para:&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>Corrigir bugs&lt;/strong> em binários de produção quando recompilação não é possível&lt;/li>
+&lt;li>&lt;strong>Aplicar patches de segurança&lt;/strong> em sistemas legados&lt;/li>
+&lt;li>&lt;strong>Engenharia reversa&lt;/strong> e compreensão de como programas funcionam&lt;/li>
+&lt;li>&lt;strong>Desafios de CTF&lt;/strong> e pesquisa de vulnerabilidades&lt;/li>
+&lt;li>&lt;strong>Modificar comportamento&lt;/strong> de aplicações closed-source&lt;/li>
+&lt;li>&lt;strong>Criar diffs binários&lt;/strong> para distribuir patches&lt;/li>
+&lt;/ul>
+&lt;p>Em vez de editar código-fonte de alto nível e recompilar, você modifica diretamente os bytes de código de máquina no arquivo executável. Isso requer compreensão de representação hexadecimal e formatos de arquivo executável.&lt;/p></description></item><item><title>Artigo :: Usando syscalls do Linux em Assembly</title><link>https://psylinux.github.io/pt/articles/article_linux_syscalls_in_assembly/</link><pubDate>Fri, 28 Dec 2018 17:38:15 -0300</pubDate><guid>https://psylinux.github.io/pt/articles/article_linux_syscalls_in_assembly/</guid><description>&lt;h2 id="introdução">Introdução&lt;/h2>
+&lt;p>Este tutorial prático ensina como escrever programas assembly que invocam chamadas de sistema do Linux diretamente, ignorando a biblioteca C e interagindo com o kernel no nível mais baixo.&lt;/p>
+&lt;h2 id="visão-geral">Visão Geral&lt;/h2>
+&lt;p>Quando um programa precisa interagir com o sistema operacional; para escrever em um arquivo, alocar memória ou finalizar graciosamente; ele faz uma &lt;strong>chamada de sistema&lt;/strong> (syscall). A maioria dos programadores usa essas chamadas indiretamente através de wrappers da biblioteca C, mas entender como invocar syscalls diretamente do assembly te dá uma visão profunda de como programas realmente funcionam.&lt;/p></description></item></channel></rss>

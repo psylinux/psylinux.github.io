@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Development on Marcos Azevedo (aka psylinux)</title><link>https://psylinux.github.io/pt/tags/development/</link><description>Recent content in Development on Marcos Azevedo (aka psylinux)</description><generator>Hugo</generator><language>pt-br</language><copyright>2025 Marcos Azevedo</copyright><lastBuildDate>Sun, 13 Jan 2019 17:38:15 -0300</lastBuildDate><atom:link href="https://psylinux.github.io/pt/tags/development/index.xml" rel="self" type="application/rss+xml"/><item><title>Artigo :: Debugando com strace</title><link>https://psylinux.github.io/pt/articles/article_debugging_with_strace/</link><pubDate>Sun, 13 Jan 2019 17:38:15 -0300</pubDate><guid>https://psylinux.github.io/pt/articles/article_debugging_with_strace/</guid><description>&lt;h2 id="introdução">Introdução&lt;/h2>
+&lt;p>Ao final deste artigo, você entenderá como usar o strace para depurar programas sem acesso ao código-fonte, rastrear chamadas de sistema e solucionar problemas de execução no Linux.&lt;/p>
+&lt;h2 id="visão-geral">Visão Geral&lt;/h2>
+&lt;p>Depurar sem código-fonte pode parecer resolver um quebra-cabeça no escuro. O strace ilumina o caminho mostrando exatamente quais chamadas de sistema um programa faz, desde abertura de arquivos até conexões de rede. Se você está solucionando um crash, investigando comportamento suspeito, ou apenas curioso sobre como um programa funciona por baixo dos panos, o strace é uma ferramenta essencial no seu kit Linux.&lt;/p></description></item><item><title>HowTo :: Instalar PyEnv (Gerenciamento Simples de Versões Python)</title><link>https://psylinux.github.io/pt/howto/howto_install_pyenv/</link><pubDate>Fri, 04 Jan 2019 17:38:15 -0300</pubDate><guid>https://psylinux.github.io/pt/howto/howto_install_pyenv/</guid><description>&lt;h2 id="introdução">Introdução&lt;/h2>
+&lt;p>Gerenciar múltiplas versões do Python em uma única máquina pode ser um pesadelo. Ferramentas do sistema frequentemente dependem de uma versão específica do Python, e atualizá-la pode quebrar seu sistema operacional. &lt;strong>PyEnv&lt;/strong> resolve isso permitindo que você instale e alterne facilmente entre múltiplas versões isoladas do Python.&lt;/p>
+&lt;p>Neste guia, você aprenderá como:&lt;/p>
+&lt;ol>
+&lt;li>Instalar o PyEnv e suas dependências de build&lt;/li>
+&lt;li>Configurar seu shell para usar o PyEnv&lt;/li>
+&lt;li>Instalar diferentes versões do Python&lt;/li>
+&lt;li>Gerenciar ambientes virtuais facilmente&lt;/li>
+&lt;/ol>
+&lt;h2 id="1-estabelecendo-o-ambiente-de-build">1. Estabelecendo o Ambiente de Build&lt;/h2>
+&lt;p>O PyEnv compila o Python a partir do código-fonte. Para fazer isso, você precisa de um conjunto de dependências de build instaladas no seu sistema.&lt;/p></description></item><item><title>Artigo :: Começando com GDB</title><link>https://psylinux.github.io/pt/articles/article_getting_start_with_gdb/</link><pubDate>Sun, 16 Dec 2018 17:38:15 -0300</pubDate><guid>https://psylinux.github.io/pt/articles/article_getting_start_with_gdb/</guid><description>&lt;h2 id="introdução">Introdução&lt;/h2>
+&lt;p>Este guia completo cobre tudo o que você precisa para começar a depurar programas C com GDB, desde compilar com símbolos de depuração até inspecionar memória e controlar a execução do programa.&lt;/p>
+&lt;h2 id="visão-geral">Visão Geral&lt;/h2>
+&lt;p>GDB (GNU Debugger) é o depurador padrão para programas compilados com GCC. Ao contrário de ferramentas como strace que mostram chamadas de sistema, o GDB permite percorrer seu código-fonte linha por linha, inspecionar variáveis, definir breakpoints condicionais e até modificar o comportamento do programa durante a execução.&lt;/p></description></item><item><title>Cheat Sheet :: GCC Compiling Cheat Sheet</title><link>https://psylinux.github.io/pt/cheatsheet/cheatsheet_gcc_compiling/</link><pubDate>Sun, 16 Dec 2018 17:38:15 -0300</pubDate><guid>https://psylinux.github.io/pt/cheatsheet/cheatsheet_gcc_compiling/</guid><description>&lt;h2 id="1-compilação-estática">1. Compilação estática&lt;/h2>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>gcc -static cve_2016_0728.c -o cve_2016_0728 -lkeyutils -Wall
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="2-compilação-cruzada-de-c-do-linux-para-windows">2. Compilação cruzada de C do Linux para Windows&lt;/h2>
+&lt;h3 id="21-instalar-o-cross-compiler-mingw-w64">2.1. Instalar o cross-compiler mingw-w64:&lt;/h3>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>apt-get install mingw-w64
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="22-para-compilar-um-executável-windows-pe-32-bit">2.2. Para compilar um executável Windows PE 32-bit:&lt;/h3>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>i686-w64-mingw32-gcc 271.c -o &lt;span style="color:#ae81ff">271&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>x86_64-w64-mingw32-gcc-win32 271.c -o &lt;span style="color:#ae81ff">271&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="23-rodar-o-binário-com-wine">2.3. Rodar o binário com &lt;strong>wine&lt;/strong>:&lt;/h3>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>wine file.exe
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="3-compilando-com-símbolos-de-debug">3. Compilando com símbolos de debug&lt;/h2>
+&lt;p>Tipos de arquivo de símbolo de debug:&lt;/p></description></item><item><title>HowTo :: Instalar GEF (plug-in do GDB)</title><link>https://psylinux.github.io/pt/howto/howto_install_gdb_gef/</link><pubDate>Sun, 16 Dec 2018 17:38:15 -0300</pubDate><guid>https://psylinux.github.io/pt/howto/howto_install_gdb_gef/</guid><description>&lt;h2 id="introdução">Introdução&lt;/h2>
+&lt;p>Instale o GEF para turbinar sua experiência de depuração com GDB, adicionando syntax highlighting, exibição automática de contexto e dezenas de comandos poderosos.&lt;/p>
+&lt;h2 id="o-que-é-gef">O que é GEF?&lt;/h2>
+&lt;p>GEF (GDB Enhanced Features) é um plugin poderoso que transforma o GDB de um depurador básico de linha de comando em uma ferramenta moderna e amigável de depuração. Ele adiciona:&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>Exibição automática de contexto&lt;/strong> mostrando registradores, pilha, código e threads após cada passo&lt;/li>
+&lt;li>&lt;strong>Syntax highlighting&lt;/strong> para assembly e código-fonte&lt;/li>
+&lt;li>&lt;strong>Ferramentas de inspeção de memória&lt;/strong> com formatação visual&lt;/li>
+&lt;li>&lt;strong>Breakpoints aprimorados&lt;/strong> com melhor visualização&lt;/li>
+&lt;li>&lt;strong>Auxiliares para desenvolvimento de exploits&lt;/strong> para pesquisa de segurança&lt;/li>
+&lt;li>&lt;strong>Extensibilidade baseada em Python&lt;/strong> para adicionar seus próprios comandos&lt;/li>
+&lt;/ul>
+&lt;p>Se você já usou o GDB e achou difícil acompanhar o que está acontecendo, o GEF resolve esse problema mostrando tudo que você precisa em uma interface organizada e colorida.&lt;/p></description></item></channel></rss>

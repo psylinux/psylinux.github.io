@@ -1,0 +1,261 @@
+<!doctype html><html lang=pt-br data-bs-theme=dark><head><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1"><title>Fluxo de controle e acesso a dados em assembly RV32 - Marcos Azevedo (aka psylinux)</title><meta name=description content><meta name=author content="Blog do Marcos Azevedo"><link rel=icon type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link href=https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css rel=stylesheet integrity=sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css><link rel=stylesheet href=/css/khata.css><link rel=stylesheet href=/css/code-highlight.css><script src=/js/khata.js></script><script src=/js/code-copy.js></script></head><body class="mx-auto text-white d-flex flex-column p-2"><nav aria-label="Navegação principal"><a class="me-2 fs-4" href=/pt/><i class="bi bi-house-door-fill" aria-hidden=true></i>
+<span class=visually-hidden>Início</span>
+</a><a class="mx-2 fs-4" href=/pt/menu><i class="bi bi-list" aria-hidden=true></i>
+<span class=visually-hidden>Menu</span>
+</a><a class="ms-2 fs-4" href=/pt/search><i class="bi bi-search" aria-hidden=true></i>
+<span class=visually-hidden>Buscar</span></a><div class="language-switcher d-inline-flex align-items-center gap-2 ms-3" aria-label=Idioma><a href=/series/experimenting-with-risc-v/10-control-flow-data-access/>English</a>
+<span class=fw-semibold>Português</span></div></nav><main class="flex-grow-1 d-flex flex-column"><article><h1 class=my-4>Fluxo de controle e acesso a dados em assembly RV32</h1><div class="metadata-panel p-2 mb-3 rounded border"><div class="metadata-value mb-1">Author: Marcos Azevedo</div><div class="metadata-value mb-1"><small>Date: <time>2026-01-20</time></small></div><div class="metadata-value mb-1"><small>Reading Time:
+6 mins</small></div><div class="metadata-value mb-1"><small>Section:
+<a href=/series title=Section>Series</a></small></div><div class="metadata-value mb-1"><small>Categories:
+<a class="px-1 mx-1 rounded border border-secondary bg-taxa" href=/categories/series title="categories: series">series</a></small></div><div class="metadata-value mb-1"><small>Tags:
+<a class="px-1 mx-1 rounded border border-secondary bg-taxa" href=/tags/c-lang title="tags: c-lang">c-lang</a>
+<a class="px-1 mx-1 rounded border border-secondary bg-taxa" href=/tags/programming title="tags: programming">programming</a>
+<a class="px-1 mx-1 rounded border border-secondary bg-taxa" href=/tags/risc-v title="tags: risc-v">risc-v</a></small></div></div><div class="TableOfContents border rounded p-2 ms-2 mb-2"><nav id=TableOfContents><ul><li><a href=#tldr>TL;DR</a></li><li><a href=#1-acesso-a-dados-no-rv32-o-modo-de-endereçamento-que-você-mais-vê>1. Acesso a dados no RV32: o modo de endereçamento que você mais vê</a><ul><li><a href=#por-que-isso-importa>Por que isso importa</a></li></ul></li><li><a href=#2-tamanho-do-loadstore-e-signedness>2. Tamanho do load/store e signedness</a></li><li><a href=#3-na-prática-arrays-e-aritmética-de-ponteiros>3. Na prática: arrays e aritmética de ponteiros</a><ul><li><a href=#o-que-você-deve-ver>O que você deve ver</a></li></ul></li><li><a href=#4-ifelse-vira-compare--branch>4. If/else vira compare + branch</a><ul><li><a href=#instruções-de-branch-rv32-que-você-verá-com-frequência>Instruções de branch RV32 que você verá com frequência</a></li></ul></li><li><a href=#5-loops-padrões-de-for-e-while>5. Loops: padrões de for e while</a><ul><li><a href=#formas-comuns>Formas comuns</a></li></ul></li><li><a href=#6-switch-statements-e-tabelas-de-salto>6. Switch statements e tabelas de salto</a><ul><li><a href=#o-que-você-pode-ver>O que você pode ver</a></li></ul></li><li><a href=#7-acesso-a-campos-de-struct-parece-offsets-constantes>7. Acesso a campos de struct parece offsets constantes</a></li><li><a href=#exercícios>Exercícios</a><ul><li><a href=#como-testar-suas-respostas>Como testar suas respostas</a></li></ul></li><li><a href=#resumo>Resumo</a></li></ul></nav></div><h2 id=tldr>TL;DR</h2><ul><li>Você vai aprender como fluxo de controle em C (if/else, loops, switch) vira padrões de branch e jump no RV32.</li><li>Vai entender como RV32 faz load/store na memória (base + offset) e como o compilador representa arrays, ponteiros e structs.</li><li>Vai praticar um método repetível para “ler” disassembly: identificar entradas, identificar referências de memória e reconstruir a estrutura de alto nível.</li></ul><div class="alert alert-danger my-4" role=alert><div class="fw-bold mb-2">Important</div>Uma parte enorme de engenharia reversa é simplesmente reconhecer padrões: formatos de loop, checagens de limite, tabelas de salto de switch e idioms comuns de biblioteca.</div><hr><h2 id=1-acesso-a-dados-no-rv32-o-modo-de-endereçamento-que-você-mais-vê>1. Acesso a dados no RV32: o modo de endereçamento que você mais vê</h2><p>Instruções de load/store no RV32 normalmente usam:</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>address = base_register + signed_immediate
+</span></span></code></pre></td></tr></table></div></div><p>Exemplos:</p><ul><li><code>lw a0, 12(sp)</code> : carrega uma word de 32 bits de <code>sp+12</code></li><li><code>sw a1, 0(s0)</code> : armazena uma word de 32 bits no endereço em <code>s0</code></li></ul><h3 id=por-que-isso-importa>Por que isso importa</h3><ul><li>Locais de pilha costumam aparecer como <code>lw/sw</code> com <code>sp</code> ou <code>s0/fp</code>.</li><li>Campos de struct costumam aparecer como <code>lw/sw</code> com um offset constante.</li><li>Arrays combinam um cálculo de índice com um registrador base.</li></ul><hr><h2 id=2-tamanho-do-loadstore-e-signedness>2. Tamanho do load/store e signedness</h2><p>Loads inteiros comuns:</p><ul><li><code>lb</code> : carrega byte (sign-extend)</li><li><code>lbu</code> : carrega byte (zero-extend)</li><li><code>lh</code> : carrega halfword (16-bit, sign-extend)</li><li><code>lhu</code> : carrega halfword (zero-extend)</li><li><code>lw</code> : carrega word (32-bit)</li></ul><p>Stores:</p><ul><li><code>sb</code>, <code>sh</code>, <code>sw</code></li></ul><div class="alert alert-success my-4" role=alert><div class="fw-bold mb-2">Tip</div>Signedness costuma revelar intenção. Se você vê <code>lbu</code>, isso sugere fortemente um valor <code>uint8_t</code> ou um caractere tratado como unsigned.</div><hr><h2 id=3-na-prática-arrays-e-aritmética-de-ponteiros>3. Na prática: arrays e aritmética de ponteiros</h2><p>Crie:</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">20
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#75715e>// src/arrays.c
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#75715e>#include</span> <span style=color:#75715e>&#34;types.h&#34;</span><span style=color:#75715e>
+</span></span></span><span style=display:flex><span><span style=color:#75715e>#include</span> <span style=color:#75715e>&#34;uart.h&#34;</span><span style=color:#75715e>
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>
+</span></span><span style=display:flex><span>u32 <span style=color:#a6e22e>sum_u32</span>(<span style=color:#66d9ef>const</span> u32 <span style=color:#f92672>*</span>p, u32 n) {
+</span></span><span style=display:flex><span>  u32 s <span style=color:#f92672>=</span> <span style=color:#ae81ff>0u</span>;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>for</span> (u32 i <span style=color:#f92672>=</span> <span style=color:#ae81ff>0u</span>; i <span style=color:#f92672>&lt;</span> n; i<span style=color:#f92672>++</span>) {
+</span></span><span style=display:flex><span>    s <span style=color:#f92672>+=</span> p[i];
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>return</span> s;
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>int</span> <span style=color:#a6e22e>main</span>(<span style=color:#66d9ef>void</span>) {
+</span></span><span style=display:flex><span>  u32 a[<span style=color:#ae81ff>4</span>] <span style=color:#f92672>=</span> {<span style=color:#ae81ff>1u</span>, <span style=color:#ae81ff>2u</span>, <span style=color:#ae81ff>3u</span>, <span style=color:#ae81ff>4u</span>};
+</span></span><span style=display:flex><span>  u32 s <span style=color:#f92672>=</span> <span style=color:#a6e22e>sum_u32</span>(a, <span style=color:#ae81ff>4u</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>uart_puts</span>(<span style=color:#e6db74>&#34;sum=&#34;</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>uart_puthex32</span>(s);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>uart_putc</span>(<span style=color:#e6db74>&#39;\n&#39;</span>);
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>return</span> <span style=color:#ae81ff>0</span>;
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></td></tr></table></div></div><p>Compile e faça o disassembly:</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">6
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>riscv64-unknown-elf-gcc -O0 -g -ffreestanding -nostdlib -march<span style=color:#f92672>=</span>rv32im -mabi<span style=color:#f92672>=</span>ilp32 <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>  -T src/link.ld src/start.s src/uart.c src/arrays.c -o build/arrays_O0.elf
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>riscv64-unknown-elf-objdump -d -M numeric,no-aliases build/arrays_O0.elf | less
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>qemu-system-riscv32 -M virt -nographic -bios none -kernel build/arrays_O0.elf
+</span></span></code></pre></td></tr></table></div></div><h3 id=o-que-você-deve-ver>O que você deve ver</h3><p>Um padrão de loop que parece com:</p><ol><li>inicializar contador</li><li>comparar contador vs limite</li><li>calcular endereço do elemento = base + índice*4</li><li>carregar elemento</li><li>somar</li><li>incrementar contador</li><li>branch de volta</li></ol><h4 id=cálculo-típico-de-endereço>Cálculo típico de endereço</h4><p>No RV32, multiplicar por 4 é frequentemente feito com um shift:</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>index_bytes = i &lt;&lt; 2
+</span></span><span style=display:flex><span>addr = base + index_bytes
+</span></span></code></pre></td></tr></table></div></div><div class="alert alert-info my-4" role=alert><div class="fw-bold mb-2">Note</div>Quando você estiver revertendo firmware, reconhecer “index &#171; 2” é uma forma rápida de identificar indexação de array de 32 bits.</div><hr><h2 id=4-ifelse-vira-compare--branch>4. If/else vira compare + branch</h2><p>Crie:</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">17
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#75715e>// src/ifelse.c
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#75715e>#include</span> <span style=color:#75715e>&#34;types.h&#34;</span><span style=color:#75715e>
+</span></span></span><span style=display:flex><span><span style=color:#75715e>#include</span> <span style=color:#75715e>&#34;uart.h&#34;</span><span style=color:#75715e>
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>
+</span></span><span style=display:flex><span>u32 <span style=color:#a6e22e>clamp_u32</span>(u32 x, u32 lo, u32 hi) {
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>if</span> (x <span style=color:#f92672>&lt;</span> lo) <span style=color:#66d9ef>return</span> lo;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>if</span> (x <span style=color:#f92672>&gt;</span> hi) <span style=color:#66d9ef>return</span> hi;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>return</span> x;
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>int</span> <span style=color:#a6e22e>main</span>(<span style=color:#66d9ef>void</span>) {
+</span></span><span style=display:flex><span>  u32 v <span style=color:#f92672>=</span> <span style=color:#a6e22e>clamp_u32</span>(<span style=color:#ae81ff>42u</span>, <span style=color:#ae81ff>10u</span>, <span style=color:#ae81ff>30u</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>uart_puts</span>(<span style=color:#e6db74>&#34;clamp=&#34;</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>uart_puthex32</span>(v);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>uart_putc</span>(<span style=color:#e6db74>&#39;\n&#39;</span>);
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>return</span> <span style=color:#ae81ff>0</span>;
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></td></tr></table></div></div><p>Compile tanto <code>-O0</code> quanto <code>-O2</code>:</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">7
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>riscv64-unknown-elf-gcc -O0 -g -ffreestanding -nostdlib -march<span style=color:#f92672>=</span>rv32im -mabi<span style=color:#f92672>=</span>ilp32 <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>  -T src/link.ld src/start.s src/uart.c src/ifelse.c -o build/if_O0.elf
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>riscv64-unknown-elf-gcc -O2 -g -ffreestanding -nostdlib -march<span style=color:#f92672>=</span>rv32im -mabi<span style=color:#f92672>=</span>ilp32 <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>  -T src/link.ld src/start.s src/uart.c src/ifelse.c -o build/if_O2.elf
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>qemu-system-riscv32 -M virt -nographic -bios none -kernel build/if_O0.elf
+</span></span></code></pre></td></tr></table></div></div><p>Compare o disassembly.</p><h3 id=instruções-de-branch-rv32-que-você-verá-com-frequência>Instruções de branch RV32 que você verá com frequência</h3><ul><li><code>beq</code>, <code>bne</code></li><li><code>blt</code>, <code>bge</code> (signed)</li><li><code>bltu</code>, <code>bgeu</code> (unsigned)</li></ul><div class="alert alert-danger my-4" role=alert><div class="fw-bold mb-2">Important</div>Comparações unsigned (<code>&lt;</code> em <code>uint32_t</code>) tendem a usar <code>bltu/bgeu</code>. Comparações signed tendem a usar <code>blt/bge</code>.</div><hr><h2 id=5-loops-padrões-de-for-e-while>5. Loops: padrões de for e while</h2><h3 id=formas-comuns>Formas comuns</h3><h4 id=loop-testa-no-topo>Loop “testa no topo”</h4><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">5
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>init
+</span></span><span style=display:flex><span>check
+</span></span><span style=display:flex><span>body
+</span></span><span style=display:flex><span>increment
+</span></span><span style=display:flex><span>jump to check
+</span></span></code></pre></td></tr></table></div></div><h4 id=loop-testa-no-fim>Loop “testa no fim”</h4><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">5
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>init
+</span></span><span style=display:flex><span>body
+</span></span><span style=display:flex><span>increment
+</span></span><span style=display:flex><span>check
+</span></span><span style=display:flex><span>branch to body
+</span></span></code></pre></td></tr></table></div></div><p>O otimizador pode transformar um no outro.</p><hr><h2 id=6-switch-statements-e-tabelas-de-salto>6. Switch statements e tabelas de salto</h2><p>Crie:</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">20
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">21
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#75715e>// src/switch.c
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#75715e>#include</span> <span style=color:#75715e>&#34;types.h&#34;</span><span style=color:#75715e>
+</span></span></span><span style=display:flex><span><span style=color:#75715e>#include</span> <span style=color:#75715e>&#34;uart.h&#34;</span><span style=color:#75715e>
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>
+</span></span><span style=display:flex><span>u32 <span style=color:#a6e22e>dispatch</span>(u32 x) {
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>switch</span> (x) {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>case</span> <span style=color:#ae81ff>0</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>return</span> <span style=color:#ae81ff>0x1111u</span>;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>case</span> <span style=color:#ae81ff>1</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>return</span> <span style=color:#ae81ff>0x2222u</span>;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>case</span> <span style=color:#ae81ff>2</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>return</span> <span style=color:#ae81ff>0x3333u</span>;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>case</span> <span style=color:#ae81ff>3</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>return</span> <span style=color:#ae81ff>0x4444u</span>;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>default</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>return</span> <span style=color:#ae81ff>0xdeadu</span>;
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>int</span> <span style=color:#a6e22e>main</span>(<span style=color:#66d9ef>void</span>) {
+</span></span><span style=display:flex><span>  u32 r <span style=color:#f92672>=</span> <span style=color:#a6e22e>dispatch</span>(<span style=color:#ae81ff>2u</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>uart_puts</span>(<span style=color:#e6db74>&#34;dispatch=&#34;</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>uart_puthex32</span>(r);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>uart_putc</span>(<span style=color:#e6db74>&#39;\n&#39;</span>);
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>return</span> <span style=color:#ae81ff>0</span>;
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></td></tr></table></div></div><p>Compile otimizado:</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">6
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>riscv64-unknown-elf-gcc -O2 -g -ffreestanding -nostdlib -march<span style=color:#f92672>=</span>rv32im -mabi<span style=color:#f92672>=</span>ilp32 <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>  -T src/link.ld src/start.s src/uart.c src/switch.c -o build/switch_O2.elf
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>riscv64-unknown-elf-objdump -d -M numeric,no-aliases build/switch_O2.elf | less
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>qemu-system-riscv32 -M virt -nographic -bios none -kernel build/switch_O2.elf
+</span></span></code></pre></td></tr></table></div></div><h3 id=o-que-você-pode-ver>O que você pode ver</h3><ul><li>Um bounds check em <code>x</code></li><li>Um salto computado usando uma tabela de endereços</li></ul><p>Layout conceitual de jump table:</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">4
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>.rodata:
+</span></span><span style=display:flex><span>  table[0] = &amp;case0
+</span></span><span style=display:flex><span>  table[1] = &amp;case1
+</span></span><span style=display:flex><span>  ...
+</span></span></code></pre></td></tr></table></div></div><div class="alert alert-success my-4" role=alert><div class="fw-bold mb-2">Tip</div>Ao reverter, jump tables costumam viver em <code>.rodata</code>. Se você encontrar um “carregar endereço da tabela e saltar”, provavelmente está em um <code>switch</code>.</div><hr><h2 id=7-acesso-a-campos-de-struct-parece-offsets-constantes>7. Acesso a campos de struct parece offsets constantes</h2><p>Crie:</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">20
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">21
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">22
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">23
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">24
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">25
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">26
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">27
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#75715e>// src/structs.c
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#75715e>#include</span> <span style=color:#75715e>&#34;types.h&#34;</span><span style=color:#75715e>
+</span></span></span><span style=display:flex><span><span style=color:#75715e>#include</span> <span style=color:#75715e>&#34;uart.h&#34;</span><span style=color:#75715e>
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>typedef</span> <span style=color:#66d9ef>struct</span> {
+</span></span><span style=display:flex><span>  u8  flags;
+</span></span><span style=display:flex><span>  u8  mode;
+</span></span><span style=display:flex><span>  u16 len;
+</span></span><span style=display:flex><span>  u32 addr;
+</span></span><span style=display:flex><span>} <span style=color:#66d9ef>header_t</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>u32 <span style=color:#a6e22e>read_addr</span>(<span style=color:#66d9ef>const</span> <span style=color:#66d9ef>header_t</span> <span style=color:#f92672>*</span>h) {
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>return</span> h<span style=color:#f92672>-&gt;</span>addr;
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>void</span> <span style=color:#a6e22e>set_len</span>(<span style=color:#66d9ef>header_t</span> <span style=color:#f92672>*</span>h, u16 v) {
+</span></span><span style=display:flex><span>  h<span style=color:#f92672>-&gt;</span>len <span style=color:#f92672>=</span> v;
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>int</span> <span style=color:#a6e22e>main</span>(<span style=color:#66d9ef>void</span>) {
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>header_t</span> h <span style=color:#f92672>=</span> {<span style=color:#ae81ff>1u</span>, <span style=color:#ae81ff>2u</span>, <span style=color:#ae81ff>3u</span>, <span style=color:#ae81ff>0x80001234u</span>};
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>set_len</span>(<span style=color:#f92672>&amp;</span>h, <span style=color:#ae81ff>0x55aau</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>uart_puts</span>(<span style=color:#e6db74>&#34;addr=&#34;</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>uart_puthex32</span>(<span style=color:#a6e22e>read_addr</span>(<span style=color:#f92672>&amp;</span>h));
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>uart_putc</span>(<span style=color:#e6db74>&#39;\n&#39;</span>);
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>return</span> <span style=color:#ae81ff>0</span>;
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></td></tr></table></div></div><p>Compile/disassemble e confirme que:</p><ul><li><code>addr</code> é carregado de um offset constante a partir do ponteiro base da struct</li><li><code>len</code> usa um store halfword (<code>sh</code>) no seu offset</li></ul><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>riscv64-unknown-elf-gcc -O2 -g -ffreestanding -nostdlib -march<span style=color:#f92672>=</span>rv32im -mabi<span style=color:#f92672>=</span>ilp32 <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>  -T src/link.ld src/start.s src/uart.c src/structs.c -o build/structs_O2.elf
+</span></span><span style=display:flex><span>riscv64-unknown-elf-objdump -d -M numeric,no-aliases build/structs_O2.elf | less
+</span></span></code></pre></td></tr></table></div></div><hr><h2 id=exercícios>Exercícios</h2><ol><li>Para <code>sum_u32</code>, identifique a instrução exata que carrega <code>p[i]</code>. Qual é a fórmula do endereço efetivo?</li><li>Para <code>clamp_u32</code>, identifique quais branches são unsigned vs signed.</li><li>Para o <code>switch</code>, localize a jump table (se existir) em <code>.rodata</code> e faça dump dos bytes com <code>objdump -s -j .rodata</code>.</li><li>Para o exemplo de struct, calcule os offsets esperados usando o padrão do macro <code>OFFSETOF</code> e verifique se batem com o disassembly.</li></ol><h3 id=como-testar-suas-respostas>Como testar suas respostas</h3><ul><li>Use <code>readelf -S</code> para localizar endereços de seções e <code>objdump -s</code> para dump de bytes brutos.</li><li>Use <code>objdump -d -M numeric,no-aliases</code> para ver as formas reais das instruções.</li></ul><hr><h2 id=resumo>Resumo</h2><p>Você aprendeu os padrões comuns de RV32 para loads/stores e como fluxo de controle de alto nível vira branches e (às vezes) tabelas de salto.</p><p>A seguir: <strong>funções e a pilha</strong>, vamos mergulhar em prólogos/epílogos, stack frames, registradores salvos e como depurar bugs relacionados à pilha.</p><div class=mt-4><script src=https://giscus.app/client.js data-repo=psylinux/psylinux.github.io data-repo-id=R_kgDORCdA4Q data-category=Comments data-category-id=DIC_kwDORCdA4c4C1fwh data-mapping=pathname data-strict=0 data-reactions-enabled=1 data-emit-metadata=0 data-input-position=bottom data-theme=preferred_color_scheme data-lang=en data-loading=lazy crossorigin=anonymous async></script></div></article></main><div class=footer><div class="mb-4 d-flex flex-row justify-content-around"><div class=mr-4><a href=/pt/series/experimenting-with-risc-v/09-c-to-asm-optimizations-volatile/ data-toggle=tooltip data-placement=top title="C → Assembly: Otimizações, Volatile e o que o compilador pode fazer"><i class="bi bi-chevron-left" style=font-size:2em></i></a></div><div class=ms-4><a href=/pt/series/experimenting-with-risc-v/11-functions-stack-calling-convention/ data-toggle=tooltip data-placement=top title="Funções, convenção de chamada e stack frames"><i class="bi bi-chevron-right" style=font-size:2em></i></a></div></div><footer class="border-top border-light py-2 d-flex flex-row flex-wrap justify-content-between"><div class=copyright><small>psylinux</small></div><div><small>Copyrighted © Marcos Azevedo, 2025.</small></div></footer><script defer src=https://static.cloudflareinsights.com/beacon.min.js data-cf-beacon='{"token": "b1b9cb012238436c9efbac840abc1907"}'></script></div></body></html>

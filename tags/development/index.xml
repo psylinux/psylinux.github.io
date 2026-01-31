@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Development on Marcos Azevedo (aka psylinux)</title><link>https://psylinux.github.io/tags/development/</link><description>Recent content in Development on Marcos Azevedo (aka psylinux)</description><generator>Hugo</generator><language>en-us</language><copyright>2025 Marcos Azevedo</copyright><lastBuildDate>Sun, 13 Jan 2019 17:38:15 -0300</lastBuildDate><atom:link href="https://psylinux.github.io/tags/development/index.xml" rel="self" type="application/rss+xml"/><item><title>Article :: Debugging with strace</title><link>https://psylinux.github.io/articles/article_debugging_with_strace/</link><pubDate>Sun, 13 Jan 2019 17:38:15 -0300</pubDate><guid>https://psylinux.github.io/articles/article_debugging_with_strace/</guid><description>&lt;h2 id="introduction">Introduction&lt;/h2>
+&lt;p>By the end of this article, you&amp;rsquo;ll understand how to use strace to debug programs without access to source code, trace system calls, and troubleshoot execution issues in Linux.&lt;/p>
+&lt;h2 id="overview">Overview&lt;/h2>
+&lt;p>Debugging without source code can feel like solving a puzzle in the dark. Strace shines a light by showing you exactly what system calls a program makes, from opening files to network connections. Whether you&amp;rsquo;re troubleshooting a crash, investigating suspicious behavior, or just curious about how a program works under the hood, strace is an essential tool in your Linux toolkit.&lt;/p></description></item><item><title>HowTo :: Install PyEnv (Simple Python Version Management)</title><link>https://psylinux.github.io/howto/howto_install_pyenv/</link><pubDate>Fri, 04 Jan 2019 17:38:15 -0300</pubDate><guid>https://psylinux.github.io/howto/howto_install_pyenv/</guid><description>&lt;h2 id="introduction">Introduction&lt;/h2>
+&lt;p>Managing multiple Python versions on a single machine can be a nightmare. System tools often rely on a specific version of Python, and upgrading it can break your OS. &lt;strong>PyEnv&lt;/strong> solves this by letting you easily install and switch between multiple isolated versions of Python.&lt;/p>
+&lt;p>In this guide, you will learn how to:&lt;/p>
+&lt;ol>
+&lt;li>Install PyEnv and its build dependencies&lt;/li>
+&lt;li>Configure your shell to use PyEnv&lt;/li>
+&lt;li>Install different Python versions&lt;/li>
+&lt;li>Manage virtual environments easily&lt;/li>
+&lt;/ol>
+&lt;h2 id="1-establishing-the-build-environment">1. Establishing the Build Environment&lt;/h2>
+&lt;p>PyEnv compiles Python from source. To do this, you need a set of build dependencies installed on your system.&lt;/p></description></item><item><title>Article :: Getting Started with GDB</title><link>https://psylinux.github.io/articles/article_getting_start_with_gdb/</link><pubDate>Sun, 16 Dec 2018 17:38:15 -0300</pubDate><guid>https://psylinux.github.io/articles/article_getting_start_with_gdb/</guid><description>&lt;h2 id="introduction">Introduction&lt;/h2>
+&lt;p>This comprehensive guide covers everything you need to start debugging C programs with GDB, from compiling with debug symbols to inspecting memory and controlling program execution.&lt;/p>
+&lt;h2 id="overview">Overview&lt;/h2>
+&lt;p>GDB (GNU Debugger) is the standard debugger for programs compiled with GCC. Unlike tools like strace that show system calls, GDB lets you step through your source code line by line, inspect variables, set conditional breakpoints, and even modify program behavior during execution.&lt;/p></description></item><item><title>Cheat Sheet :: GCC Compiling Cheat Sheet</title><link>https://psylinux.github.io/cheatsheet/cheatsheet_gcc_compiling/</link><pubDate>Sun, 16 Dec 2018 17:38:15 -0300</pubDate><guid>https://psylinux.github.io/cheatsheet/cheatsheet_gcc_compiling/</guid><description>&lt;h2 id="1-static-compiling">1. Static compiling&lt;/h2>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>gcc -static cve_2016_0728.c -o cve_2016_0728 -lkeyutils -Wall
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="2-cross-compiling-a-c-code-from-linux-to-windows">2. Cross compiling a C code from Linux to Windows&lt;/h2>
+&lt;h3 id="21-install-mingw-w64-cross-compiler">2.1. Install mingw-w64 cross-compiler:&lt;/h3>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>apt-get install mingw-w64
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="22-to-compile-a-windows-pe-executable-32bit">2.2. To compile a Windows PE Executable 32bit:&lt;/h3>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>i686-w64-mingw32-gcc 271.c -o &lt;span style="color:#ae81ff">271&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>x86_64-w64-mingw32-gcc-win32 271.c -o &lt;span style="color:#ae81ff">271&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="23-run-the-binary-file-with-wine">2.3. Run the binary file with &lt;strong>wine&lt;/strong>:&lt;/h3>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>wine file.exe
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="3-compiling-with-debug-symbols">3. Compiling with debug symbols&lt;/h2>
+&lt;p>Debug Symbol File Types:&lt;/p></description></item><item><title>HowTo :: Install GEF (GDB Plug-in)</title><link>https://psylinux.github.io/howto/howto_install_gdb_gef/</link><pubDate>Sun, 16 Dec 2018 17:38:15 -0300</pubDate><guid>https://psylinux.github.io/howto/howto_install_gdb_gef/</guid><description>&lt;h2 id="introduction">Introduction&lt;/h2>
+&lt;p>Install GEF to supercharge your GDB debugging experience with syntax highlighting, automatic context display, and dozens of powerful commands.&lt;/p>
+&lt;h2 id="what-is-gef">What is GEF?&lt;/h2>
+&lt;p>GEF (GDB Enhanced Features) is a powerful plugin that transforms GDB from a basic command-line debugger into a modern, user-friendly debugging powerhouse. It adds:&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>Automatic context display&lt;/strong> showing registers, stack, code, and threads after every step&lt;/li>
+&lt;li>&lt;strong>Syntax highlighting&lt;/strong> for assembly and source code&lt;/li>
+&lt;li>&lt;strong>Memory inspection tools&lt;/strong> with visual formatting&lt;/li>
+&lt;li>&lt;strong>Enhanced breakpoints&lt;/strong> with better visualization&lt;/li>
+&lt;li>&lt;strong>Exploit development helpers&lt;/strong> for security research&lt;/li>
+&lt;li>&lt;strong>Python-based extensibility&lt;/strong> to add your own commands&lt;/li>
+&lt;/ul>
+&lt;p>If you&amp;rsquo;ve used GDB and found it difficult to follow what&amp;rsquo;s happening, GEF solves that problem by showing you everything you need in an organized, colorful interface.&lt;/p></description></item></channel></rss>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Gdb on Marcos Azevedo (aka psylinux)</title><link>https://psylinux.github.io/pt/tags/gdb/</link><description>Recent content in Gdb on Marcos Azevedo (aka psylinux)</description><generator>Hugo</generator><language>pt-br</language><copyright>2025 Marcos Azevedo</copyright><lastBuildDate>Sun, 16 Dec 2018 17:38:15 -0300</lastBuildDate><atom:link href="https://psylinux.github.io/pt/tags/gdb/index.xml" rel="self" type="application/rss+xml"/><item><title>Artigo :: Começando com GDB</title><link>https://psylinux.github.io/pt/articles/article_getting_start_with_gdb/</link><pubDate>Sun, 16 Dec 2018 17:38:15 -0300</pubDate><guid>https://psylinux.github.io/pt/articles/article_getting_start_with_gdb/</guid><description>&lt;h2 id="introdução">Introdução&lt;/h2>
+&lt;p>Este guia completo cobre tudo o que você precisa para começar a depurar programas C com GDB, desde compilar com símbolos de depuração até inspecionar memória e controlar a execução do programa.&lt;/p>
+&lt;h2 id="visão-geral">Visão Geral&lt;/h2>
+&lt;p>GDB (GNU Debugger) é o depurador padrão para programas compilados com GCC. Ao contrário de ferramentas como strace que mostram chamadas de sistema, o GDB permite percorrer seu código-fonte linha por linha, inspecionar variáveis, definir breakpoints condicionais e até modificar o comportamento do programa durante a execução.&lt;/p></description></item><item><title>HowTo :: Instalar GEF (plug-in do GDB)</title><link>https://psylinux.github.io/pt/howto/howto_install_gdb_gef/</link><pubDate>Sun, 16 Dec 2018 17:38:15 -0300</pubDate><guid>https://psylinux.github.io/pt/howto/howto_install_gdb_gef/</guid><description>&lt;h2 id="introdução">Introdução&lt;/h2>
+&lt;p>Instale o GEF para turbinar sua experiência de depuração com GDB, adicionando syntax highlighting, exibição automática de contexto e dezenas de comandos poderosos.&lt;/p>
+&lt;h2 id="o-que-é-gef">O que é GEF?&lt;/h2>
+&lt;p>GEF (GDB Enhanced Features) é um plugin poderoso que transforma o GDB de um depurador básico de linha de comando em uma ferramenta moderna e amigável de depuração. Ele adiciona:&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>Exibição automática de contexto&lt;/strong> mostrando registradores, pilha, código e threads após cada passo&lt;/li>
+&lt;li>&lt;strong>Syntax highlighting&lt;/strong> para assembly e código-fonte&lt;/li>
+&lt;li>&lt;strong>Ferramentas de inspeção de memória&lt;/strong> com formatação visual&lt;/li>
+&lt;li>&lt;strong>Breakpoints aprimorados&lt;/strong> com melhor visualização&lt;/li>
+&lt;li>&lt;strong>Auxiliares para desenvolvimento de exploits&lt;/strong> para pesquisa de segurança&lt;/li>
+&lt;li>&lt;strong>Extensibilidade baseada em Python&lt;/strong> para adicionar seus próprios comandos&lt;/li>
+&lt;/ul>
+&lt;p>Se você já usou o GDB e achou difícil acompanhar o que está acontecendo, o GEF resolve esse problema mostrando tudo que você precisa em uma interface organizada e colorida.&lt;/p></description></item></channel></rss>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>HowTo on Marcos Azevedo (aka psylinux)</title><link>https://psylinux.github.io/howto/</link><description>Recent content in HowTo on Marcos Azevedo (aka psylinux)</description><generator>Hugo</generator><language>en-us</language><copyright>2025 Marcos Azevedo</copyright><lastBuildDate>Mon, 14 Jan 2019 17:38:15 -0300</lastBuildDate><atom:link href="https://psylinux.github.io/howto/index.xml" rel="self" type="application/rss+xml"/><item><title>HowTo :: Patching binary files in Linux</title><link>https://psylinux.github.io/howto/howto_patching_binaries_in_linux/</link><pubDate>Mon, 14 Jan 2019 17:38:15 -0300</pubDate><guid>https://psylinux.github.io/howto/howto_patching_binaries_in_linux/</guid><description>&lt;h2 id="introduction">Introduction&lt;/h2>
+&lt;p>Learn to patch binary files directly without source code using hex editing and binary diff tools; essential for fixing bugs, applying security patches, or modifying executables.&lt;/p>
+&lt;h2 id="what-is-binary-patching">What is Binary Patching?&lt;/h2>
+&lt;p>Binary patching is the process of modifying compiled executable files without access to their source code. This technique is useful for:&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>Fixing bugs&lt;/strong> in production binaries when recompilation isn&amp;rsquo;t possible&lt;/li>
+&lt;li>&lt;strong>Applying security patches&lt;/strong> to legacy systems&lt;/li>
+&lt;li>&lt;strong>Reverse engineering&lt;/strong> and understanding how programs work&lt;/li>
+&lt;li>&lt;strong>CTF challenges&lt;/strong> and vulnerability research&lt;/li>
+&lt;li>&lt;strong>Modifying behavior&lt;/strong> of closed-source applications&lt;/li>
+&lt;li>&lt;strong>Creating binary diffs&lt;/strong> for distributing patches&lt;/li>
+&lt;/ul>
+&lt;p>Instead of editing high-level source code and recompiling, you directly modify the machine code bytes in the executable file. This requires understanding hexadecimal representation and executable file formats.&lt;/p></description></item><item><title>HowTo :: Install PyEnv (Simple Python Version Management)</title><link>https://psylinux.github.io/howto/howto_install_pyenv/</link><pubDate>Fri, 04 Jan 2019 17:38:15 -0300</pubDate><guid>https://psylinux.github.io/howto/howto_install_pyenv/</guid><description>&lt;h2 id="introduction">Introduction&lt;/h2>
+&lt;p>Managing multiple Python versions on a single machine can be a nightmare. System tools often rely on a specific version of Python, and upgrading it can break your OS. &lt;strong>PyEnv&lt;/strong> solves this by letting you easily install and switch between multiple isolated versions of Python.&lt;/p>
+&lt;p>In this guide, you will learn how to:&lt;/p>
+&lt;ol>
+&lt;li>Install PyEnv and its build dependencies&lt;/li>
+&lt;li>Configure your shell to use PyEnv&lt;/li>
+&lt;li>Install different Python versions&lt;/li>
+&lt;li>Manage virtual environments easily&lt;/li>
+&lt;/ol>
+&lt;h2 id="1-establishing-the-build-environment">1. Establishing the Build Environment&lt;/h2>
+&lt;p>PyEnv compiles Python from source. To do this, you need a set of build dependencies installed on your system.&lt;/p></description></item><item><title>HowTo :: Install GEF (GDB Plug-in)</title><link>https://psylinux.github.io/howto/howto_install_gdb_gef/</link><pubDate>Sun, 16 Dec 2018 17:38:15 -0300</pubDate><guid>https://psylinux.github.io/howto/howto_install_gdb_gef/</guid><description>&lt;h2 id="introduction">Introduction&lt;/h2>
+&lt;p>Install GEF to supercharge your GDB debugging experience with syntax highlighting, automatic context display, and dozens of powerful commands.&lt;/p>
+&lt;h2 id="what-is-gef">What is GEF?&lt;/h2>
+&lt;p>GEF (GDB Enhanced Features) is a powerful plugin that transforms GDB from a basic command-line debugger into a modern, user-friendly debugging powerhouse. It adds:&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>Automatic context display&lt;/strong> showing registers, stack, code, and threads after every step&lt;/li>
+&lt;li>&lt;strong>Syntax highlighting&lt;/strong> for assembly and source code&lt;/li>
+&lt;li>&lt;strong>Memory inspection tools&lt;/strong> with visual formatting&lt;/li>
+&lt;li>&lt;strong>Enhanced breakpoints&lt;/strong> with better visualization&lt;/li>
+&lt;li>&lt;strong>Exploit development helpers&lt;/strong> for security research&lt;/li>
+&lt;li>&lt;strong>Python-based extensibility&lt;/strong> to add your own commands&lt;/li>
+&lt;/ul>
+&lt;p>If you&amp;rsquo;ve used GDB and found it difficult to follow what&amp;rsquo;s happening, GEF solves that problem by showing you everything you need in an organized, colorful interface.&lt;/p></description></item><item><title>HowTo :: SSH access using a GPG key for authentication</title><link>https://psylinux.github.io/howto/howto_ssh_with_gpg/</link><pubDate>Tue, 02 Oct 2018 17:38:15 -0300</pubDate><guid>https://psylinux.github.io/howto/howto_ssh_with_gpg/</guid><description>&lt;h2 id="introduction">Introduction&lt;/h2>
+&lt;p>Replace traditional SSH keys with GPG authentication subkeys, reducing the number of keys to manage while enabling GPG web of trust for SSH access distribution.&lt;/p>
+&lt;h2 id="what-is-this-about">What is This About?&lt;/h2>
+&lt;p>Many of us are familiar with Secure Shell (SSH), which allows us to connect to other systems using a key instead of a password. This guide will explain how to eliminate SSH keys and use a GNU Privacy Guard (GPG) subkey instead.&lt;/p></description></item></channel></rss>
