@@ -1,0 +1,89 @@
+.code-block {
+  position: relative;
+}
+
+.highlight {
+  margin: 1em 0;
+  border: 1px solid var(--color-lighter);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.code-block pre,
+.highlight pre {
+  padding: 15px 5px;
+  padding-top: calc(15px + 1.6rem);
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  margin: 0;
+}
+
+.highlight table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0;
+  border: 0;
+}
+
+.highlight td,
+.highlight th {
+  padding: 0;
+  border: 0;
+  vertical-align: top;
+  background: transparent;
+}
+
+.highlight td:first-child {
+  border-right: 1px solid var(--color-lighter);
+}
+
+.highlight .lnt {
+  color: #75715e;
+  user-select: none;
+  padding-right: 0.75rem;
+}
+
+.highlight pre,
+.highlight code {
+  font-family: "Fira Code", monospace;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  white-space: pre;
+  word-break: normal;
+}
+
+.highlight code>span[style*="display:flex"] {
+  display: block;
+}
+
+.highlight td:first-child code>span {
+  display: block;
+  line-height: 1.5;
+}
+
+.code-copy-btn {
+  position: absolute;
+  top: 0.35rem;
+  right: 0.35rem;
+  border: 1px solid var(--color-lighter);
+  background-color: rgba(31, 31, 31, 0.95);
+  color: #f0f0f0;
+  font-size: 0.75rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  opacity: 0.85;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.code-copy-btn:hover,
+.code-copy-btn:focus {
+  opacity: 1;
+  transform: translateY(-1px);
+}
+
+.code-copy-btn.copied {
+  background-color: var(--color-accent);
+  color: var(--color-darker);
+}
