@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Stack on Marcos Azevedo (aka psylinux)</title><link>https://psylinux.github.io/pt/tags/stack/</link><description>Recent content in Stack on Marcos Azevedo (aka psylinux)</description><generator>Hugo</generator><language>pt-br</language><copyright>2025 Marcos Azevedo</copyright><lastBuildDate>Tue, 16 Dec 2025 15:03:31 +0000</lastBuildDate><atom:link href="https://psylinux.github.io/pt/tags/stack/index.xml" rel="self" type="application/rss+xml"/><item><title>A Estrutura de Dados Pilha</title><link>https://psylinux.github.io/pt/articles/article_the_stack_data/</link><pubDate>Tue, 16 Dec 2025 14:43:46 +0000</pubDate><guid>https://psylinux.github.io/pt/articles/article_the_stack_data/</guid><description>&lt;h1 id="sumario">Sumario&lt;/h1>
+&lt;ul>
+&lt;li>
+&lt;ol>
+&lt;li>A Estrutura de Dados Pilha&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>1.1. Definicao&lt;/li>
+&lt;li>1.2. Algoritmo para Operacoes PUSH e POP
+&lt;ul>
+&lt;li>1.2.1. Declaracao&lt;/li>
+&lt;li>1.2.2. Algoritmo&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h1 id="1-a-estrutura-de-dados-pilha">1. A Estrutura de Dados Pilha&lt;/h1>
+&lt;h2 id="11-definicao">1.1. Definicao&lt;/h2>
+&lt;p>Uma estrutura de dados abstrata linear na qual os elementos so podem ser inseridos ou removidos em uma unica extremidade aberta, chamada de &lt;code>top&lt;/code> da pilha.&lt;/p>
+&lt;ul>
+&lt;li>Os elementos seguem a ordem &amp;ldquo;Last In First Out&amp;rdquo;, geralmente chamada de &lt;code>LIFO&lt;/code>.&lt;/li>
+&lt;li>A insercao na pilha e chamada de operacao &lt;code>push&lt;/code>, e a remocao da pilha e chamada de operacao &lt;code>pop&lt;/code>.&lt;/li>
+&lt;li>Se a pilha estiver cheia, dizemos que ela esta em estado de &lt;code>Overflow&lt;/code>, e &lt;code>push&lt;/code> e rejeitado.&lt;/li>
+&lt;li>Se a pilha estiver vazia, dizemos que ela esta em estado de &lt;code>Underflow&lt;/code>, e &lt;code>pop&lt;/code> e rejeitado.&lt;/li>
+&lt;/ul>
+&lt;h2 id="12-algoritmo-para-operacoes-push-e-pop">1.2. Algoritmo para Operacoes PUSH e POP&lt;/h2>
+&lt;h3 id="121-declaracao">1.2.1. Declaracao&lt;/h3>
+&lt;p>Seja &lt;code>S&lt;/code> uma pilha de &lt;code>SIZE = 100&lt;/code> elementos, e &lt;em>TOP&lt;/em> um inteiro que guarda o indice do ultimo elemento inserido na pilha. Inicialmente, &lt;code>TOP = -1&lt;/code>.&lt;/p></description></item></channel></rss>

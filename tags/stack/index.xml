@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Stack on Marcos Azevedo (aka psylinux)</title><link>https://psylinux.github.io/tags/stack/</link><description>Recent content in Stack on Marcos Azevedo (aka psylinux)</description><generator>Hugo</generator><language>en-us</language><copyright>2025 Marcos Azevedo</copyright><lastBuildDate>Tue, 16 Dec 2025 15:03:31 +0000</lastBuildDate><atom:link href="https://psylinux.github.io/tags/stack/index.xml" rel="self" type="application/rss+xml"/><item><title>The Stack Data Structure</title><link>https://psylinux.github.io/articles/article_the_stack_data/</link><pubDate>Tue, 16 Dec 2025 14:43:46 +0000</pubDate><guid>https://psylinux.github.io/articles/article_the_stack_data/</guid><description>&lt;h1 id="table-of-contents">Table of Contents&lt;/h1>
+&lt;ul>
+&lt;li>&lt;a href="https://psylinux.github.io/articles/article_the_stack_data/#table-of-contents">Table of Contents&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://psylinux.github.io/articles/article_the_stack_data/#1-the-stack-data-structure">1. The Stack Data Structure&lt;/a>
+&lt;ul>
+&lt;li>&lt;a href="https://psylinux.github.io/articles/article_the_stack_data/#11-definition">1.1. Definition&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://psylinux.github.io/articles/article_the_stack_data/#12-algorithm-for-push-and-pop-operations">1.2. Algorithm for PUSH and POP Operations&lt;/a>
+&lt;ul>
+&lt;li>&lt;a href="https://psylinux.github.io/articles/article_the_stack_data/#121-declaration">1.2.1. Declaration&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://psylinux.github.io/articles/article_the_stack_data/#122-algorithm">1.2.2. Algorithm&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h1 id="1-the-stack-data-structure">1. The Stack Data Structure&lt;/h1>
+&lt;h2 id="11-definition">1.1. Definition&lt;/h2>
+&lt;p>A linear abstract data structure where the elements could be added or deleted only at one open end, called the &lt;code>top&lt;/code> of the stack.&lt;/p>
+&lt;ul>
+&lt;li>The elements follow &amp;ldquo;The Last In First Out Order&amp;rdquo;, typically called &lt;code>LIFO&lt;/code>.&lt;/li>
+&lt;li>Insertion into the stack is called a &lt;code>push&lt;/code> operation, and deletion from the stack is called a &lt;code>pop&lt;/code> operation.&lt;/li>
+&lt;li>If the stack is full, it is said to be in the &lt;code>&amp;quot;Overflow&amp;quot;&lt;/code> stage, and &lt;code>push&lt;/code> is rejected if the stack is overflow.&lt;/li>
+&lt;li>If the stack is empty, it is said to be in &lt;code>&amp;quot;Underflow&amp;quot;&lt;/code> state, and &lt;code>pop&lt;/code> is rejected if the stack is underflow.&lt;/li>
+&lt;/ul>
+&lt;h2 id="12-algorithm-for-push-and-pop-operations">1.2. Algorithm for PUSH and POP Operations&lt;/h2>
+&lt;h3 id="121-declaration">1.2.1. Declaration&lt;/h3>
+&lt;p>Let &lt;code>S&lt;/code> be a stack of &lt;code>SIZE = 100&lt;/code> elements, and &lt;em>TOP&lt;/em> is an integer to hold the index of the last inserted element into the stack. Initially, &lt;code>TOP = -1&lt;/code>&lt;/p></description></item></channel></rss>
